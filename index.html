@@ -50,6 +50,7 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
   <button data-target="trips">Canlı Taşımalar</button>
   <button data-target="delivery">Teslim / POD</button>
   <button data-target="ratings">Puan & Yorumlar</button>
+  <button data-target="regional">Bölgesel Güven</button>
   <button data-target="backhaul">Sonraki Yük</button>
   <button data-target="docs">Evraklar</button>
  </div>
@@ -184,6 +185,38 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
   </div>
  </section>
 
+ <section id="regional" class="section">
+  <div class="title"><div><h2>Bölgesel Güven Haritası</h2><p>Şehir → ilçe/bölge → firma sıralaması. Herkes kendi bölgesinde görünür.</p></div><span class="chip blue">Bölgesel filtre</span></div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="form">
+      <label>Şehir
+        <select id="regionCity" onchange="updateRegionDistricts();renderRegional()"></select>
+      </label>
+      <label>İlçe / Bölge
+        <select id="regionDistrict" onchange="renderRegional()"></select>
+      </label>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="cardhead"><div><h3>Bölgedeki firmalar</h3><div class="muted" style="font-size:12px">Ödeme, bekleme ve operasyon puanına göre</div></div><span id="regionalFirmCount" class="chip green"></span></div>
+      <div id="regionalCompanies"></div>
+    </div>
+
+    <div class="card">
+      <div class="cardhead"><div><h3>Bu bölgeye çalışan şoförler</h3><div class="muted" style="font-size:12px">Teslim performansı ve bölge deneyimine göre</div></div><span id="regionalDriverCount" class="chip blue"></span></div>
+      <div id="regionalDrivers"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><h3>Bölge özeti</h3><span class="chip amber">Operasyon verisi</span></div>
+    <div id="regionalSummary" class="kpis"></div>
+  </div>
+ </section>
+
  <section id="backhaul" class="section">
   <div class="title"><div><h2>Boş Dönüşü Engelle — Sonraki Yük</h2><p>Teslim şehrinden sonraki uygun yükleri otomatik bul.</p></div></div>
   <div class="grid g2">
@@ -210,17 +243,19 @@ const seed={
   {id:'L3',loadNo:'YY-2026-1003',from:'Diyarbakır',to:'Mersin',pickupAddress:'Diyarbakır OSB',deliveryAddress:'Mersin Lojistik Bölgesi',cargoType:'Gıda',vehicleType:'Frigorifik',weight:8000,pickupTime:today+'T10:00',deliveryTime:today+'T18:30',receiver:'Serkan Yıldız',receiverPhone:'0544 222 33 44',notes:'Soğuk zincir'}
  ],
  vehicles:[
-  {id:'V1',plate:'72 YY 001',type:'Tır',capacity:18000,driver:'Mehmet Kaya',company:'Kaya Nakliyat',phone:'0530 000 00 00',location:'Şanlıurfa yolu / Nizip yönü',status:'Yolda',speed:78,lastGps:'2 dk önce',fuel:63,rating:4.9,nextAvailable:'16:10',verified:true},
-  {id:'V2',plate:'21 YY 003',type:'Frigorifik',capacity:10000,driver:'Ali Güven',company:'Güven Soğuk Taşıma',phone:'0532 000 00 00',location:'Diyarbakır OSB',status:'Yükleme bekliyor',speed:0,lastGps:'1 dk önce',fuel:81,rating:4.8,nextAvailable:'19:00',verified:true},
-  {id:'V3',plate:'63 YY 441',type:'Kamyon',capacity:9000,driver:'Hasan Polat',company:'Mezopotamya Lojistik',phone:'0533 000 00 00',location:'Şanlıurfa çevre yolu',status:'Boş',speed:0,lastGps:'5 dk önce',fuel:48,rating:4.7,nextAvailable:'Şimdi',verified:false}
+  {id:'V1',plate:'72 YY 001',type:'Tır',capacity:18000,driver:'Mehmet Kaya',company:'Kaya Nakliyat',phone:'0530 000 00 00',location:'Şanlıurfa yolu / Nizip yönü',status:'Yolda',speed:78,lastGps:'2 dk önce',fuel:63,rating:4.9,nextAvailable:'16:10',verified:true,regions:['Batman|Merkez|Batman OSB','Gaziantep|Şehitkamil|Başpınar OSB','Gaziantep|Nizip|Sanayi Bölgesi']},
+  {id:'V2',plate:'21 YY 003',type:'Frigorifik',capacity:10000,driver:'Ali Güven',company:'Güven Soğuk Taşıma',phone:'0532 000 00 00',location:'Diyarbakır OSB',status:'Yükleme bekliyor',speed:0,lastGps:'1 dk önce',fuel:81,rating:4.8,nextAvailable:'19:00',verified:true,regions:['Diyarbakır|Bağlar|Diyarbakır OSB','Mersin|Akdeniz|Liman Bölgesi']},
+  {id:'V3',plate:'63 YY 441',type:'Kamyon',capacity:9000,driver:'Hasan Polat',company:'Mezopotamya Lojistik',phone:'0533 000 00 00',location:'Şanlıurfa çevre yolu',status:'Boş',speed:0,lastGps:'5 dk önce',fuel:48,rating:4.7,nextAvailable:'Şimdi',verified:false,regions:['Gaziantep|Nizip|Sanayi Bölgesi','Gaziantep|Şehitkamil|Başpınar OSB']}
  ],
  trips:[
   {id:'T1',loadId:'L1',vehicleId:'V1',stage:'Yolda',progress:58,eta:'15:52',distanceLeft:118,emptyKm:22,delay:12,pickupConfirmed:true,pickupAt:'09:42',unloadAt:null,deliveredAt:null,pod:false,receiverConfirmed:false}
  ],
  companies:[
-  {id:'C1',name:'Güney Yapı A.Ş.',city:'Batman',paymentDays:7,paymentScore:4.9,opsScore:4.7,totalScore:4.8,reviews:18},
-  {id:'C2',name:'Başpınar Tekstil',city:'Gaziantep',paymentDays:3,paymentScore:5.0,opsScore:4.8,totalScore:4.9,reviews:31},
-  {id:'C3',name:'Dicle Gıda',city:'Diyarbakır',paymentDays:21,paymentScore:4.2,opsScore:4.4,totalScore:4.3,reviews:12}
+  {id:'C1',name:'Güney Yapı A.Ş.',city:'Batman',district:'Merkez',zone:'Batman OSB',paymentDays:7,paymentScore:4.9,opsScore:4.7,totalScore:4.8,reviews:18,loadingWait:22,unloadingWait:18},
+  {id:'C2',name:'Başpınar Tekstil',city:'Gaziantep',district:'Şehitkamil',zone:'Başpınar OSB',paymentDays:3,paymentScore:5.0,opsScore:4.8,totalScore:4.9,reviews:31,loadingWait:15,unloadingWait:12},
+  {id:'C3',name:'Dicle Gıda',city:'Diyarbakır',district:'Bağlar',zone:'Diyarbakır OSB',paymentDays:21,paymentScore:4.2,opsScore:4.4,totalScore:4.3,reviews:12,loadingWait:38,unloadingWait:44},
+  {id:'C4',name:'Akdeniz Depolama',city:'Mersin',district:'Akdeniz',zone:'Liman Bölgesi',paymentDays:5,paymentScore:4.8,opsScore:4.6,totalScore:4.7,reviews:26,loadingWait:20,unloadingWait:17},
+  {id:'C5',name:'Nizip Ambalaj',city:'Gaziantep',district:'Nizip',zone:'Sanayi Bölgesi',paymentDays:10,paymentScore:4.6,opsScore:4.5,totalScore:4.6,reviews:14,loadingWait:25,unloadingWait:21}
  ],
  driverRatings:[
   {driver:'Mehmet Kaya',plate:'72 YY 001',score:4.9,reviews:42,lastComment:'Zamanında teslim, iletişim çok iyi.'},
@@ -285,9 +320,52 @@ function submitCompanyRating(){
  let r=(db.companyRatings||[]).find(x=>x.company===c.name);if(r){r.score=((r.score*r.reviews)+score)/(r.reviews+1);r.paymentScore=((r.paymentScore*r.reviews)+pay)/(r.reviews+1);r.reviews++;r.lastComment=comment}else{db.companyRatings.push({company:c.name,score,paymentScore:pay,reviews:1,lastComment:comment})}
  c.totalScore=Number(r?r.score:score);c.paymentScore=Number(r?r.paymentScore:pay);save();renderRatings();alert('Firma değerlendirmesi kaydedildi.');
 }
+function regionData(){
+ return {
+  'Batman':{'Merkez':['Batman OSB']},
+  'Gaziantep':{'Şehitkamil':['Başpınar OSB'],'Nizip':['Sanayi Bölgesi']},
+  'Diyarbakır':{'Bağlar':['Diyarbakır OSB']},
+  'Mersin':{'Akdeniz':['Liman Bölgesi']}
+ };
+}
+function initRegionFilters(){
+ const data=regionData(),city=document.getElementById('regionCity');
+ if(!city)return;
+ const current=city.value;
+ city.innerHTML=Object.keys(data).map(c=>'<option>'+c+'</option>').join('');
+ if(current&&data[current])city.value=current;
+ updateRegionDistricts();
+}
+function updateRegionDistricts(){
+ const data=regionData(),city=document.getElementById('regionCity'),district=document.getElementById('regionDistrict');
+ if(!city||!district)return;
+ const selectedCity=city.value||Object.keys(data)[0];
+ const districts=Object.keys(data[selectedCity]||{});
+ const old=district.value;
+ district.innerHTML=districts.map(d=>'<option>'+d+'</option>').join('');
+ if(old&&districts.includes(old))district.value=old;
+}
+function selectedRegion(){
+ const city=document.getElementById('regionCity')?.value||'Batman';
+ const district=document.getElementById('regionDistrict')?.value||'Merkez';
+ return {city,district};
+}
+function renderRegional(){
+ const r=selectedRegion(),companies=(db.companies||[]).filter(c=>c.city===r.city&&c.district===r.district);
+ const drivers=db.vehicles.filter(v=>(v.regions||[]).some(x=>x.startsWith(r.city+'|'+r.district+'|')));
+ const fc=document.getElementById('regionalFirmCount'),dc=document.getElementById('regionalDriverCount');
+ if(fc)fc.textContent=companies.length+' firma';if(dc)dc.textContent=drivers.length+' şoför';
+ const ce=document.getElementById('regionalCompanies'),de=document.getElementById('regionalDrivers'),se=document.getElementById('regionalSummary');
+ if(ce)ce.innerHTML=companies.length?companies.sort((a,b)=>b.totalScore-a.totalScore).map(c=>'<div class="item"><div class="itemtop"><div><div class="route">'+c.name+'</div><div class="muted">'+c.city+' • '+c.district+' • '+c.zone+'</div></div><span class="chip green">★ '+c.totalScore.toFixed(1)+'</span></div><div class="chips"><span class="chip blue">Ödeme ★ '+c.paymentScore.toFixed(1)+'</span><span class="chip">Ort. ödeme '+c.paymentDays+' gün</span><span class="chip">Yükleme bekleme '+c.loadingWait+' dk</span><span class="chip">Boşaltma bekleme '+c.unloadingWait+' dk</span></div><p class="muted" style="font-size:13px">'+c.reviews+' şoför değerlendirmesi</p></div>').join(''):'<div class="empty">Bu bölgede kayıtlı firma yok.</div>';
+ if(de)de.innerHTML=drivers.length?drivers.sort((a,b)=>b.rating-a.rating).map(v=>'<div class="item"><div class="itemtop"><div><div class="route">'+v.driver+'</div><div class="muted">'+v.plate+' • '+v.company+'</div></div><span class="chip blue">★ '+v.rating.toFixed(1)+'</span></div><div class="chips"><span class="chip">'+v.type+'</span><span class="chip green">'+v.status+'</span><span class="chip">Bölge deneyimli</span></div></div>').join(''):'<div class="empty">Bu bölgeye düzenli çalışan şoför yok.</div>';
+ const avgPay=companies.length?(companies.reduce((s,c)=>s+c.paymentDays,0)/companies.length).toFixed(1):'-';
+ const avgScore=companies.length?(companies.reduce((s,c)=>s+c.totalScore,0)/companies.length).toFixed(1):'-';
+ const avgWait=companies.length?Math.round(companies.reduce((s,c)=>s+c.loadingWait+c.unloadingWait,0)/(companies.length*2)):'-';
+ if(se)se.innerHTML='<div class="kpi"><small>Bölge</small><b>'+r.city+' / '+r.district+'</b></div><div class="kpi"><small>Firma puanı</small><b>★ '+avgScore+'</b></div><div class="kpi"><small>Ort. ödeme</small><b>'+avgPay+' gün</b></div><div class="kpi"><small>Ort. bekleme</small><b>'+avgWait+' dk</b></div>';
+}
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
-function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();renderDocs()}
+function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();initRegionFilters();renderRegional();renderDocs()}
 renderAll();
 </script>
 </body></html>
