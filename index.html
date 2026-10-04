@@ -35,7 +35,15 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
 .empty{padding:30px;border:1px dashed #cbd5e1;border-radius:16px;text-align:center;color:var(--muted)}
 .table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:11px;border-bottom:1px solid var(--line);font-size:13px}.table th{color:#64748b}
 @media(max-width:1150px){.app{grid-template-columns:1fr}aside{position:static;height:auto}.nav{grid-template-columns:repeat(4,1fr)}.sidebox{display:none}.stats{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}}
-@media(max-width:700px){main{padding:15px}.nav{grid-template-columns:1fr 1fr}.hero h1{font-size:29px}.hero:after{font-size:90px;right:5px}.form,.ops-grid{grid-template-columns:1fr}.full{grid-column:auto}.timeline{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.top .search{display:none}}
+.driver-bottom{display:none}
+.driver-shell{max-width:760px;margin:auto}
+.driver-status{background:linear-gradient(135deg,#0d1b33,#17459a);color:#fff;border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.driver-status .bigroute{font-size:30px;font-weight:900;margin:6px 0}
+.driver-big-btn{width:100%;font-size:22px;padding:20px;border-radius:16px}
+.driver-simple-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:var(--shadow)}
+.driver-row{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid #eef2f7}
+.driver-row:last-child{border-bottom:0}.driver-row span{color:var(--muted)}.driver-row b{text-align:right}
+@media(max-width:700px){main{padding:15px;padding-bottom:92px}.nav{grid-template-columns:1fr 1fr}.hero h1{font-size:29px}.hero:after{font-size:90px;right:5px}.form,.ops-grid{grid-template-columns:1fr}.full{grid-column:auto}.timeline{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.top .search{display:none}.driver-bottom{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #dbe3ee;z-index:50;padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(15,23,42,.08)}.driver-bottom button{border:0;background:transparent;padding:8px 3px;font-size:11px;color:#64748b}.driver-bottom button b{display:block;font-size:20px;margin-bottom:2px}.driver-bottom button.active{color:#145dff}.driver-shell{max-width:none}}
 </style>
 </head>
 <body>
@@ -62,61 +70,41 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
  <div class="top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Demo ortamı</div></div><div class="avatar">YY</div></div></div>
 
  <section id="driver" class="section active">
-  <div class="title"><div><h2>Şoför Ekranı</h2><p>Sadece gerekli olanı gör. Büyük buton, kısa yazı, tek işlem.</p></div><span class="chip green">Basit Mod</span></div>
+  <div class="driver-shell">
+    <div class="title"><div><h2>Şoför</h2><p>Tek iş, tek ekran.</p></div><span class="chip green">Basit Mod</span></div>
 
-  <div class="card" style="background:linear-gradient(135deg,#0d1b33,#17459a);color:white;margin-bottom:16px">
-    <div style="font-size:13px;opacity:.8">Şu anki işin</div>
-    <div style="font-size:30px;font-weight:900;margin:6px 0">Batman → Gaziantep</div>
-    <div style="font-size:16px;opacity:.9">72 YY 001 • Mehmet Kaya</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-      <span class="chip green">YÜK ALINDI</span>
-      <span class="chip blue">118 km kaldı</span>
-      <span class="chip amber">ETA 15:52</span>
-    </div>
-  </div>
-
-  <div class="grid g2">
-    <div class="card">
-      <div class="cardhead"><h3>Şimdi ne yapacaksın?</h3><span class="chip blue">1 adım</span></div>
-      <div style="display:grid;gap:12px">
-        <button class="btn primary" style="font-size:22px;padding:22px" onclick="driverAction('start')">🚛 YOLA ÇIKTIM</button>
-        <button class="btn green" style="font-size:22px;padding:22px" onclick="driverAction('arrive')">📍 TESLİM YERİNE GELDİM</button>
-        <button class="btn dark" style="font-size:22px;padding:22px" onclick="driverAction('deliver')">✅ YÜKÜ TESLİM ETTİM</button>
+    <div class="driver-status">
+      <div style="opacity:.78;font-size:13px">Şu anki işin</div>
+      <div class="bigroute">Batman → Gaziantep</div>
+      <div style="opacity:.9">72 YY 001 • Mehmet Kaya</div>
+      <div class="chips" style="margin-top:14px">
+        <span class="chip green">YÜK ALINDI</span>
+        <span class="chip blue">118 km kaldı</span>
+        <span class="chip amber">15:52 varış</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="cardhead"><h3>Bugünkü bilgiler</h3><span class="chip green">Kolay görünüm</span></div>
-      <div class="ops-grid">
-        <div class="detail"><small>Yükleme yeri</small><b>Batman OSB</b></div>
-        <div class="detail"><small>Teslim yeri</small><b>Gaziantep 4. OSB</b></div>
-        <div class="detail"><small>Teslim alacak</small><b>Ahmet Demir</b></div>
-        <div class="detail"><small>Telefon</small><b>0532 111 22 33</b></div>
-      </div>
-      <div style="display:grid;gap:10px;margin-top:14px">
-        <button class="btn soft" style="font-size:18px;padding:16px" onclick="alert('Telefon araması demo')">📞 TESLİM ALANI ARA</button>
-        <button class="btn soft" style="font-size:18px;padding:16px" onclick="alert('Navigasyon demo')">🧭 NAVİGASYONU AÇ</button>
-      </div>
+    <div class="driver-simple-card" style="margin-top:14px">
+      <div class="driver-row"><span>Nereye?</span><b>Gaziantep 4. OSB</b></div>
+      <div class="driver-row"><span>Kime?</span><b>Ahmet Demir</b></div>
+      <div class="driver-row"><span>Telefon</span><b>0532 111 22 33</b></div>
     </div>
-  </div>
 
-  <div class="card" style="margin-top:16px">
-    <div class="cardhead"><h3>İşi bitirdikten sonra</h3><span class="chip amber">Sonraki adım</span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <button class="btn primary" style="font-size:20px;padding:20px" onclick="go('backhaul')">🔄 YENİ YÜK BUL</button>
-      <button class="btn green" style="font-size:20px;padding:20px" onclick="go('ratings')">⭐ FİRMAYI PUANLA</button>
+    <div style="display:grid;gap:12px;margin-top:14px">
+      <button class="btn primary driver-big-btn" onclick="driverAction('start')">🚛 YOLA ÇIKTIM</button>
+      <button class="btn green driver-big-btn" onclick="driverAction('arrive')">📍 TESLİM YERİNE GELDİM</button>
+      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')">✅ YÜKÜ TESLİM ETTİM</button>
     </div>
-  </div>
 
-  <div class="card" style="margin-top:16px">
-    <div class="cardhead"><h3>Şoför için kurallar</h3></div>
-    <div class="grid g3">
-      <div class="detail"><small>1</small><b>Tek ekranda tek iş</b></div>
-      <div class="detail"><small>2</small><b>Büyük butonlar</b></div>
-      <div class="detail"><small>3</small><b>Az yazı</b></div>
-      <div class="detail"><small>4</small><b>Kırmızı = sorun</b></div>
-      <div class="detail"><small>5</small><b>Yeşil = tamam</b></div>
-      <div class="detail"><small>6</small><b>Mavi = devam et</b></div>
+    <div class="driver-simple-card" style="margin-top:14px">
+      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px" onclick="alert('Navigasyon demo')">🧭 NAVİGASYONU AÇ</button>
+      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="alert('Telefon araması demo')">📞 TESLİM ALANI ARA</button>
+    </div>
+
+    <div class="driver-simple-card" style="margin-top:14px">
+      <div class="cardhead"><h3>İş bitince</h3></div>
+      <button class="btn primary driver-big-btn" style="font-size:18px;padding:16px" onclick="go('backhaul')">🔄 YENİ YÜK BUL</button>
+      <button class="btn green driver-big-btn" style="font-size:18px;padding:16px;margin-top:9px" onclick="go('ratings')">⭐ FİRMAYI PUANLA</button>
     </div>
   </div>
  </section>
@@ -295,6 +283,13 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
 </main>
 </div>
 
+<div class="driver-bottom" id="driverBottom">
+  <button class="active" onclick="driverTab('driver',this)"><b>⌂</b>Ana Sayfa</button>
+  <button onclick="driverTab('trips',this)"><b>🚚</b>Yüklerim</button>
+  <button onclick="driverTab('backhaul',this)"><b>₺</b>Kazanç</button>
+  <button onclick="driverTab('ratings',this)"><b>◉</b>Profil</button>
+</div>
+
 <script>
 const K='yukyol_ops_v3',today=new Date().toISOString().slice(0,10);
 const seed={
@@ -426,6 +421,11 @@ function renderRegional(){
 }
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
+function driverTab(id,el){
+  document.querySelectorAll('.driver-bottom button').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  go(id);
+}
 function driverAction(type){
  const t=trip();if(!t)return;
  if(type==='start'){t.stage='Yolda';t.progress=Math.max(t.progress,45);const v=vehicle(t.vehicleId);if(v){v.status='Yolda';v.speed=72;} alert('Yola çıktın. Konum takibi başladı.');}
