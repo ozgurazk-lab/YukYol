@@ -1,101 +1,290 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YükYol</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>YükYol — Akıllı Nakliye Ağı</title>
 <link rel="manifest" href="manifest.json">
 <style>
-:root{--b:#0f172a;--a:#2563eb;--g:#16a34a;--r:#dc2626;--m:#64748b;--l:#e2e8f0}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial;background:#f8fafc;color:#0f172a}
-header{background:var(--b);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
-header b{font-size:22px}.wrap{max-width:1100px;margin:auto;padding:22px}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
-nav button{background:#e2e8f0}.active{background:var(--a)!important;color:#fff}
-.card{background:#fff;border:1px solid var(--l);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px #0f172a0d}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
-input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px}label{font-size:13px;font-weight:700;display:grid;gap:6px}
-.primary{background:var(--a);color:#fff}.ok{background:var(--g);color:#fff}.danger{background:#fee2e2;color:#991b1b}
-.muted{color:var(--m)}.route{font-size:18px;font-weight:800}.badge{display:inline-block;background:#eef2ff;padding:5px 8px;border-radius:999px;font-size:12px;margin:4px 4px 0 0}
-section{display:none}section.show{display:block}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat b{font-size:28px}
-@media(max-width:700px){.grid,.stats{grid-template-columns:1fr}}
+:root{
+  --bg:#f3f6fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e6ebf2;
+  --brand:#0f5fff;--brand2:#04b8d4;--dark:#0a1222;--green:#16a34a;--orange:#f59e0b;
+  --shadow:0 18px 50px rgba(15,23,42,.08);--radius:22px
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+.sidebar{background:linear-gradient(180deg,#08111f,#101a2d);color:#fff;padding:22px 18px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;box-shadow:0 10px 24px rgba(15,95,255,.32)}
+.logo svg{width:27px;height:27px}.brand strong{font-size:20px}.brand small{display:block;color:#8ea0bc;margin-top:2px}
+.nav{display:grid;gap:7px}.nav button{display:flex;align-items:center;gap:11px;border:0;background:transparent;color:#aebcd0;padding:12px 13px;border-radius:13px;text-align:left}
+.nav button:hover,.nav button.active{background:#172338;color:#fff}.nav svg{width:18px;height:18px}
+.side-card{margin-top:26px;background:linear-gradient(145deg,#17253c,#122037);padding:16px;border-radius:18px;border:1px solid #263650}
+.side-card b{display:block;margin-bottom:6px}.side-card p{font-size:12px;line-height:1.5;color:#9fb0c8;margin:0 0 12px}
+.side-card button{width:100%;border:0;background:#fff;color:#0f172a;font-weight:800;border-radius:11px;padding:9px}
+.main{padding:24px 28px 42px;max-width:1500px;width:100%;margin:auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}
+.search{flex:1;max-width:500px;position:relative}.search input{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 42px;background:#fff;outline:none}
+.search svg{position:absolute;left:14px;top:12px;width:20px;color:#94a3b8}
+.user{display:flex;align-items:center;gap:10px}.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#dbeafe,#bfdbfe);display:grid;place-items:center;font-weight:800;color:#1d4ed8}
+.section{display:none}.section.active{display:block}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:20px}
+.hero-main{position:relative;overflow:hidden;background:linear-gradient(135deg,#0d1b33 0%,#15356c 54%,#087e9f 100%);color:#fff;border-radius:28px;padding:30px;min-height:285px;box-shadow:var(--shadow)}
+.hero-main:before,.hero-main:after{content:"";position:absolute;border-radius:50%;filter:blur(1px);opacity:.22}
+.hero-main:before{width:260px;height:260px;background:#43e6ff;right:-60px;top:-80px}.hero-main:after{width:180px;height:180px;background:#3b82f6;right:120px;bottom:-120px}
+.hero h1{font-size:38px;line-height:1.08;margin:0 0 12px;letter-spacing:-1.5px;max-width:650px}
+.hero p{color:#d5e1f4;max-width:590px;line-height:1.6;margin:0 0 22px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:13px;padding:11px 15px;font-weight:800}
+.btn-primary{background:linear-gradient(135deg,#2878ff,#0bbbd4);color:white;box-shadow:0 10px 22px rgba(15,95,255,.22)}
+.btn-white{background:white;color:#0f172a}.btn-soft{background:#eef4ff;color:#1756c7}.btn-danger{background:#fee2e2;color:#991b1b}.btn-green{background:#dcfce7;color:#166534}
+.truck-art{position:absolute;right:24px;bottom:22px;width:300px;opacity:.96}
+.route-panel{background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow)}
+.route-panel h3{margin:0 0 4px}.route-panel p{margin:0 0 16px;color:var(--muted);font-size:13px}
+.route-line{position:relative;padding-left:28px;margin:14px 0}.route-line:before{content:"";position:absolute;left:8px;top:13px;bottom:-22px;width:2px;background:#dbe5f4}.route-line:last-child:before{display:none}
+.dot{position:absolute;left:1px;top:4px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--brand)}
+.route-line b{display:block}.route-line span{font-size:12px;color:var(--muted)}
+.route-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.metric{background:#f8fafc;border:1px solid #eef2f7;border-radius:14px;padding:12px}.metric small{display:block;color:var(--muted);font-size:11px}.metric b{font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.stat{background:#fff;border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 8px 26px rgba(15,23,42,.04)}
+.stat-top{display:flex;justify-content:space-between;align-items:center}.stat .ico{width:38px;height:38px;border-radius:12px;background:#eef4ff;display:grid;place-items:center;color:#2563eb}.stat .ico svg{width:20px}.stat b{font-size:28px;display:block;margin-top:12px}.stat small{color:var(--muted)}
+.grid{display:grid;gap:16px}.grid-2{grid-template-columns:1.2fr .8fr}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.card-head h3{margin:0}.muted{color:var(--muted)}
+.load-card{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:11px;background:linear-gradient(180deg,#fff,#fbfdff)}
+.load-card:last-child{margin-bottom:0}.load-top{display:flex;justify-content:space-between;gap:12px}.route{font-size:18px;font-weight:900}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{background:#f1f5f9;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:700;color:#475569}.chip.blue{background:#e8f0ff;color:#1d4ed8}.chip.green{background:#dcfce7;color:#166534}.chip.orange{background:#fff7ed;color:#c2410c}
+.price{font-size:20px;font-weight:900}.price small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-align:right}
+.map{height:330px;border-radius:18px;background:
+linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),
+linear-gradient(30deg,#dce7f5 12%,transparent 12.5%,transparent 87%,#dce7f5 87.5%,#dce7f5),
+linear-gradient(150deg,#dce7f5 12%,transparent 12.5%,transparent 87%,#dce7f5 87.5%,#dce7f5),
+linear-gradient(30deg,#dce7f5 12%,transparent 12.5%,transparent 87%,#dce7f5 87.5%,#dce7f5);
+background-size:90px 156px;background-position:0 0,0 0,45px 78px,45px 78px;position:relative;overflow:hidden;border:1px solid #dce5f1}
+.road{position:absolute;height:7px;background:#cbd5e1;border-radius:10px;transform-origin:left center}.road.r1{width:330px;left:40px;top:90px;transform:rotate(18deg)}.road.r2{width:270px;left:110px;top:235px;transform:rotate(-28deg)}.road.r3{width:250px;left:20px;top:260px;transform:rotate(-7deg)}
+.pin{position:absolute;width:36px;height:36px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:linear-gradient(135deg,#0f5fff,#03b9d4);box-shadow:0 8px 18px rgba(15,95,255,.28)}.pin:after{content:"";position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;left:12px;top:12px}.pin.p1{left:80px;top:110px}.pin.p2{right:95px;top:205px}
+.map-label{position:absolute;background:#fff;padding:8px 10px;border-radius:10px;box-shadow:0 8px 20px rgba(15,23,42,.12);font-size:12px;font-weight:800}.map-label.a{left:42px;top:55px}.map-label.b{right:37px;top:156px}
+.section-title{display:flex;justify-content:space-between;align-items:end;margin-bottom:16px}.section-title h2{margin:0;font-size:28px}.section-title p{margin:5px 0 0;color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.filters input,.filters select{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 12px}
+.form-card{max-width:920px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}label{display:grid;gap:6px;font-size:13px;font-weight:800;color:#334155}
+input,select,textarea{border:1px solid #cbd5e1;border-radius:12px;padding:11px 12px;outline:none;background:#fff}input:focus,select:focus,textarea:focus{border-color:#4f8cff;box-shadow:0 0 0 3px rgba(79,140,255,.12)}textarea{min-height:90px;resize:vertical}.full{grid-column:1/-1}
+.match-card{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:17px;background:white;margin-bottom:11px}.score{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#0f5fff var(--p),#edf2f7 0);position:relative}.score:after{content:"";width:58px;height:58px;background:#fff;border-radius:50%;position:absolute}.score b{position:relative;z-index:1;font-size:16px}.timeline{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.step{padding:7px 10px;border-radius:999px;background:#eef2f7;color:#64748b;font-size:12px;font-weight:800}.step.on{background:#e8f0ff;color:#1d4ed8}.step.done{background:#dcfce7;color:#166534}
+.empty{padding:35px;border:1px dashed #cbd5e1;border-radius:18px;text-align:center;color:var(--muted)}
+@media(max-width:1080px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.nav{grid-template-columns:repeat(3,1fr)}.side-card{display:none}.hero,.grid-2{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.main{padding:16px}.topbar{align-items:flex-start}.search{display:none}.hero h1{font-size:29px}.truck-art{opacity:.28;width:230px}.stats{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.nav{grid-template-columns:1fr 1fr}.match-card{grid-template-columns:1fr}.score{width:64px;height:64px}}
 </style>
 </head>
 <body>
-<header><b>YükYol</b><span>Yük • Araç • Eşleşme</span></header>
-<div class="wrap">
-<nav>
-<button data-s="home" class="active">Genel Bakış</button>
-<button data-s="loads">Yük İlanları</button>
-<button data-s="vehicles">Araçlar</button>
-<button data-s="matches">Eşleşmeler</button>
-<button data-s="offers">Teklifler</button>
-<button data-s="shipments">Taşımalar</button>
-</nav>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 17 8 4 8-4"/></svg></div>
+    <div><strong>YükYol</strong><small>Akıllı Nakliye Ağı</small></div>
+  </div>
+  <div class="nav">
+    <button class="active" data-target="dashboard">⌂ Genel Bakış</button>
+    <button data-target="loads">▣ Yük İlanları</button>
+    <button data-target="vehicles">▰ Araçlar</button>
+    <button data-target="matches">◎ Eşleşmeler</button>
+    <button data-target="offers">₺ Teklifler</button>
+    <button data-target="shipments">⌁ Taşımalar</button>
+  </div>
+  <div class="side-card">
+    <b>Profesyonel hesap</b>
+    <p>Firma doğrulaması, canlı konum ve gelişmiş raporlar sonraki sürümde.</p>
+    <button>Yakında</button>
+  </div>
+</aside>
 
-<section id="home" class="show">
-<div class="card"><h1>Boş dönüşü gelire dönüştür.</h1><p class="muted">Yük sahipleri ile uygun nakliye araçlarını güzergâh, tarih, araç tipi ve kapasiteye göre eşleştir.</p></div>
-<div class="stats">
-<div class="card stat"><span class="muted">Aktif Yük</span><br><b id="sl">0</b></div>
-<div class="card stat"><span class="muted">Araç</span><br><b id="sv">0</b></div>
-<div class="card stat"><span class="muted">Açık Teklif</span><br><b id="so">0</b></div>
-</div>
-<div class="card"><h3>En iyi eşleşmeler</h3><div id="hm"></div></div>
-</section>
+<main class="main">
+  <div class="topbar">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input placeholder="Şehir, güzergâh veya yük ara">
+    </div>
+    <div class="user"><div><b>Demo Hesap</b><div class="muted" style="font-size:12px">Yük sahibi / Nakliyeci</div></div><div class="avatar">YY</div></div>
+  </div>
 
-<section id="loads">
-<div class="card"><h2>Yeni yük ilanı</h2><form id="lf" class="grid">
-<label>Çıkış<input name="from" required placeholder="Batman"></label>
-<label>Varış<input name="to" required placeholder="Gaziantep"></label>
-<label>Yük türü<select name="cargo"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Diğer</option></select></label>
-<label>Araç tipi<select name="type"><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></label>
-<label>Ağırlık kg<input name="weight" type="number" min="1" value="5000" required></label>
-<label>Tarih<input name="date" type="date" required></label>
-<label class="full">Not<textarea name="note"></textarea></label>
-<button class="primary full">Yayınla</button></form></div><div id="ll"></div>
-</section>
+  <section id="dashboard" class="section active">
+    <div class="hero">
+      <div class="hero-main">
+        <h1>Boş dönüşü gelire, yük aramayı dakikalara indir.</h1>
+        <p>Yük sahipleri ve nakliyeciler için rota, tarih, araç tipi ve kapasite odaklı akıllı eşleştirme.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="go('loads')">+ Yük ilanı ver</button>
+          <button class="btn btn-white" onclick="go('vehicles')">Araç ekle</button>
+        </div>
+        <svg class="truck-art" viewBox="0 0 500 210" fill="none">
+          <rect x="44" y="74" width="255" height="78" rx="14" fill="rgba(255,255,255,.95)"/>
+          <path d="M299 100h72l54 52h-126v-52Z" fill="#eaf3ff"/>
+          <rect x="313" y="111" width="45" height="30" rx="4" fill="#9cdcf0"/>
+          <circle cx="115" cy="158" r="28" fill="#0a1222"/><circle cx="115" cy="158" r="12" fill="#cbd5e1"/>
+          <circle cx="355" cy="158" r="28" fill="#0a1222"/><circle cx="355" cy="158" r="12" fill="#cbd5e1"/>
+          <path d="M70 95h195" stroke="#0f5fff" stroke-width="10" stroke-linecap="round"/>
+          <path d="M70 118h120" stroke="#04b8d4" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="route-panel">
+        <h3>Bugünün örnek rotası</h3>
+        <p>En yüksek uygunluk puanına sahip eşleşme</p>
+        <div class="route-line"><span class="dot"></span><b>Batman</b><span>Yükleme • 09:30</span></div>
+        <div class="route-line"><span class="dot"></span><b>Şanlıurfa</b><span>Ara geçiş • 12:10</span></div>
+        <div class="route-line"><span class="dot"></span><b>Gaziantep</b><span>Teslim • 15:40</span></div>
+        <div class="route-metrics">
+          <div class="metric"><small>Uyum</small><b>%100</b></div>
+          <div class="metric"><small>Yük</small><b>12 ton</b></div>
+          <div class="metric"><small>Araç</small><b>Tır</b></div>
+        </div>
+      </div>
+    </div>
 
-<section id="vehicles">
-<div class="card"><h2>Yeni araç</h2><form id="vf" class="grid">
-<label>Bulunduğu şehir<input name="from" required></label><label>Gideceği yön<input name="to" required></label>
-<label>Araç tipi<select name="type"><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></label>
-<label>Boş kapasite kg<input name="cap" type="number" value="10000" required></label>
-<label>Tarih<input name="date" type="date" required></label><label>Plaka<input name="plate" required></label>
-<label class="full">Sürücü/Firma<input name="driver" required></label><button class="primary full">Aracı yayınla</button>
-</form></div><div id="vl"></div>
-</section>
+    <div class="stats">
+      <div class="stat"><div class="stat-top"><small>Aktif yük</small><div class="ico">📦</div></div><b id="statLoads">0</b><small>Yayındaki ilanlar</small></div>
+      <div class="stat"><div class="stat-top"><small>Uygun araç</small><div class="ico">🚚</div></div><b id="statVehicles">0</b><small>Kayıtlı kapasite</small></div>
+      <div class="stat"><div class="stat-top"><small>Açık teklif</small><div class="ico">₺</div></div><b id="statOffers">0</b><small>Yanıt bekliyor</small></div>
+      <div class="stat"><div class="stat-top"><small>Aktif taşıma</small><div class="ico">↗</div></div><b id="statShipments">0</b><small>Yolda / yüklemede</small></div>
+    </div>
 
-<section id="matches"><div id="ml"></div></section>
-<section id="offers"><div id="ol"></div></section>
-<section id="shipments"><div id="sh"></div></section>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-head"><div><h3>Öne çıkan yükler</h3><div class="muted" style="font-size:13px">Hızlı eşleşebilecek güncel ilanlar</div></div><button class="btn btn-soft" onclick="go('loads')">Tümünü gör</button></div>
+        <div id="featuredLoads"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>Rota görünümü</h3><div class="muted" style="font-size:13px">Batman → Gaziantep örneği</div></div><span class="chip green">Canlı önizleme</span></div>
+        <div class="map">
+          <div class="road r1"></div><div class="road r2"></div><div class="road r3"></div>
+          <div class="pin p1"></div><div class="pin p2"></div>
+          <div class="map-label a">Batman • Yükleme</div><div class="map-label b">Gaziantep • Teslim</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="loads" class="section">
+    <div class="section-title"><div><h2>Yük İlanları</h2><p>Yükünü ekle, uygun araçlarla eşleş.</p></div></div>
+    <div class="filters"><input id="loadSearch" placeholder="Güzergâh ara"><select id="loadTypeFilter"><option value="">Tüm araç tipleri</option><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></div>
+    <div class="grid grid-2">
+      <div class="card form-card">
+        <div class="card-head"><h3>Yeni yük oluştur</h3><span class="chip blue">2 dk</span></div>
+        <form id="loadForm" class="form-grid">
+          <label>Çıkış şehri<input name="from" placeholder="Batman" required></label>
+          <label>Varış şehri<input name="to" placeholder="Gaziantep" required></label>
+          <label>Yük türü<select name="cargoType"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Paletli ürün</option><option>Diğer</option></select></label>
+          <label>Araç tipi<select name="vehicleType"><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></label>
+          <label>Ağırlık (kg)<input name="weight" type="number" min="1" value="5000" required></label>
+          <label>Yükleme tarihi<input name="date" type="date" required></label>
+          <label class="full">Açıklama<textarea name="notes" placeholder="Palet sayısı, yükleme saati, özel koşullar..."></textarea></label>
+          <button class="btn btn-primary full">İlanı yayınla</button>
+        </form>
+      </div>
+      <div class="card"><div class="card-head"><h3>Aktif ilanlar</h3><span id="loadCount" class="chip"></span></div><div id="loadList"></div></div>
+    </div>
+  </section>
+
+  <section id="vehicles" class="section">
+    <div class="section-title"><div><h2>Araçlar</h2><p>Boş dönüş ve kullanılabilir kapasiteyi yayınla.</p></div></div>
+    <div class="grid grid-2">
+      <div class="card form-card">
+        <div class="card-head"><h3>Yeni araç ekle</h3><span class="chip green">Nakliyeci</span></div>
+        <form id="vehicleForm" class="form-grid">
+          <label>Bulunduğu şehir<input name="from" placeholder="Batman" required></label>
+          <label>Gideceği yön<input name="to" placeholder="Gaziantep" required></label>
+          <label>Araç tipi<select name="vehicleType"><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></label>
+          <label>Boş kapasite (kg)<input name="capacity" type="number" min="1" value="10000" required></label>
+          <label>Uygun tarih<input name="date" type="date" required></label>
+          <label>Plaka<input name="plate" placeholder="72 ABC 123" required></label>
+          <label>Sürücü / Firma<input name="driver" placeholder="Kaya Nakliyat" required></label>
+          <label>Telefon<input name="phone" placeholder="+90 5xx xxx xx xx"></label>
+          <button class="btn btn-primary full">Aracı yayınla</button>
+        </form>
+      </div>
+      <div class="card"><div class="card-head"><h3>Yayındaki araçlar</h3><span id="vehicleCount" class="chip"></span></div><div id="vehicleList"></div></div>
+    </div>
+  </section>
+
+  <section id="matches" class="section">
+    <div class="section-title"><div><h2>Akıllı Eşleşmeler</h2><p>Rota, tarih, kapasite ve araç tipine göre hesaplanır.</p></div><span class="chip blue">Otomatik sıralama</span></div>
+    <div id="matchList"></div>
+  </section>
+
+  <section id="offers" class="section">
+    <div class="section-title"><div><h2>Teklifler</h2><p>Fiyatları ve taşıyıcıları karşılaştır.</p></div></div>
+    <div id="offerList"></div>
+  </section>
+
+  <section id="shipments" class="section">
+    <div class="section-title"><div><h2>Taşımalar</h2><p>Kabul edilen işleri adım adım takip et.</p></div></div>
+    <div id="shipmentList"></div>
+  </section>
+</main>
 </div>
 
 <script>
-const K='yuk_yol_mvp_v2',today=new Date().toISOString().slice(0,10);
-const seed={loads:[{id:'L1',from:'Batman',to:'Gaziantep',cargo:'Yapı malzemesi',type:'Tır',weight:12000,date:today,note:'Paletli ürün'}],vehicles:[{id:'V1',from:'Batman',to:'Gaziantep',type:'Tır',cap:18000,date:today,plate:'72 YY 001',driver:'Kaya Nakliyat'}],offers:[],shipments:[]};
-let db=JSON.parse(localStorage.getItem(K)||'null')||seed;
-const $=id=>document.getElementById(id),uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase(),n=s=>(s||'').trim().toLocaleLowerCase('tr-TR');
-function save(){localStorage.setItem(K,JSON.stringify(db));render()}
-function score(l,v){let s=0;if(n(l.from)==n(v.from))s+=35;if(n(l.to)==n(v.to))s+=35;if(l.type==v.type)s+=15;if(l.date==v.date)s+=10;if(+v.cap>=+l.weight)s+=5;return s}
-function matches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{let s=score(l,v);if(s>=45&&+v.cap>=+l.weight)a.push({l,v,s})}));return a.sort((a,b)=>b.s-a.s)}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('section').forEach(x=>x.classList.remove('show'));$(b.dataset.s).classList.add('show')});
-function card(html){return '<div class="card">'+html+'</div>'}
-function render(){
-$('sl').textContent=db.loads.length;$('sv').textContent=db.vehicles.length;$('so').textContent=db.offers.filter(x=>x.status=='Açık').length;
-$('ll').innerHTML=db.loads.map(x=>card(`<div class="route">${x.from} → ${x.to}</div><span class="badge">${x.cargo}</span><span class="badge">${x.type}</span><span class="badge">${x.weight} kg</span><p class="muted">${x.date}</p><button class="danger" onclick="delL('${x.id}')">Sil</button>`)).join('')||card('Yük yok');
-$('vl').innerHTML=db.vehicles.map(x=>card(`<div class="route">${x.from} → ${x.to}</div><span class="badge">${x.driver}</span><span class="badge">${x.plate}</span><span class="badge">${x.cap} kg</span><p class="muted">${x.date}</p><button class="danger" onclick="delV('${x.id}')">Sil</button>`)).join('')||card('Araç yok');
-const ms=matches();
-$('ml').innerHTML=ms.map(m=>card(`<div class="route">${m.l.from} → ${m.l.to}</div><b>%${m.s} uyum</b><p>${m.v.driver} • ${m.v.plate}</p><button class="primary" onclick="offer('${m.l.id}','${m.v.id}')">Teklif oluştur</button>`)).join('')||card('Uygun eşleşme yok');
-$('hm').innerHTML=ms.slice(0,3).map(m=>`<p><b>${m.l.from} → ${m.l.to}</b> — %${m.s}</p>`).join('')||'Eşleşme yok';
-$('ol').innerHTML=db.offers.map(o=>card(`<div class="route">${o.load.from} → ${o.load.to}</div><p>${o.vehicle.driver}</p><span class="badge">${o.price.toLocaleString('tr-TR')} TL</span><span class="badge">${o.status}</span>${o.status=='Açık'?'<p><button class="ok" onclick="accept(\''+o.id+'\')">Kabul et</button></p>':''}`)).join('')||card('Teklif yok');
-$('sh').innerHTML=db.shipments.map(s=>card(`<div class="route">${s.load.from} → ${s.load.to}</div><p>${s.vehicle.driver}</p><span class="badge">${s.stage}</span>${s.stage!='Teslim edildi'?'<p><button class="primary" onclick="next(\''+s.id+'\')">Sonraki aşama</button></p>':''}`)).join('')||card('Aktif taşıma yok');
+const KEY='yukyol_premium_v1',today=new Date().toISOString().slice(0,10);
+const seed={
+ loads:[
+  {id:'L1',from:'Batman',to:'Gaziantep',cargoType:'Yapı malzemesi',vehicleType:'Tır',weight:12000,date:today,notes:'12 palet • Forklift hazır'},
+  {id:'L2',from:'Diyarbakır',to:'Mersin',cargoType:'Gıda',vehicleType:'Frigorifik',weight:8000,date:today,notes:'Soğuk zincir gerekli'},
+  {id:'L3',from:'Şanlıurfa',to:'Adana',cargoType:'Tekstil',vehicleType:'Kamyon',weight:6500,date:today,notes:'Paketli ürün • Aynı gün teslim'}
+ ],
+ vehicles:[
+  {id:'V1',from:'Batman',to:'Gaziantep',vehicleType:'Tır',capacity:18000,date:today,plate:'72 YY 001',driver:'Kaya Nakliyat',phone:'+90 530 000 00 00',rating:4.9,verified:true},
+  {id:'V2',from:'Diyarbakır',to:'Mersin',vehicleType:'Frigorifik',capacity:10000,date:today,plate:'21 YY 003',driver:'Güven Soğuk Taşıma',phone:'+90 532 000 00 00',rating:4.8,verified:true},
+  {id:'V3',from:'Şanlıurfa',to:'Adana',vehicleType:'Kamyon',capacity:9000,date:today,plate:'63 YY 441',driver:'Mezopotamya Lojistik',phone:'+90 533 000 00 00',rating:4.7,verified:false}
+ ],
+ offers:[],shipments:[]
+};
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||seed;
+const norm=s=>(s||'').trim().toLocaleLowerCase('tr-TR');
+const uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase();
+const money=n=>Number(n).toLocaleString('tr-TR');
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function go(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.target===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.target));
+function score(l,v){let s=0;if(norm(l.from)===norm(v.from))s+=35;if(norm(l.to)===norm(v.to))s+=35;if(l.vehicleType===v.vehicleType)s+=15;if(l.date===v.date)s+=10;if(+v.capacity>=+l.weight)s+=5;return Math.min(100,s)}
+function matches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{const s=score(l,v);if(s>=45&&+v.capacity>=+l.weight)a.push({l,v,s})}));return a.sort((a,b)=>b.s-a.s)}
+function loadCard(x,featured=false){
+ const est=Math.max(3500,Math.round((+x.weight/1000)*650));
+ return `<div class="load-card"><div class="load-top"><div><div class="route">${x.from} → ${x.to}</div><div class="muted" style="font-size:13px;margin-top:4px">${x.cargoType}</div></div><div class="price">₺${money(est)}<small>tahmini taşıma</small></div></div><div class="chips"><span class="chip blue">${x.vehicleType}</span><span class="chip">${money(x.weight)} kg</span><span class="chip">${x.date}</span>${featured?'<span class="chip green">Hızlı eşleşme</span>':''}</div><p class="muted" style="font-size:13px;margin:10px 0 0">${x.notes||'Ek açıklama yok'}</p></div>`
 }
-$('lf').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset();setDates()}
-$('vf').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));db.vehicles.unshift({id:uid('V'),...d,cap:+d.cap});save();e.target.reset();setDates()}
-function delL(id){db.loads=db.loads.filter(x=>x.id!=id);save()}function delV(id){db.vehicles=db.vehicles.filter(x=>x.id!=id);save()}
-function offer(lid,vid){let l=db.loads.find(x=>x.id==lid),v=db.vehicles.find(x=>x.id==vid);if(db.offers.some(x=>x.lid==lid&&x.vid==vid&&x.status=='Açık'))return alert('Bu eşleşme için açık teklif var');db.offers.unshift({id:uid('O'),lid,vid,load:l,vehicle:v,price:Math.max(3500,Math.round(l.weight/1000*650)),status:'Açık'});save()}
-function accept(id){let o=db.offers.find(x=>x.id==id);o.status='Kabul edildi';db.shipments.unshift({id:uid('S'),load:o.load,vehicle:o.vehicle,stage:'Onaylandı'});save()}
-function next(id){let a=['Onaylandı','Yükleme','Yolda','Teslim edildi'],s=db.shipments.find(x=>x.id==id),i=a.indexOf(s.stage);if(i<a.length-1)s.stage=a[i+1];save()}
-function setDates(){document.querySelectorAll('input[type=date]').forEach(x=>x.value=today)}setDates();render();
+function renderDashboard(){
+ document.getElementById('statLoads').textContent=db.loads.length;
+ document.getElementById('statVehicles').textContent=db.vehicles.length;
+ document.getElementById('statOffers').textContent=db.offers.filter(x=>x.status==='Açık').length;
+ document.getElementById('statShipments').textContent=db.shipments.filter(x=>x.stage!=='Teslim edildi').length;
+ document.getElementById('featuredLoads').innerHTML=db.loads.slice(0,3).map(x=>loadCard(x,true)).join('')||'<div class="empty">Henüz yük yok.</div>';
+}
+function renderLoads(){
+ const q=norm(document.getElementById('loadSearch')?.value||''),t=document.getElementById('loadTypeFilter')?.value||'';
+ const arr=db.loads.filter(x=>(!q||(norm(x.from+' '+x.to+' '+x.cargoType).includes(q)))&&(!t||x.vehicleType===t));
+ document.getElementById('loadCount').textContent=arr.length+' ilan';
+ document.getElementById('loadList').innerHTML=arr.map(x=>loadCard(x)+`<div style="margin:-4px 0 14px"><button class="btn btn-danger" onclick="deleteLoad('${x.id}')">İlanı sil</button></div>`).join('')||'<div class="empty">Filtreye uygun yük bulunamadı.</div>';
+}
+function renderVehicles(){
+ document.getElementById('vehicleCount').textContent=db.vehicles.length+' araç';
+ document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="load-card"><div class="load-top"><div><div class="route">${v.from} → ${v.to}</div><div class="muted" style="font-size:13px;margin-top:4px">${v.driver} • ${v.plate}</div></div><div><span class="chip ${v.verified?'green':'orange'}">${v.verified?'✓ Doğrulanmış':'Doğrulama bekliyor'}</span></div></div><div class="chips"><span class="chip blue">${v.vehicleType}</span><span class="chip">${money(v.capacity)} kg boş</span><span class="chip">★ ${v.rating||'Yeni'}</span></div><div style="margin-top:12px"><button class="btn btn-danger" onclick="deleteVehicle('${v.id}')">Aracı sil</button></div></div>`).join('')||'<div class="empty">Henüz araç yok.</div>';
+}
+function renderMatches(){
+ const arr=matches();
+ document.getElementById('matchList').innerHTML=arr.map(m=>`<div class="match-card"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted" style="margin-top:5px">${m.l.cargoType} • ${money(m.l.weight)} kg • ${m.v.driver}</div><div class="chips"><span class="chip blue">${m.l.vehicleType}</span><span class="chip green">Kapasite uygun</span><span class="chip">${m.v.plate}</span></div><div style="margin-top:12px"><button class="btn btn-primary" onclick="createOffer('${m.l.id}','${m.v.id}')">Teklif oluştur</button></div></div><div class="score" style="--p:${m.s}%"><b>%${m.s}</b></div></div>`).join('')||'<div class="empty">Şu anda uygun eşleşme yok.</div>';
+}
+function renderOffers(){
+ document.getElementById('offerList').innerHTML=db.offers.map(o=>`<div class="card" style="margin-bottom:12px"><div class="load-top"><div><div class="route">${o.load.from} → ${o.load.to}</div><div class="muted" style="margin-top:5px">${o.vehicle.driver} • ${o.vehicle.plate}</div></div><div class="price">₺${money(o.price)}<small>${o.status}</small></div></div><div class="chips"><span class="chip blue">${o.load.vehicleType}</span><span class="chip">Tahmini 8 saat</span><span class="chip green">★ ${o.vehicle.rating||'Yeni'}</span></div>${o.status==='Açık'?'<div style="margin-top:14px"><button class="btn btn-green" onclick="acceptOffer(\''+o.id+'\')">Teklifi kabul et</button></div>':''}</div>`).join('')||'<div class="empty">Henüz teklif yok. Eşleşmelerden teklif oluşturabilirsin.</div>';
+}
+function renderShipments(){
+ const stages=['Onaylandı','Yükleme','Yolda','Teslim edildi'];
+ document.getElementById('shipmentList').innerHTML=db.shipments.map(s=>{const i=stages.indexOf(s.stage);return `<div class="card" style="margin-bottom:12px"><div class="route">${s.load.from} → ${s.load.to}</div><div class="muted" style="margin-top:5px">${s.vehicle.driver} • ${s.vehicle.plate}</div><div class="timeline">${stages.map((x,j)=>`<span class="step ${j<i?'done':j===i?'on':''}">${x}</span>`).join('')}</div>${i<stages.length-1?'<div style="margin-top:14px"><button class="btn btn-primary" onclick="nextStage(\''+s.id+'\')">Sonraki aşama</button></div>':''}</div>`}).join('')||'<div class="empty">Henüz aktif taşıma yok.</div>';
+}
+function renderAll(){renderDashboard();renderLoads();renderVehicles();renderMatches();renderOffers();renderShipments()}
+document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset();setDates()}
+document.getElementById('vehicleForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.vehicles.unshift({id:uid('V'),...d,capacity:+d.capacity,rating:4.8,verified:false});save();e.target.reset();setDates()}
+function deleteLoad(id){db.loads=db.loads.filter(x=>x.id!==id);save()}
+function deleteVehicle(id){db.vehicles=db.vehicles.filter(x=>x.id!==id);save()}
+function createOffer(lid,vid){const l=db.loads.find(x=>x.id===lid),v=db.vehicles.find(x=>x.id===vid);if(db.offers.some(x=>x.loadId===lid&&x.vehicleId===vid&&x.status==='Açık'))return alert('Bu eşleşme için zaten açık teklif var.');db.offers.unshift({id:uid('O'),loadId:lid,vehicleId:vid,load:l,vehicle:v,price:Math.max(3500,Math.round(+l.weight/1000*650)),status:'Açık'});save();go('offers')}
+function acceptOffer(id){const o=db.offers.find(x=>x.id===id);if(!o)return;o.status='Kabul edildi';db.shipments.unshift({id:uid('S'),load:o.load,vehicle:o.vehicle,stage:'Onaylandı'});save();go('shipments')}
+function nextStage(id){const a=['Onaylandı','Yükleme','Yolda','Teslim edildi'],s=db.shipments.find(x=>x.id===id);if(!s)return;const i=a.indexOf(s.stage);if(i<a.length-1)s.stage=a[i+1];save()}
+function setDates(){document.querySelectorAll('input[type=date]').forEach(x=>x.value=today)}
+document.getElementById('loadSearch').oninput=renderLoads;document.getElementById('loadTypeFilter').onchange=renderLoads;
+setDates();renderAll();
 </script>
-</body></html>
+</body>
+</html>
