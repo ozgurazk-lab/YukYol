@@ -43,7 +43,8 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
 <aside>
  <div class="brand"><div class="brandmark">⇄</div><div><b>YükYol</b><small>Nakliye Operasyon Ağı</small></div></div>
  <div class="nav">
-  <button class="active" data-target="dashboard">Genel Bakış</button>
+  <button class="active" data-target="driver">Şoför Ekranı</button>
+  <button data-target="dashboard">Genel Bakış</button>
   <button data-target="loads">Yükler</button>
   <button data-target="vehicles">Araçlar</button>
   <button data-target="matches">Eşleşmeler</button>
@@ -60,7 +61,67 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
 <main>
  <div class="top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Demo ortamı</div></div><div class="avatar">YY</div></div></div>
 
- <section id="dashboard" class="section active">
+ <section id="driver" class="section active">
+  <div class="title"><div><h2>Şoför Ekranı</h2><p>Sadece gerekli olanı gör. Büyük buton, kısa yazı, tek işlem.</p></div><span class="chip green">Basit Mod</span></div>
+
+  <div class="card" style="background:linear-gradient(135deg,#0d1b33,#17459a);color:white;margin-bottom:16px">
+    <div style="font-size:13px;opacity:.8">Şu anki işin</div>
+    <div style="font-size:30px;font-weight:900;margin:6px 0">Batman → Gaziantep</div>
+    <div style="font-size:16px;opacity:.9">72 YY 001 • Mehmet Kaya</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <span class="chip green">YÜK ALINDI</span>
+      <span class="chip blue">118 km kaldı</span>
+      <span class="chip amber">ETA 15:52</span>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="cardhead"><h3>Şimdi ne yapacaksın?</h3><span class="chip blue">1 adım</span></div>
+      <div style="display:grid;gap:12px">
+        <button class="btn primary" style="font-size:22px;padding:22px" onclick="driverAction('start')">🚛 YOLA ÇIKTIM</button>
+        <button class="btn green" style="font-size:22px;padding:22px" onclick="driverAction('arrive')">📍 TESLİM YERİNE GELDİM</button>
+        <button class="btn dark" style="font-size:22px;padding:22px" onclick="driverAction('deliver')">✅ YÜKÜ TESLİM ETTİM</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cardhead"><h3>Bugünkü bilgiler</h3><span class="chip green">Kolay görünüm</span></div>
+      <div class="ops-grid">
+        <div class="detail"><small>Yükleme yeri</small><b>Batman OSB</b></div>
+        <div class="detail"><small>Teslim yeri</small><b>Gaziantep 4. OSB</b></div>
+        <div class="detail"><small>Teslim alacak</small><b>Ahmet Demir</b></div>
+        <div class="detail"><small>Telefon</small><b>0532 111 22 33</b></div>
+      </div>
+      <div style="display:grid;gap:10px;margin-top:14px">
+        <button class="btn soft" style="font-size:18px;padding:16px" onclick="alert('Telefon araması demo')">📞 TESLİM ALANI ARA</button>
+        <button class="btn soft" style="font-size:18px;padding:16px" onclick="alert('Navigasyon demo')">🧭 NAVİGASYONU AÇ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><h3>İşi bitirdikten sonra</h3><span class="chip amber">Sonraki adım</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <button class="btn primary" style="font-size:20px;padding:20px" onclick="go('backhaul')">🔄 YENİ YÜK BUL</button>
+      <button class="btn green" style="font-size:20px;padding:20px" onclick="go('ratings')">⭐ FİRMAYI PUANLA</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><h3>Şoför için kurallar</h3></div>
+    <div class="grid g3">
+      <div class="detail"><small>1</small><b>Tek ekranda tek iş</b></div>
+      <div class="detail"><small>2</small><b>Büyük butonlar</b></div>
+      <div class="detail"><small>3</small><b>Az yazı</b></div>
+      <div class="detail"><small>4</small><b>Kırmızı = sorun</b></div>
+      <div class="detail"><small>5</small><b>Yeşil = tamam</b></div>
+      <div class="detail"><small>6</small><b>Mavi = devam et</b></div>
+    </div>
+  </div>
+ </section>
+
+ <section id="dashboard" class="section">
   <div class="hero"><h1>Sadece araç bulma değil, nakliyenin tamamını yönet.</h1><p>Yükleme noktasından teslimata, araç konumundan boşaltma onayına ve sonraki yüke kadar tek akış.</p><button class="btn primary" onclick="go('trips')">Canlı taşımayı aç</button></div>
   <div class="stats">
    <div class="stat"><small>Aktif yük</small><b id="sLoads">0</b></div>
@@ -365,6 +426,13 @@ function renderRegional(){
 }
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
+function driverAction(type){
+ const t=trip();if(!t)return;
+ if(type==='start'){t.stage='Yolda';t.progress=Math.max(t.progress,45);const v=vehicle(t.vehicleId);if(v){v.status='Yolda';v.speed=72;} alert('Yola çıktın. Konum takibi başladı.');}
+ if(type==='arrive'){t.stage='Teslim noktasında';t.progress=90;t.distanceLeft=0;const v=vehicle(t.vehicleId);if(v){v.status='Teslim noktasında';v.speed=0;} alert('Teslim yerine vardın.');}
+ if(type==='deliver'){t.stage='Boşaltma';t.progress=96;save();go('delivery');return;}
+ save();renderTrips();
+}
 function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();initRegionFilters();renderRegional();renderDocs()}
 renderAll();
 </script>
