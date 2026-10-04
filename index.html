@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#08111f"><title>YükYol — Nakliye Operasyon Platformu</title>
+<meta name="theme-color" content="#08111f"><title>Sevkio — Lojistik Operasyon Platformu</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#f4f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--blue:#145dff;--cyan:#06b6d4;--green:#16a34a;--amber:#f59e0b;--red:#dc2626;--dark:#08111f;--shadow:0 14px 40px rgba(15,23,42,.07)}
@@ -15,7 +15,7 @@ aside{background:linear-gradient(180deg,#08111f,#111d31);color:#fff;padding:22px
 main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}
 .search{flex:1;max-width:520px}.search input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:#fff}.user{display:flex;align-items:center;gap:10px}.avatar{width:40px;height:40px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800}
 .section{display:none}.section.active{display:block}.title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:16px}.title h1,.title h2{margin:0}.title p{margin:5px 0 0;color:var(--muted)}
-.hero{background:linear-gradient(135deg,#0b1730,#17459a 58%,#0786a4);border-radius:26px;color:#fff;padding:28px;position:relative;overflow:hidden;min-height:230px;margin-bottom:18px}.hero h1{font-size:38px;max-width:720px;line-height:1.08;margin:0 0 12px}.hero p{color:#d6e3f7;max-width:690px;line-height:1.6}.hero:after{content:"🚛";font-size:130px;position:absolute;right:38px;bottom:10px;opacity:.25}
+.hero{background:linear-gradient(135deg,#0b1730,#17459a 58%,#0786a4);border-radius:26px;color:#fff;padding:28px;position:relative;overflow:hidden;min-height:230px;margin-bottom:18px}.hero h1{font-size:38px;max-width:720px;line-height:1.08;margin:0 0 12px}.hero p{color:#d6e3f7;max-width:690px;line-height:1.6}.hero:after{content:"";font-size:130px;position:absolute;right:38px;bottom:10px;opacity:.25}
 .btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff}.soft{background:#eaf1ff;color:#1e4fb7}.green{background:#dcfce7;color:#166534}.amber{background:#fff7ed;color:#9a3412}.danger{background:#fee2e2;color:#991b1b}.dark{background:#111827;color:#fff}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.stat small{color:var(--muted)}.stat b{display:block;font-size:27px;margin-top:8px}
 .grid{display:grid;gap:16px}.g2{grid-template-columns:1.15fr .85fr}.g3{grid-template-columns:repeat(3,1fr)}
@@ -405,20 +405,69 @@ textarea{min-height:88px}
 .logout-btn{width:100%;margin-top:9px}
 @media(max-width:700px){.auth-shell{border-radius:22px}.auth-head,.auth-body{padding:20px}.auth-form,.auth-role{grid-template-columns:1fr}.auth-form .full{grid-column:auto}}
 
+
+/* ===== Sevkio icon + proof media system ===== */
+.icon-sprite{position:absolute;width:0;height:0;overflow:hidden}
+.ui-icon{width:18px;height:18px;display:inline-block;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.ui-icon.sm{width:16px;height:16px}.ui-icon.lg{width:22px;height:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.nav button{display:flex;align-items:center;gap:10px}
+.nav button .ui-icon{width:17px;height:17px;opacity:.86}
+.brandmark{display:grid;place-items:center}.brandmark .ui-icon{width:21px;height:21px}
+.auth-role button{display:flex;gap:12px;align-items:center}.auth-role .role-icon{width:38px;height:38px;border-radius:11px;background:#f2f2f4;display:grid;place-items:center;color:#1d1d1f}
+.auth-role button.active .role-icon{background:#eaf4ff;color:#0071e3}
+.media-box{border:1px solid rgba(0,0,0,.09);background:#fafafa;border-radius:14px;padding:14px}
+.media-box-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;margin-bottom:5px}
+.media-box p{font-size:12px;color:#86868b;margin:0 0 10px;line-height:1.45}
+.media-input{display:block;width:100%;padding:10px;border:1px dashed rgba(0,0,0,.18);border-radius:10px;background:#fff;font-size:12px}
+.media-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.media-modal{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1500;display:none;place-items:center;padding:20px}
+.media-modal.open{display:grid}.media-modal-card{width:min(900px,100%);max-height:86vh;overflow:auto;background:#fff;border-radius:22px;padding:20px;box-shadow:0 30px 90px rgba(0,0,0,.22)}
+.media-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.media-gallery img,.media-gallery video{width:100%;max-height:380px;object-fit:contain;background:#0b0b0c;border-radius:14px}
+.media-file{padding:14px;background:#f7f7f9;border-radius:12px}
+.driver-bottom button b{height:20px}
+.driver-bottom button b .ui-icon{width:20px;height:20px}
+@media(max-width:700px){.media-gallery{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
+<svg class="icon-sprite" aria-hidden="true">
+<symbol id="ic-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h3a3 3 0 0 0 3-3V9a3 3 0 0 1 3-3h1"/></symbol>
+<symbol id="ic-truck" viewBox="0 0 24 24"><path d="M3 6h11v11H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+<symbol id="ic-building" viewBox="0 0 24 24"><path d="M4 21V4h11v17M15 9h5v12M8 8h3M8 12h3M8 16h3M18 13h.01M18 17h.01"/></symbol>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/><path d="M9 3v15M15 6v15"/></symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="ic-nav" viewBox="0 0 24 24"><path d="m3 11 18-8-8 18-2-8-8-2Z"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2c-3.2-1.4-5.6-3.8-7-7l2-2-2-5Z"/></symbol>
+<symbol id="ic-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 9v5M12 18h.01"/></symbol>
+<symbol id="ic-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M7 7a7 7 0 0 1 11 2l2 3M17 17a7 7 0 0 1-11-2l-2-3"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></symbol>
+<symbol id="ic-wallet" viewBox="0 0 24 24"><path d="M4 6h14a2 2 0 0 1 2 2v10H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12"/><path d="M16 11h6v4h-6a2 2 0 1 1 0-4Z"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="ic-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 15v5h16v-5"/></symbol>
+<symbol id="ic-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m21 15-5-5L5 20"/></symbol>
+<symbol id="ic-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3Z"/></symbol>
+<symbol id="ic-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+<symbol id="ic-message" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5Z"/></symbol>
+<symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
 <div id="authGate" class="auth-gate">
  <div class="auth-shell">
   <div class="auth-head">
-   <div class="auth-brand"><div class="auth-logo">YY</div><div><h1>YükYol</h1><p>Güvenli nakliye ağı</p></div></div>
+   <div class="auth-brand"><div class="auth-logo"><svg class="ui-icon lg" style="color:white"><use href="#ic-route"></use></svg></div><div><h1>Sevkio</h1><p>Güvenli nakliye ağı</p></div></div>
    <span class="role-badge">Doğrulanmış hesap sistemi</span>
   </div>
   <div class="auth-body">
    <div class="auth-tabs"><button id="loginTab" class="active" onclick="showAuthTab('login')">Giriş yap</button><button id="registerTab" onclick="showAuthTab('register')">Kayıt ol</button></div>
    <div class="auth-role">
-    <button id="driverRoleBtn" class="active" onclick="setAuthRole('driver')"><b>🚛 Şoför</b><small>Telefon ve plaka ile</small></button>
-    <button id="companyRoleBtn" onclick="setAuthRole('company')"><b>🏢 Firma</b><small>Vergi levhası doğrulamalı</small></button>
+    <button id="driverRoleBtn" class="active" onclick="setAuthRole('driver')"><span class="role-icon"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg></span><span><b>Şoför</b><small>Telefon ve plaka ile</small></span></button>
+    <button id="companyRoleBtn" onclick="setAuthRole('company')"><span class="role-icon"><svg class="ui-icon lg"><use href="#ic-building"></use></svg></span><span><b>Firma</b><small>Vergi levhası doğrulamalı</small></span></button>
    </div>
    <div id="authError" class="auth-error"></div>
 
@@ -490,31 +539,31 @@ textarea{min-height:88px}
 <div id="roleGate" style="display:none"></div>
 <div class="app">
 <aside>
- <div class="brand"><div class="brandmark">⇄</div><div><b>YükYol</b><small>Lojistik Operasyon Platformu</small></div></div>
+ <div class="brand"><div class="brandmark"><svg class="ui-icon"><use href="#ic-route"></use></svg></div><div><b>Sevkio</b><small>Lojistik Operasyon Platformu</small></div></div>
  <div class="nav">
-  <button class="driver-only active" data-target="driver">Şoför Ekranı</button>
-  <button class="company-only" data-target="dashboard">Genel Bakış</button>
-  <button class="company-only" data-target="loads">Yükler</button>
-  <button class="company-only" data-target="vehicles">Araçlar</button>
-  <button class="company-only" data-target="matches">Eşleşmeler</button>
-  <button class="company-only" data-target="trips">Canlı Taşımalar</button>
-  <button class="company-only" data-target="delivery">Teslim / POD</button>
-  <button class="company-only" data-target="ratings">Puan & Yorumlar</button>
-  <button class="company-only" data-target="regional">Bölgesel Güven</button>
-  <button class="company-only" data-target="payments">Ödemeler</button>
-  <button class="company-only" data-target="messages">Mesajlar</button>
-  <button class="company-only" data-target="notifications">Bildirimler</button>
-  <button class="company-only" data-target="docs">Evraklar</button>
-  <button class="company-only" data-target="support">Destek</button>
-  <button class="driver-only" data-target="driverJobs">Yüklerim</button>
-  <button class="driver-only" data-target="driverEarnings">Kazanç</button>
-  <button class="driver-only" data-target="driverProfile">Profil</button>
+  <button class="driver-only active" data-target="driver"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Şoför Ekranı</button>
+  <button class="company-only" data-target="dashboard"><svg class="ui-icon"><use href="#ic-home"></use></svg>Genel Bakış</button>
+  <button class="company-only" data-target="loads"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yükler</button>
+  <button class="company-only" data-target="vehicles"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Araçlar</button>
+  <button class="company-only" data-target="matches"><svg class="ui-icon"><use href="#ic-route"></use></svg>Eşleşmeler</button>
+  <button class="company-only" data-target="trips"><svg class="ui-icon"><use href="#ic-map"></use></svg>Canlı Taşımalar</button>
+  <button class="company-only" data-target="delivery"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslim / POD</button>
+  <button class="company-only" data-target="ratings"><svg class="ui-icon"><use href="#ic-star"></use></svg>Puan & Yorumlar</button>
+  <button class="company-only" data-target="regional"><svg class="ui-icon"><use href="#ic-pin"></use></svg>Bölgesel Güven</button>
+  <button class="company-only" data-target="payments"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Ödemeler</button>
+  <button class="company-only" data-target="messages"><svg class="ui-icon"><use href="#ic-message"></use></svg>Mesajlar</button>
+  <button class="company-only" data-target="notifications"><svg class="ui-icon"><use href="#ic-bell"></use></svg>Bildirimler</button>
+  <button class="company-only" data-target="docs"><svg class="ui-icon"><use href="#ic-file"></use></svg>Evraklar</button>
+  <button class="company-only" data-target="support"><svg class="ui-icon"><use href="#ic-shield"></use></svg>Destek</button>
+  <button class="driver-only" data-target="driverJobs"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yüklerim</button>
+  <button class="driver-only" data-target="driverEarnings"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Kazanç</button>
+  <button class="driver-only" data-target="driverProfile"><svg class="ui-icon"><use href="#ic-user"></use></svg>Profil</button>
  </div>
  <div class="sidebox"><b id="roleLabel">Hesap</b><small id="roleDesc">Giriş yapılmadı.</small><button class="btn soft logout-btn" onclick="logoutUser()">Çıkış yap</button></div>
 </aside>
 
 <main>
- <div class="top company-top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Operasyon</div></div><div class="avatar">YY</div></div></div>
+ <div class="top company-top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Operasyon</div></div><div class="avatar">SV</div></div></div>
 
  <section id="driver" class="section active">
   <div class="driver-shell">
@@ -538,21 +587,21 @@ textarea{min-height:88px}
     </div>
 
     <div style="display:grid;gap:12px;margin-top:14px">
-      <button class="btn primary driver-big-btn" onclick="driverAction('start')">🚛 YOLA ÇIKTIM</button>
-      <button class="btn green driver-big-btn" onclick="driverAction('arrive')">📍 TESLİM YERİNE GELDİM</button>
-      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')">✅ YÜKÜ TESLİM ETTİM</button>
+      <button class="btn primary driver-big-btn" onclick="driverAction('start')"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg>YOLA ÇIKTIM</button>
+      <button class="btn green driver-big-btn" onclick="driverAction('arrive')"><svg class="ui-icon lg"><use href="#ic-pin"></use></svg>TESLİM YERİNE GELDİM</button>
+      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')"><svg class="ui-icon lg"><use href="#ic-check"></use></svg>YÜKÜ TESLİM ETTİM</button>
     </div>
 
     <div class="driver-simple-card" style="margin-top:14px">
-      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px" onclick="alert('Navigasyon demo')">🧭 NAVİGASYONU AÇ</button>
-      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="alert('Telefon araması demo')">📞 TESLİM ALANI ARA</button>
-      <button class="btn danger driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="openDriverIssue()">⚠️ SORUN BİLDİR</button>
+      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px" onclick="alert('Navigasyon demo')"><svg class="ui-icon lg"><use href="#ic-nav"></use></svg>NAVİGASYONU AÇ</button>
+      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="alert('Telefon araması demo')"><svg class="ui-icon lg"><use href="#ic-phone"></use></svg>TESLİM ALANI ARA</button>
+      <button class="btn danger driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="openDriverIssue()"><svg class="ui-icon lg"><use href="#ic-alert"></use></svg>SORUN BİLDİR</button>
     </div>
 
     <div class="driver-simple-card" style="margin-top:14px">
       <div class="cardhead"><h3>İş bitince</h3></div>
-      <button class="btn primary driver-big-btn" style="font-size:18px;padding:16px" onclick="go('backhaul')">🔄 YENİ YÜK BUL</button>
-      <button class="btn green driver-big-btn" style="font-size:18px;padding:16px;margin-top:9px" onclick="go('ratings')">⭐ FİRMAYI PUANLA</button>
+      <button class="btn primary driver-big-btn" style="font-size:18px;padding:16px" onclick="go('backhaul')"><svg class="ui-icon lg"><use href="#ic-refresh"></use></svg>YENİ YÜK BUL</button>
+      <button class="btn green driver-big-btn" style="font-size:18px;padding:16px;margin-top:9px" onclick="go('ratings')"><svg class="ui-icon lg"><use href="#ic-star"></use></svg>FİRMAYI PUANLA</button>
     </div>
   </div>
  </section>
@@ -581,14 +630,26 @@ textarea{min-height:88px}
   <div class="grid g2">
    <div class="card"><div class="cardhead"><h3>Yeni yük oluştur</h3><span class="chip blue">Detaylı</span></div>
     <form id="loadForm" class="form">
-     <label>Yük no<input name="loadNo" placeholder="YY-2026-1001" required></label><label>Yük türü<select name="cargoType"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Paletli ürün</option></select></label>
+     <label>Yük no<input name="loadNo" placeholder="SV-2026-1001" required></label><label>Yük türü<select name="cargoType"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Paletli ürün</option></select></label>
      <label>Yükleme şehri<input name="from" required></label><label>Yükleme adresi<input name="pickupAddress" required></label>
      <label>Teslim şehri<input name="to" required></label><label>Boşaltma adresi<input name="deliveryAddress" required></label>
      <label>Ağırlık kg<input name="weight" type="number" required></label><label>Araç tipi<select name="vehicleType"><option>Tır</option><option>Kamyon</option><option>Kamyonet</option><option>Frigorifik</option></select></label>
      <label>Yükleme tarih/saat<input name="pickupTime" type="datetime-local" required></label><label>Planlı teslim<input name="deliveryTime" type="datetime-local" required></label>
+     <label>Alıcı firma<input name="receiverCompany" placeholder="Karşı firma unvanı" required></label><label>Alıcı firma VKN<input name="receiverCompanyVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN" required></label>
      <label>Teslim alacak kişi<input name="receiver" required></label><label>Alıcı telefonu<input name="receiverPhone" required></label>
      <label class="full">Yük / operasyon notu<textarea name="notes"></textarea></label>
-     <button class="btn primary full">Yükü yayınla</button>
+     <div class="media-box full">
+       <div class="media-box-title"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğrafları</div>
+       <p>Yük araca yüklenirken çekilen fotoğraflar karşı firmaya görünür.</p>
+       <input class="media-input" id="pickupPhotos" type="file" accept="image/*" multiple>
+     </div>
+     <div class="media-box full">
+       <div class="media-box-title"><svg class="ui-icon"><use href="#ic-video"></use></svg>Yükleme videosu</div>
+       <p>Yükleme durumunu gösteren kısa video eklenebilir.</p>
+       <input class="media-input" id="pickupVideo" type="file" accept="video/*">
+     </div>
+     <div id="pickupMediaSummary" class="media-summary full"></div>
+     <button class="btn primary full"><svg class="ui-icon"><use href="#ic-upload"></use></svg>Yükü ve kanıtları yayınla</button>
     </form>
    </div>
    <div class="card"><div class="cardhead"><h3>Aktif yükler</h3><span id="loadCount" class="chip"></span></div><div id="loadList"></div></div>
@@ -610,7 +671,7 @@ textarea{min-height:88px}
   <div class="grid g2">
    <div class="card">
     <div class="cardhead"><div><h3 id="tripRouteTitle">Aktif taşıma</h3><div class="muted" id="tripMeta"></div></div><span class="chip green" id="tripStatus"></span></div>
-    <div class="map"><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="pin p1"></div><div class="pin p2"></div><div class="truck">🚛</div><div class="maplabel la" id="mapPickup">Yükleme</div><div class="maplabel lb" id="mapDelivery">Teslim</div><div class="gps" id="gpsLabel">GPS güncel</div></div>
+    <div class="map"><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="pin p1"></div><div class="pin p2"></div><div class="truck"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg></div><div class="maplabel la" id="mapPickup">Yükleme</div><div class="maplabel lb" id="mapDelivery">Teslim</div><div class="gps" id="gpsLabel">GPS güncel</div></div>
     <div class="progress"><div id="tripBar" class="bar" style="width:56%"></div></div>
     <div id="tripTimeline" class="timeline"></div>
    </div>
@@ -633,11 +694,14 @@ textarea{min-height:88px}
    <div class="card"><div class="cardhead"><h3>Teslim bilgileri</h3><span class="chip green">POD</span></div>
     <div id="deliveryInfo" class="ops-grid"></div>
     <div class="pod" style="margin-top:14px">
-      <b>Teslim kanıtı</b><p class="muted">Demo sürümünde dosya yerine durum kaydı tutulur. Gerçek sürümde fotoğraf, imza, kaşe, QR/OTP ve irsaliye yüklenir.</p>
+      <b>Teslim kanıtı</b><p class="muted">Teslim kapanmadan teslim evrağı ve en az bir fotoğraf eklenmelidir.</p>
       <label>Teslim alan kişi<input id="receiverInput"></label>
       <label style="margin-top:10px">Teslim kodu<input id="otpInput" value="482913"></label>
+      <label style="margin-top:10px">Teslim evrağı / irsaliye<input class="media-input" id="deliveryDocument" type="file" accept=".pdf,image/*"></label>
+      <label style="margin-top:10px">Teslim fotoğrafları<input class="media-input" id="deliveryPhotos" type="file" accept="image/*" multiple></label>
+      <div id="deliveryMediaSummary" class="media-summary"></div>
       <label style="margin-top:10px">Boşaltma notu<textarea id="deliveryNote" placeholder="Eksiksiz teslim edildi / koli hasarı / bekleme..."></textarea></label>
-      <button class="btn primary" style="margin-top:10px" onclick="confirmDelivery()">Teslimi onayla</button>
+      <button class="btn primary" style="margin-top:10px" onclick="confirmDelivery()"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslimi ve belgeleri onayla</button>
     </div>
    </div>
    <div class="card"><div class="cardhead"><h3>Boşaltma kontrol listesi</h3></div>
@@ -847,20 +911,27 @@ textarea{min-height:88px}
 </main>
 </div>
 
+<div id="mediaModal" class="media-modal" onclick="if(event.target===this)closeMediaModal()">
+ <div class="media-modal-card">
+  <div class="cardhead"><div><h3 id="mediaModalTitle">Operasyon kanıtları</h3><div class="muted" id="mediaModalSub"></div></div><button class="btn soft" onclick="closeMediaModal()">Kapat</button></div>
+  <div id="mediaGallery" class="media-gallery"></div>
+ </div>
+</div>
+
 <div class="driver-bottom" id="driverBottom">
-  <button class="active" onclick="driverTab('driver',this)"><b>⌂</b>Ana Sayfa</button>
-  <button onclick="driverTab('driverJobs',this)"><b>🚚</b>Yüklerim</button>
-  <button onclick="driverTab('driverEarnings',this)"><b>₺</b>Kazanç</button>
-  <button onclick="driverTab('driverProfile',this)"><b>◉</b>Profil</button>
+  <button class="active" onclick="driverTab('driver',this)"><b><svg class="ui-icon"><use href="#ic-home"></use></svg></b>Ana Sayfa</button>
+  <button onclick="driverTab('driverJobs',this)"><b><svg class="ui-icon"><use href="#ic-box"></use></svg></b>Yüklerim</button>
+  <button onclick="driverTab('driverEarnings',this)"><b><svg class="ui-icon"><use href="#ic-wallet"></use></svg></b>Kazanç</button>
+  <button onclick="driverTab('driverProfile',this)"><b><svg class="ui-icon"><use href="#ic-user"></use></svg></b>Profil</button>
 </div>
 
 <script>
-const K='yukyol_ops_v3',today=new Date().toISOString().slice(0,10);
+const K='sevkio_ops_v3',today=new Date().toISOString().slice(0,10);
 const seed={
  loads:[
-  {id:'L1',loadNo:'YY-2026-1001',from:'Batman',to:'Gaziantep',pickupAddress:'Batman OSB 3. Cadde',deliveryAddress:'Gaziantep 4. OSB',cargoType:'Yapı malzemesi',vehicleType:'Tır',weight:12000,pickupTime:today+'T09:30',deliveryTime:today+'T15:40',receiver:'Ahmet Demir',receiverPhone:'0532 111 22 33',notes:'12 palet • Forklift hazır'},
-  {id:'L2',loadNo:'YY-2026-1002',from:'Gaziantep',to:'Mersin',pickupAddress:'Başpınar OSB',deliveryAddress:'Mersin Akdeniz Sanayi',cargoType:'Tekstil',vehicleType:'Tır',weight:9800,pickupTime:today+'T17:30',deliveryTime:today+'T22:00',receiver:'Murat Kaya',receiverPhone:'0533 555 19 19',notes:'Sonraki yük için uygun'},
-  {id:'L3',loadNo:'YY-2026-1003',from:'Diyarbakır',to:'Mersin',pickupAddress:'Diyarbakır OSB',deliveryAddress:'Mersin Lojistik Bölgesi',cargoType:'Gıda',vehicleType:'Frigorifik',weight:8000,pickupTime:today+'T10:00',deliveryTime:today+'T18:30',receiver:'Serkan Yıldız',receiverPhone:'0544 222 33 44',notes:'Soğuk zincir'}
+  {id:'L1',loadNo:'SV-2026-1001',from:'Batman',to:'Gaziantep',pickupAddress:'Batman OSB 3. Cadde',deliveryAddress:'Gaziantep 4. OSB',cargoType:'Yapı malzemesi',vehicleType:'Tır',weight:12000,pickupTime:today+'T09:30',deliveryTime:today+'T15:40',receiverCompany:'Başpınar Yapı Depo',receiverCompanyVkn:'2222222222',receiver:'Ahmet Demir',receiverPhone:'0532 111 22 33',notes:'12 palet • Forklift hazır'},
+  {id:'L2',loadNo:'SV-2026-1002',from:'Gaziantep',to:'Mersin',pickupAddress:'Başpınar OSB',deliveryAddress:'Mersin Akdeniz Sanayi',cargoType:'Tekstil',vehicleType:'Tır',weight:9800,pickupTime:today+'T17:30',deliveryTime:today+'T22:00',receiverCompany:'Akdeniz Tekstil Depo',receiverCompanyVkn:'3333333333',receiver:'Murat Kaya',receiverPhone:'0533 555 19 19',notes:'Sonraki yük için uygun'},
+  {id:'L3',loadNo:'SV-2026-1003',from:'Diyarbakır',to:'Mersin',pickupAddress:'Diyarbakır OSB',deliveryAddress:'Mersin Lojistik Bölgesi',cargoType:'Gıda',vehicleType:'Frigorifik',weight:8000,pickupTime:today+'T10:00',deliveryTime:today+'T18:30',receiverCompany:'Mersin Soğuk Depo',receiverCompanyVkn:'4444444444',receiver:'Serkan Yıldız',receiverPhone:'0544 222 33 44',notes:'Soğuk zincir'}
  ],
  vehicles:[
   {id:'V1',plate:'72 YY 001',type:'Tır',capacity:18000,driver:'Mehmet Kaya',company:'Kaya Nakliyat',phone:'0530 000 00 00',location:'Şanlıurfa yolu / Nizip yönü',status:'Yolda',speed:78,lastGps:'2 dk önce',fuel:63,rating:4.9,nextAvailable:'16:10',verified:true,regions:['Batman|Merkez|Batman OSB','Gaziantep|Şehitkamil|Başpınar OSB','Gaziantep|Nizip|Sanayi Bölgesi']},
@@ -888,9 +959,9 @@ const seed={
   {company:'Dicle Gıda',score:4.3,paymentScore:4.2,reviews:12,lastComment:'Boşaltmada zaman zaman bekleme var.'}
  ],
  payments:[
-  {id:'P1',loadNo:'YY-2026-1001',driver:'Mehmet Kaya',amount:7800,due:'2026-10-08',status:'Bekliyor'},
-  {id:'P2',loadNo:'YY-2026-0984',driver:'Ali Güven',amount:9200,due:'2026-10-03',status:'Ödendi'},
-  {id:'P3',loadNo:'YY-2026-0971',driver:'Hasan Polat',amount:6400,due:'2026-10-01',status:'Ödendi'}
+  {id:'P1',loadNo:'SV-2026-1001',driver:'Mehmet Kaya',amount:7800,due:'2026-10-08',status:'Bekliyor'},
+  {id:'P2',loadNo:'SV-2026-0984',driver:'Ali Güven',amount:9200,due:'2026-10-03',status:'Ödendi'},
+  {id:'P3',loadNo:'SV-2026-0971',driver:'Hasan Polat',amount:6400,due:'2026-10-01',status:'Ödendi'}
  ],
  conversations:[
   {id:'M1',name:'Mehmet Kaya',plate:'72 YY 001',last:'Gaziantep girişindeyim.',time:'15:06'},
@@ -900,13 +971,13 @@ const seed={
  notifications:[
   {level:'red',title:'Gecikme riski',text:'63 YY 441 tahmini 35 dk gecikiyor.',action:'Canlı takibi aç'},
   {level:'amber',title:'Teslim saati yaklaşıyor',text:'72 YY 001 Gaziantep teslimine 46 dk kaldı.',action:'Taşımayı aç'},
-  {level:'green',title:'POD tamamlandı',text:'YY-2026-0984 teslim kanıtı yüklendi.',action:'Belgeyi gör'},
+  {level:'green',title:'POD tamamlandı',text:'SV-2026-0984 teslim kanıtı yüklendi.',action:'Belgeyi gör'},
   {level:'blue',title:'Yeni eşleşme',text:'Gaziantep → Mersin için %92 uygun araç bulundu.',action:'Eşleşmeyi aç'}
  ],
  docs:[
-  {name:'Yük emri',loadNo:'YY-2026-1001',status:'Oluşturuldu',time:'08:55'},
-  {name:'Yükleme onayı',loadNo:'YY-2026-1001',status:'Onaylandı',time:'09:42'},
-  {name:'GPS hareket kaydı',loadNo:'YY-2026-1001',status:'Aktif',time:'Sürekli'}
+  {name:'Yük emri',loadNo:'SV-2026-1001',status:'Oluşturuldu',time:'08:55'},
+  {name:'Yükleme onayı',loadNo:'SV-2026-1001',status:'Onaylandı',time:'09:42'},
+  {name:'GPS hareket kaydı',loadNo:'SV-2026-1001',status:'Aktif',time:'Sürekli'}
  ]
 };
 let db=JSON.parse(localStorage.getItem(K)||'null')||seed,selectedTrip='T1';
@@ -929,7 +1000,10 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.t
 function load(id){return db.loads.find(x=>x.id===id)}function vehicle(id){return db.vehicles.find(x=>x.id===id)}function trip(){return db.trips.find(x=>x.id===selectedTrip)||db.trips[0]}
 function renderStats(){document.getElementById('sLoads').textContent=db.loads.length;document.getElementById('sVehicles').textContent=db.vehicles.length;document.getElementById('sTrips').textContent=db.trips.filter(x=>x.stage!=='Teslim edildi').length;document.getElementById('sDelivered').textContent=db.trips.filter(x=>x.stage==='Teslim edildi').length;document.getElementById('sBackhaul').textContent=getBackhaul().length}
 function renderDash(){document.getElementById('dashTrips').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<div class="item"><div class="itemtop"><div><div class="route">${l.from} → ${l.to}</div><div class="muted">${l.loadNo} • ${v.plate} • ${v.driver}</div></div><span class="chip green">${t.stage}</span></div><div class="progress"><div class="bar" style="width:${t.progress}%"></div></div><div class="chips"><span class="chip blue">ETA ${t.eta}</span><span class="chip">${t.distanceLeft} km kaldı</span><span class="chip ${t.delay>20?'red':'amber'}">+${t.delay} dk</span></div></div>`}).join('')||'<div class="empty">Aktif taşıma yok.</div>'}
-function renderLoads(){document.getElementById('loadCount').textContent=db.loads.length+' yük';document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div><div class="chips"><span class="chip green">Firma güveni ★ 4.8</span><span class="chip blue">Ödeme güvenilir</span></div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip green">${x.receiver}</span></div><p class="muted" style="font-size:13px">${x.pickupAddress}<br>→ ${x.deliveryAddress}</p></div>`).join('')}
+function renderLoads(){
+ document.getElementById('loadCount').textContent=db.loads.length+' yük';
+ document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div><div class="chips"><span class="chip green">Firma güveni 4.8/5</span><span class="chip blue">Ödeme güvenilir</span></div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip green">${x.receiverCompany||x.receiver}</span></div><p class="muted" style="font-size:13px">${x.pickupAddress}<br>→ ${x.deliveryAddress}</p>${x.receiverCompany?'<div class="detail" style="margin-top:10px"><small>Karşı firma</small><b>'+x.receiverCompany+' • VKN '+x.receiverCompanyVkn+'</b></div>':''}${x.pickupMediaCount?'<button class="btn soft" style="margin-top:10px" onclick="openMedia(\''+x.id+'\',\'Yükleme kanıtları\')"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme kanıtlarını gör ('+x.pickupMediaCount+')</button>':''}</div>`).join('');
+}
 function renderVehicles(){document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="card"><div class="itemtop"><div><div class="route">${v.plate}</div><div class="muted">${v.company}</div></div><span class="chip ${v.status==='Yolda'?'green':v.status==='Boş'?'blue':'amber'}">${v.status}</span></div><div class="chips"><span class="chip">${v.type}</span><span class="chip">${money(v.capacity)} kg</span><span class="chip">★ ${v.rating}</span></div><div class="ops-grid" style="margin-top:12px"><div class="detail"><small>Konum</small><b>${v.location}</b></div><div class="detail"><small>GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/s</b></div><div class="detail"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="detail"><small>Sürücü</small><b>${v.driver}</b></div><div class="detail"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div></div></div>`).join('')}
 function score(l,v){let s=0;if(l.vehicleType===v.type)s+=25;if(+v.capacity>=+l.weight)s+=20;if(norm(v.location).includes(norm(l.from))||v.status==='Boş')s+=20;if(v.verified)s+=10;s+=Math.round(v.rating*4);s+=5;return Math.min(100,s)}
 function renderMatches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{if(+v.capacity>=+l.weight)a.push({l,v,s:score(l,v)})}));a.sort((a,b)=>b.s-a.s);document.getElementById('matchList').innerHTML=a.map(m=>`<div class="item"><div class="itemtop"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted">${m.l.loadNo} • ${m.v.plate} • ${m.v.company}</div></div><span class="chip blue">% ${m.s} uyum</span></div><div class="chips"><span class="chip">${m.l.vehicleType}</span><span class="chip green">${money(m.v.capacity)} kg kapasite</span><span class="chip">${m.v.status}</span></div></div>`).join('')}
@@ -941,7 +1015,15 @@ function renderTrips(){renderTripSelector();const t=trip();if(!t)return;const l=
 function advanceTrip(){const t=trip();const a=['Atandı','Yüklemeye gidiyor','Yükleme','Yolda','Teslim noktasında','Boşaltma','Teslim edildi'];let i=a.indexOf(t.stage);if(i<0)i=0;if(i<a.length-1){t.stage=a[i+1];t.progress=Math.min(100,t.progress+14);if(t.stage==='Teslim noktasında'){t.distanceLeft=0;vehicle(t.vehicleId).speed=0;vehicle(t.vehicleId).location=load(t.loadId).deliveryAddress}if(t.stage==='Teslim edildi'){t.deliveredAt=new Date().toLocaleString('tr-TR');vehicle(t.vehicleId).status='Boş';vehicle(t.vehicleId).nextAvailable='Şimdi'}}save();renderTrips()}
 function delayTrip(){const t=trip();t.delay+=30;save();renderTrips()}
 function renderDelivery(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId);document.getElementById('receiverInput').value=l.receiver;document.getElementById('deliveryInfo').innerHTML=`<div class="detail"><small>Yük</small><b>${l.loadNo}</b></div><div class="detail"><small>Araç</small><b>${v.plate}</b></div><div class="detail"><small>Boşaltma adresi</small><b>${l.deliveryAddress}</b></div><div class="detail"><small>Planlı teslim</small><b>${l.deliveryTime.replace('T',' ')}</b></div><div class="detail"><small>Teslim alacak</small><b>${l.receiver}</b></div><div class="detail"><small>Telefon</small><b>${l.receiverPhone}</b></div><div class="detail"><small>POD</small><b>${t.pod?'Tamamlandı':'Bekliyor'}</b></div><div class="detail"><small>Gerçek teslim</small><b>${t.deliveredAt||'Henüz yok'}</b></div>`}
-function confirmDelivery(){const t=trip(),l=load(t.loadId);t.stage='Teslim edildi';t.progress=100;t.pod=true;t.receiverConfirmed=true;t.deliveredAt=new Date().toLocaleString('tr-TR');t.unloadAt=t.deliveredAt;l.receiver=document.getElementById('receiverInput').value||l.receiver;db.docs.push({name:'Teslim kanıtı (POD)',loadNo:l.loadNo,status:'Onaylandı',time:t.deliveredAt});db.docs.push({name:'Boşaltma kaydı',loadNo:l.loadNo,status:'Tamamlandı',time:t.deliveredAt});const v=vehicle(t.vehicleId);v.status='Boş';v.location=l.deliveryAddress;v.speed=0;v.nextAvailable='Şimdi';save();renderTrips();go('backhaul')}
+async function confirmDelivery(){
+ const t=trip(),l=load(t.loadId),doc=document.getElementById('deliveryDocument')?.files?.[0],photos=[...(document.getElementById('deliveryPhotos')?.files||[])];
+ if(!doc)return alert('Teslim evrağını ekleyin.');if(!photos.length)return alert('En az bir teslim fotoğrafı ekleyin.');
+ try{await saveMediaFiles(l.id,'delivery',[doc,...photos])}catch(err){console.error(err);return alert('Teslim dosyaları kaydedilemedi.');}
+ t.stage='Teslim edildi';t.progress=100;t.pod=true;t.receiverConfirmed=true;t.deliveredAt=new Date().toLocaleString('tr-TR');t.unloadAt=t.deliveredAt;
+ l.receiver=document.getElementById('receiverInput').value||l.receiver;l.deliveryMediaCount=1+photos.length;l.deliveryDocument=doc.name;l.deliveryPhotoCount=photos.length;l.deliveryMediaNames=[doc.name,...photos.map(x=>x.name)];
+ db.docs.push({name:'Teslim evrağı: '+doc.name,loadNo:l.loadNo,status:'Onaylandı',time:t.deliveredAt});db.docs.push({name:'Teslim fotoğrafları ('+photos.length+')',loadNo:l.loadNo,status:'Yüklendi',time:t.deliveredAt});db.docs.push({name:'Boşaltma kaydı',loadNo:l.loadNo,status:'Tamamlandı',time:t.deliveredAt});
+ const v=vehicle(t.vehicleId);v.status='Boş';v.location=l.deliveryAddress;v.speed=0;v.nextAvailable='Şimdi';save();renderTrips();renderDelivery();go('backhaul');
+}
 function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&+l.weight<=+v.capacity).map(l=>({l,score:92-(Math.abs(+l.weight-(+v.capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
 function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">Kapasite ${money(v.capacity)} kg</span><span class="chip">Boş km: ${t.emptyKm}</span></div><div class="kpis"><div class="kpi"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Fırsat</small><b>${a.length} yük</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">% ${x.score} uyum</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü azaltır</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Sonraki yük olarak ata</button></div>`).join(''):'<div class="empty">Bu teslim şehrinden uygun sonraki yük yok.</div>'}
 function assignBackhaul(loadId){const old=trip(),v=vehicle(old.vehicleId),l=load(loadId);db.trips.unshift({id:uid('T'),loadId:l.id,vehicleId:v.id,stage:'Atandı',progress:0,eta:'Hesaplanıyor',distanceLeft:0,emptyKm:8,delay:0,pickupConfirmed:false,pod:false,receiverConfirmed:false});selectedTrip=db.trips[0].id;v.status='Atandı';db.docs.push({name:'Sonraki yük ataması',loadNo:l.loadNo,status:'Atandı',time:new Date().toLocaleString('tr-TR')});save();go('trips')}
@@ -1018,7 +1100,7 @@ function renderDriverViews(){
  const next=document.getElementById('driverNextJob'),back=getBackhaul();
  if(next) next.innerHTML=back.length?'<div class="item"><div class="route">'+back[0].l.from+' → '+back[0].l.to+'</div><div class="muted">'+back[0].l.loadNo+' • '+back[0].l.cargoType+'</div><div class="chips"><span class="chip green">% '+back[0].score+' uyum</span><span class="chip">'+money(back[0].l.weight)+' kg</span></div><button class="btn primary" style="margin-top:12px" onclick="assignBackhaul(\''+back[0].l.id+'\')">Bu yükü al</button></div>':'<div class="empty">Şu an uygun yeni yük yok.</div>';
  const comp=document.getElementById('driverCompletedJobs');
- if(comp) comp.innerHTML='<div class="item"><div class="route">Diyarbakır → Mersin</div><div class="muted">YY-2026-0984 • 3 Ekim</div><div class="chips"><span class="chip green">Teslim edildi</span><span class="chip">₺9.200</span></div></div>';
+ if(comp) comp.innerHTML='<div class="item"><div class="route">Diyarbakır → Mersin</div><div class="muted">SV-2026-0984 • 3 Ekim</div><div class="chips"><span class="chip green">Teslim edildi</span><span class="chip">₺9.200</span></div></div>';
  const pays=db.payments||[];
  const week=pays.reduce((s,p)=>s+p.amount,0),pending=pays.filter(p=>p.status!=='Ödendi').reduce((s,p)=>s+p.amount,0);
  const we=document.getElementById('driverWeekEarn'),pe=document.getElementById('driverPendingEarn');
@@ -1046,8 +1128,48 @@ function notificationAction(title){if(title.includes('Gecikme')||title.includes(
 function supportDemo(type){alert(type+' için destek kaydı oluşturuldu. Demo sürümünde gerçek destek sistemine gönderilmez.');}
 function openDriverIssue(){const t=trip(),l=t?load(t.loadId):null;const msg=l?'Yük '+l.loadNo+' için sorun kaydı açıldı.':'Sorun kaydı açıldı.';alert(msg+' Operasyon ekibine bildirim gönderilecek.');}
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
-document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
-const AUTH_SESSION='yukyol_auth_session_v1',AUTH_ACCOUNTS='yukyol_accounts_v1';
+const MEDIA_DB='sevkio_media_v1',MEDIA_STORE='files';
+function openMediaDB(){
+ return new Promise((resolve,reject)=>{
+  const req=indexedDB.open(MEDIA_DB,1);
+  req.onupgradeneeded=()=>{const dbi=req.result;if(!dbi.objectStoreNames.contains(MEDIA_STORE)){const st=dbi.createObjectStore(MEDIA_STORE,{keyPath:'key'});st.createIndex('loadId','loadId',{unique:false});}};
+  req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+ });
+}
+async function saveMediaFiles(loadId,kind,files){
+ if(!files||!files.length)return[];
+ const dbi=await openMediaDB(),tx=dbi.transaction(MEDIA_STORE,'readwrite'),st=tx.objectStore(MEDIA_STORE);
+ files.forEach((file,i)=>st.put({key:loadId+'|'+kind+'|'+Date.now()+'|'+i,loadId,kind,name:file.name,type:file.type,size:file.size,createdAt:new Date().toISOString(),blob:file}));
+ await new Promise((res,rej)=>{tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});dbi.close();
+}
+async function getMediaFiles(loadId){
+ const dbi=await openMediaDB(),tx=dbi.transaction(MEDIA_STORE,'readonly'),idx=tx.objectStore(MEDIA_STORE).index('loadId');
+ const rows=await new Promise((res,rej)=>{const r=idx.getAll(loadId);r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)});dbi.close();return rows;
+}
+function fileSize(n){if(n<1024*1024)return Math.max(1,Math.round(n/1024))+' KB';return (n/1024/1024).toFixed(1)+' MB'}
+async function openMedia(loadId,title){
+ const rows=await getMediaFiles(loadId),g=document.getElementById('mediaGallery');
+ document.getElementById('mediaModalTitle').textContent=title||'Operasyon kanıtları';document.getElementById('mediaModalSub').textContent=rows.length+' dosya';
+ if(!rows.length)g.innerHTML='<div class="empty">Bu kayıt için yüklenmiş dosya bulunmuyor.</div>';
+ else g.innerHTML=rows.map(r=>{const u=URL.createObjectURL(r.blob);if((r.type||'').startsWith('image/'))return '<div><img src="'+u+'" alt=""><div class="media-file"><b>'+r.name+'</b><br><small>'+fileSize(r.size)+'</small></div></div>';if((r.type||'').startsWith('video/'))return '<div><video src="'+u+'" controls></video><div class="media-file"><b>'+r.name+'</b><br><small>'+fileSize(r.size)+'</small></div></div>';return '<div class="media-file"><svg class="ui-icon"><use href="#ic-file"></use></svg><b style="margin-left:8px">'+r.name+'</b><br><small>'+fileSize(r.size)+'</small><div style="margin-top:10px"><a class="btn soft" href="'+u+'" target="_blank">Dosyayı aç</a></div></div>'}).join('');
+ document.getElementById('mediaModal').classList.add('open');
+}
+function closeMediaModal(){document.getElementById('mediaModal').classList.remove('open')}
+function updatePickupMediaSummary(){const p=[...(document.getElementById('pickupPhotos')?.files||[])],v=[...(document.getElementById('pickupVideo')?.files||[])],el=document.getElementById('pickupMediaSummary');if(el)el.innerHTML=(p.length?'<span class="chip blue">'+p.length+' fotoğraf</span>':'')+(v.length?'<span class="chip green">1 video</span>':'')}
+function updateDeliveryMediaSummary(){const d=document.getElementById('deliveryDocument')?.files?.[0],p=[...(document.getElementById('deliveryPhotos')?.files||[])],el=document.getElementById('deliveryMediaSummary');if(el)el.innerHTML=(d?'<span class="chip blue">Evrak: '+d.name+'</span>':'')+(p.length?'<span class="chip green">'+p.length+' fotoğraf</span>':'')}
+document.getElementById('pickupPhotos')?.addEventListener('change',updatePickupMediaSummary);
+document.getElementById('pickupVideo')?.addEventListener('change',updatePickupMediaSummary);
+document.getElementById('deliveryDocument')?.addEventListener('change',updateDeliveryMediaSummary);
+document.getElementById('deliveryPhotos')?.addEventListener('change',updateDeliveryMediaSummary);
+document.getElementById('loadForm').onsubmit=async e=>{
+ e.preventDefault();const fd=new FormData(e.target),d={};for(const [k,v] of fd.entries())if(!(v instanceof File))d[k]=v;
+ const vkn=(d.receiverCompanyVkn||'').replace(/\D/g,'');if(vkn.length!==10)return alert('Alıcı firma VKN 10 haneli olmalı.');
+ const photos=[...(document.getElementById('pickupPhotos').files||[])],video=[...(document.getElementById('pickupVideo').files||[])];if(!photos.length)return alert('Yükleme sırasında en az bir fotoğraf ekleyin.');
+ const id=uid('L'),files=[...photos,...video];db.loads.unshift({id,...d,receiverCompanyVkn:vkn,weight:+d.weight,pickupMediaCount:files.length,pickupPhotoCount:photos.length,pickupVideoCount:video.length,pickupMediaNames:files.map(x=>x.name)});save();
+ try{await saveMediaFiles(id,'pickup',files)}catch(err){console.error(err);alert('Dosyalar tarayıcı depolamasına kaydedilemedi.');}
+ e.target.reset();updatePickupMediaSummary();renderLoads();
+}
+const AUTH_SESSION='sevkio_auth_session_v1',AUTH_ACCOUNTS='sevkio_accounts_v1';
 let authRole='driver';
 function getAccounts(){
  const raw=JSON.parse(localStorage.getItem(AUTH_ACCOUNTS)||'null');
@@ -1115,7 +1237,7 @@ function demoVerifiedCompany(){
 function enterSession(){
  const s=getSession();if(!s)return;
  document.getElementById('authGate').style.display='none';
- localStorage.setItem('yukyol_role',s.role);
+ localStorage.setItem('sevkio_role',s.role);
  document.body.classList.remove('driver-mode','company-mode');document.body.classList.add(s.role==='driver'?'driver-mode':'company-mode');
  const lbl=document.getElementById('roleLabel'),desc=document.getElementById('roleDesc');
  if(lbl)lbl.textContent=s.name||'Hesap';
@@ -1123,7 +1245,7 @@ function enterSession(){
  go(s.role==='driver'?'driver':'dashboard');
 }
 function logoutUser(){
- localStorage.removeItem(AUTH_SESSION);localStorage.removeItem('yukyol_role');
+ localStorage.removeItem(AUTH_SESSION);localStorage.removeItem('sevkio_role');
  document.body.classList.remove('driver-mode','company-mode');
  document.getElementById('authGate').style.display='grid';showAuthTab('login');setAuthRole('driver');
 }
