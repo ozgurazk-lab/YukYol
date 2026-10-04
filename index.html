@@ -44,30 +44,61 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
 .driver-row{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid #eef2f7}
 .driver-row:last-child{border-bottom:0}.driver-row span{color:var(--muted)}.driver-row b{text-align:right}
 @media(max-width:700px){main{padding:15px;padding-bottom:92px}.nav{grid-template-columns:1fr 1fr}.hero h1{font-size:29px}.hero:after{font-size:90px;right:5px}.form,.ops-grid{grid-template-columns:1fr}.full{grid-column:auto}.timeline{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.top .search{display:none}.driver-bottom{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #dbe3ee;z-index:50;padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(15,23,42,.08)}.driver-bottom button{border:0;background:transparent;padding:8px 3px;font-size:11px;color:#64748b}.driver-bottom button b{display:block;font-size:20px;margin-bottom:2px}.driver-bottom button.active{color:#145dff}.driver-shell{max-width:none}}
+.role-gate{position:fixed;inset:0;background:linear-gradient(135deg,#08111f,#12346c);z-index:999;display:grid;place-items:center;padding:20px}
+.role-box{width:min(760px,100%);background:#fff;border-radius:28px;padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.28)}
+.role-box h1{margin:0 0 8px;font-size:34px}.role-box p{color:#64748b;margin:0 0 20px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.role-card{border:1px solid #e2e8f0;border-radius:20px;padding:22px;text-align:left;background:#fff;cursor:pointer}
+.role-card:hover{border-color:#93c5fd;box-shadow:0 10px 30px rgba(20,93,255,.1)}
+.role-card .emoji{font-size:40px}.role-card h3{font-size:22px;margin:10px 0 7px}.role-card p{font-size:14px;line-height:1.5}
+.role-badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#eef4ff;color:#1d4ed8;font-size:12px;font-weight:800}
+body.driver-mode aside .company-only,body.company-mode aside .driver-only{display:none!important}
+body.driver-mode .company-top{display:none!important}
+body.company-mode #driverBottom{display:none!important}
+@media(max-width:700px){.role-grid{grid-template-columns:1fr}.role-box{padding:20px}.role-box h1{font-size:28px}}
 </style>
 </head>
 <body>
+<div id="roleGate" class="role-gate">
+  <div class="role-box">
+    <span class="role-badge">YükYol</span>
+    <h1>Nasıl kullanacaksın?</h1>
+    <p>Firma ve şoför için tamamen ayrı ekranlar var.</p>
+    <div class="role-grid">
+      <button class="role-card" onclick="chooseRole('company')">
+        <div class="emoji">🏢</div>
+        <h3>Firma Girişi</h3>
+        <p>Yük oluştur, araç bul, canlı takip et, teslim/POD yönet, firma ve şoför puanlarını gör.</p>
+      </button>
+      <button class="role-card" onclick="chooseRole('driver')">
+        <div class="emoji">🚛</div>
+        <h3>Şoför Girişi</h3>
+        <p>Sadece mevcut işini gör, yola çık, teslim et, yeni yük bul ve firmayı puanla.</p>
+      </button>
+    </div>
+  </div>
+</div>
 <div class="app">
 <aside>
  <div class="brand"><div class="brandmark">⇄</div><div><b>YükYol</b><small>Nakliye Operasyon Ağı</small></div></div>
  <div class="nav">
-  <button class="active" data-target="driver">Şoför Ekranı</button>
-  <button data-target="dashboard">Genel Bakış</button>
-  <button data-target="loads">Yükler</button>
-  <button data-target="vehicles">Araçlar</button>
-  <button data-target="matches">Eşleşmeler</button>
-  <button data-target="trips">Canlı Taşımalar</button>
-  <button data-target="delivery">Teslim / POD</button>
-  <button data-target="ratings">Puan & Yorumlar</button>
-  <button data-target="regional">Bölgesel Güven</button>
-  <button data-target="backhaul">Sonraki Yük</button>
-  <button data-target="docs">Evraklar</button>
+  <button class="driver-only active" data-target="driver">Şoför Ekranı</button>
+  <button class="company-only" data-target="dashboard">Genel Bakış</button>
+  <button class="company-only" data-target="loads">Yükler</button>
+  <button class="company-only" data-target="vehicles">Araçlar</button>
+  <button class="company-only" data-target="matches">Eşleşmeler</button>
+  <button class="company-only" data-target="trips">Canlı Taşımalar</button>
+  <button class="company-only" data-target="delivery">Teslim / POD</button>
+  <button class="company-only" data-target="ratings">Puan & Yorumlar</button>
+  <button class="company-only" data-target="regional">Bölgesel Güven</button>
+  <button class="driver-only" data-target="backhaul">Sonraki Yük</button>
+  <button class="company-only" data-target="docs">Evraklar</button>
  </div>
- <div class="sidebox"><b>Operasyon mantığı</b><small>Yük → araç → yükleme → yol → boşaltma → teslim kanıtı → sonraki yük → boş km azaltma.</small></div>
+ <div class="sidebox"><b id="roleLabel">Rol seçilmedi</b><small id="roleDesc">Firma ve şoför ekranları ayrıdır.</small><button class="btn soft" style="margin-top:10px;width:100%" onclick="switchRole()">Rol değiştir</button></div>
 </aside>
 
 <main>
- <div class="top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Demo ortamı</div></div><div class="avatar">YY</div></div></div>
+ <div class="top company-top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Demo ortamı</div></div><div class="avatar">YY</div></div></div>
 
  <section id="driver" class="section active">
   <div class="driver-shell">
@@ -421,6 +452,30 @@ function renderRegional(){
 }
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
+function chooseRole(role){
+ localStorage.setItem('yukyol_role',role);
+ document.body.classList.remove('driver-mode','company-mode');
+ document.body.classList.add(role==='driver'?'driver-mode':'company-mode');
+ document.getElementById('roleGate').style.display='none';
+ const lbl=document.getElementById('roleLabel'),desc=document.getElementById('roleDesc');
+ if(role==='driver'){
+   if(lbl)lbl.textContent='Şoför Modu';
+   if(desc)desc.textContent='Basit ekran: mevcut iş, teslim, yeni yük.';
+   go('driver');
+ }else{
+   if(lbl)lbl.textContent='Firma Modu';
+   if(desc)desc.textContent='Detaylı operasyon ve takip ekranları.';
+   go('dashboard');
+ }
+}
+function switchRole(){
+ localStorage.removeItem('yukyol_role');
+ document.getElementById('roleGate').style.display='grid';
+}
+function initRole(){
+ const role=localStorage.getItem('yukyol_role');
+ if(role) chooseRole(role);
+}
 function driverTab(id,el){
   document.querySelectorAll('.driver-bottom button').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
@@ -434,6 +489,6 @@ function driverAction(type){
  save();renderTrips();
 }
 function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();initRegionFilters();renderRegional();renderDocs()}
-renderAll();
+renderAll();initRole();
 </script>
 </body></html>
