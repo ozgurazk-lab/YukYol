@@ -1,6 +1,6 @@
 {
-  "name": "YükYol - Nakliye Eşleştirme",
-  "short_name": "YükYol",
+  "name": "Sevkio - Nakliye Eşleştirme",
+  "short_name": "Sevkio",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f8fafc",
