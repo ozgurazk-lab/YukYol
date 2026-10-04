@@ -1,4 +1,4 @@
-# YükYol MVP
+# Sevkio MVP
 
 Yük sahipleri ile uygun nakliye araçlarını eşleştiren çalışan web MVP.
 
