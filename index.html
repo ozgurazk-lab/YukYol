@@ -380,28 +380,114 @@ textarea{min-height:88px}
   .role-box{padding:20px;border-radius:22px}
 }
 
+
+/* ===== Authentication & verification ===== */
+.auth-gate{position:fixed;inset:0;z-index:1200;background:#f5f5f7;display:grid;place-items:center;padding:22px;overflow:auto}
+.auth-shell{width:min(920px,100%);background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.10);overflow:hidden}
+.auth-head{padding:28px 30px 18px;border-bottom:1px solid rgba(0,0,0,.07);display:flex;justify-content:space-between;gap:16px;align-items:center}
+.auth-brand{display:flex;gap:12px;align-items:center}.auth-logo{width:42px;height:42px;border-radius:12px;background:#1d1d1f;color:#fff;display:grid;place-items:center;font-weight:800}
+.auth-head h1{margin:0;font-size:25px;letter-spacing:-.04em}.auth-head p{margin:3px 0 0;color:#86868b;font-size:13px}
+.auth-body{padding:28px 30px}
+.auth-tabs{display:flex;gap:6px;padding:5px;background:#f2f2f4;border-radius:12px;margin-bottom:22px;width:max-content}
+.auth-tabs button{border:0;background:transparent;padding:9px 15px;border-radius:9px;font-weight:700;color:#6e6e73;cursor:pointer}
+.auth-tabs button.active{background:#fff;color:#1d1d1f;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.auth-role{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.auth-role button{border:1px solid rgba(0,0,0,.09);background:#fff;padding:15px;border-radius:14px;text-align:left;cursor:pointer}
+.auth-role button.active{border-color:#0071e3;background:#f5f9ff}
+.auth-role b{display:block;font-size:15px}.auth-role small{color:#86868b}
+.auth-panel{display:none}.auth-panel.active{display:block}
+.auth-form{display:grid;grid-template-columns:1fr 1fr;gap:13px}.auth-form .full{grid-column:1/-1}
+.auth-note{padding:13px 14px;border-radius:12px;background:#f7f7f9;color:#6e6e73;font-size:12px;line-height:1.55;margin-top:14px}
+.auth-note.warning{background:#fff7eb;color:#815200}.auth-note.success{background:#edf8ef;color:#176a2e}
+.verify-card{padding:18px;border:1px solid rgba(0,0,0,.08);border-radius:16px;background:#fafafa;margin-top:16px}
+.verify-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}.verify-line:last-child{border-bottom:0}
+.auth-error{display:none;background:#fff0f1;color:#b00014;border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:12px}
+.logout-btn{width:100%;margin-top:9px}
+@media(max-width:700px){.auth-shell{border-radius:22px}.auth-head,.auth-body{padding:20px}.auth-form,.auth-role{grid-template-columns:1fr}.auth-form .full{grid-column:auto}}
+
 </style>
 </head>
 <body>
-<div id="roleGate" class="role-gate">
-  <div class="role-box">
-    <span class="role-badge">YükYol</span>
-    <h1>Nasıl kullanacaksın?</h1>
-    <p>Firma ve şoför için tamamen ayrı ekranlar var.</p>
-    <div class="role-grid">
-      <button class="role-card" onclick="chooseRole('company')">
-        <div class="emoji">🏢</div>
-        <h3>Firma Girişi</h3>
-        <p>Yük oluştur, araç bul, canlı takip et, teslim/POD yönet, firma ve şoför puanlarını gör.</p>
-      </button>
-      <button class="role-card" onclick="chooseRole('driver')">
-        <div class="emoji">🚛</div>
-        <h3>Şoför Girişi</h3>
-        <p>Sadece mevcut işini gör, yola çık, teslim et, yeni yük bul ve firmayı puanla.</p>
-      </button>
-    </div>
+<div id="authGate" class="auth-gate">
+ <div class="auth-shell">
+  <div class="auth-head">
+   <div class="auth-brand"><div class="auth-logo">YY</div><div><h1>YükYol</h1><p>Güvenli nakliye ağı</p></div></div>
+   <span class="role-badge">Doğrulanmış hesap sistemi</span>
   </div>
+  <div class="auth-body">
+   <div class="auth-tabs"><button id="loginTab" class="active" onclick="showAuthTab('login')">Giriş yap</button><button id="registerTab" onclick="showAuthTab('register')">Kayıt ol</button></div>
+   <div class="auth-role">
+    <button id="driverRoleBtn" class="active" onclick="setAuthRole('driver')"><b>🚛 Şoför</b><small>Telefon ve plaka ile</small></button>
+    <button id="companyRoleBtn" onclick="setAuthRole('company')"><b>🏢 Firma</b><small>Vergi levhası doğrulamalı</small></button>
+   </div>
+   <div id="authError" class="auth-error"></div>
+
+   <div id="loginPanel" class="auth-panel active">
+    <div id="driverLogin">
+     <div class="auth-form">
+      <label class="full">Telefon<input id="driverLoginPhone" inputmode="tel" placeholder="05xx xxx xx xx"></label>
+      <label class="full">Şifre<input id="driverLoginPassword" type="password" placeholder="Şifreniz"></label>
+      <button class="btn primary full" onclick="loginDriver()">Şoför olarak giriş yap</button>
+     </div>
+    </div>
+    <div id="companyLogin" style="display:none">
+     <div class="auth-form">
+      <label class="full">Vergi kimlik numarası<input id="companyLoginVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN"></label>
+      <label class="full">Şifre<input id="companyLoginPassword" type="password" placeholder="Şifreniz"></label>
+      <button class="btn primary full" onclick="loginCompany()">Firma olarak giriş yap</button>
+     </div>
+     <div class="auth-note">Firma paneli yalnızca doğrulanmış firma hesaplarına açılır.</div>
+    </div>
+   </div>
+
+   <div id="registerPanel" class="auth-panel">
+    <div id="driverRegister">
+     <div class="auth-form">
+      <label>Ad<input id="driverFirstName" placeholder="Ad"></label>
+      <label>Soyad<input id="driverLastName" placeholder="Soyad"></label>
+      <label>Telefon<input id="driverPhone" inputmode="tel" placeholder="05xx xxx xx xx"></label>
+      <label>Plaka<input id="driverPlate" placeholder="72 ABC 123"></label>
+      <label class="full">Şifre<input id="driverPassword" type="password" placeholder="En az 6 karakter"></label>
+      <button class="btn primary full" onclick="registerDriver()">Şoför hesabı oluştur</button>
+     </div>
+     <div class="auth-note">Şoför hesabı yalnızca şoför ekranlarına erişir. Firma yönetim ekranı açılmaz.</div>
+    </div>
+
+    <div id="companyRegister" style="display:none">
+     <div class="auth-form">
+      <label class="full">Şirket unvanı<input id="companyName" placeholder="Ticari unvan"></label>
+      <label>Vergi kimlik numarası<input id="companyVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN"></label>
+      <label>Vergi dairesi<input id="companyTaxOffice" placeholder="Vergi dairesi"></label>
+      <label>Telefon<input id="companyPhone" inputmode="tel" placeholder="0xxx xxx xx xx"></label>
+      <label>Şifre<input id="companyPassword" type="password" placeholder="En az 8 karakter"></label>
+      <label class="full">Vergi levhası<input id="companyTaxFile" type="file" accept=".pdf,image/*"></label>
+      <button class="btn primary full" onclick="registerCompany()">Firma başvurusu oluştur</button>
+     </div>
+     <div class="auth-note warning"><b>Doğrulama zorunlu.</b> Vergi levhasındaki şirket unvanı, VKN ve vergi dairesi resmî GİB kayıtlarıyla eşleşmeden firma hesabı aktif edilmez.</div>
+    </div>
+   </div>
+
+   <div id="verificationPanel" class="auth-panel">
+    <h2 style="margin:0 0 6px">Firma doğrulaması bekliyor</h2>
+    <p class="muted" style="margin-top:0">Başvurunuz kaydedildi. Firma paneli doğrulama tamamlanana kadar kilitli.</p>
+    <div class="verify-card">
+      <div class="verify-line"><span>Vergi levhası</span><b id="verifyFileState">Yüklendi</b></div>
+      <div class="verify-line"><span>VKN biçim kontrolü</span><b style="color:#248a3d">✓ Geçti</b></div>
+      <div class="verify-line"><span>GİB kayıt doğrulaması</span><b style="color:#b76e00">Bekliyor</b></div>
+      <div class="verify-line"><span>Firma paneli</span><b>Kilitli</b></div>
+    </div>
+    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn soft" onclick="window.open('https://dijital.gib.gov.tr/dogrulamalar/ivdBelgeDogrulama','_blank')">GİB doğrulama sayfasını aç</button>
+      <button class="btn dark" onclick="showAuthTab('login')">Giriş ekranına dön</button>
+    </div>
+    <div class="auth-note">Bu GitHub Pages demosu GİB sistemine sunucu taraflı bağlanamaz. Gerçek sürümde doğrulama backend üzerinden yapılıp sonuç hesaba yazılmalıdır.</div>
+   </div>
+
+   <div style="margin-top:18px;text-align:center"><button class="btn soft" onclick="demoVerifiedCompany()">Doğrulanmış firma demosunu aç</button></div>
+  </div>
+ </div>
 </div>
+<div id="roleGate" style="display:none"></div>
 <div class="app">
 <aside>
  <div class="brand"><div class="brandmark">⇄</div><div><b>YükYol</b><small>Lojistik Operasyon Platformu</small></div></div>
@@ -424,7 +510,7 @@ textarea{min-height:88px}
   <button class="driver-only" data-target="driverEarnings">Kazanç</button>
   <button class="driver-only" data-target="driverProfile">Profil</button>
  </div>
- <div class="sidebox"><b id="roleLabel">Rol seçilmedi</b><small id="roleDesc">Firma ve şoför ekranları ayrıdır.</small><button class="btn soft" style="margin-top:10px;width:100%" onclick="switchRole()">Rol değiştir</button></div>
+ <div class="sidebox"><b id="roleLabel">Hesap</b><small id="roleDesc">Giriş yapılmadı.</small><button class="btn soft logout-btn" onclick="logoutUser()">Çıkış yap</button></div>
 </aside>
 
 <main>
@@ -826,7 +912,19 @@ const seed={
 let db=JSON.parse(localStorage.getItem(K)||'null')||seed,selectedTrip='T1';
 const norm=s=>(s||'').trim().toLocaleLowerCase('tr-TR'),uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase(),money=n=>Number(n).toLocaleString('tr-TR');
 function save(){localStorage.setItem(K,JSON.stringify(db));renderAll()}
-function go(id){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.target===id));window.scrollTo({top:0,behavior:'smooth'})}
+function go(id){
+ const session=getSession();
+ const driverAllowed=['driver','driverJobs','driverEarnings','driverProfile','backhaul','ratings','delivery'];
+ const companyAllowed=['dashboard','loads','vehicles','matches','trips','delivery','ratings','regional','payments','messages','notifications','docs','support'];
+ if(session){
+   const allowed=session.role==='driver'?driverAllowed:companyAllowed;
+   if(!allowed.includes(id)){alert('Bu ekran hesabınıza açık değil.');id=session.role==='driver'?'driver':'dashboard';}
+ }
+ document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+ const target=document.getElementById(id);if(target)target.classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.target===id));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.target));
 function load(id){return db.loads.find(x=>x.id===id)}function vehicle(id){return db.vehicles.find(x=>x.id===id)}function trip(){return db.trips.find(x=>x.id===selectedTrip)||db.trips[0]}
 function renderStats(){document.getElementById('sLoads').textContent=db.loads.length;document.getElementById('sVehicles').textContent=db.vehicles.length;document.getElementById('sTrips').textContent=db.trips.filter(x=>x.stage!=='Teslim edildi').length;document.getElementById('sDelivered').textContent=db.trips.filter(x=>x.stage==='Teslim edildi').length;document.getElementById('sBackhaul').textContent=getBackhaul().length}
@@ -949,30 +1047,89 @@ function supportDemo(type){alert(type+' için destek kaydı oluşturuldu. Demo s
 function openDriverIssue(){const t=trip(),l=t?load(t.loadId):null;const msg=l?'Yük '+l.loadNo+' için sorun kaydı açıldı.':'Sorun kaydı açıldı.';alert(msg+' Operasyon ekibine bildirim gönderilecek.');}
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
-function chooseRole(role){
- localStorage.setItem('yukyol_role',role);
- document.body.classList.remove('driver-mode','company-mode');
- document.body.classList.add(role==='driver'?'driver-mode':'company-mode');
- document.getElementById('roleGate').style.display='none';
+const AUTH_SESSION='yukyol_auth_session_v1',AUTH_ACCOUNTS='yukyol_accounts_v1';
+let authRole='driver';
+function getAccounts(){
+ const raw=JSON.parse(localStorage.getItem(AUTH_ACCOUNTS)||'null');
+ if(raw)return raw;
+ const seedAccounts={
+  drivers:[{id:'D-DEMO',firstName:'Mehmet',lastName:'Kaya',phone:'05300000000',plate:'72 YY 001',password:'123456'}],
+  companies:[{id:'C-DEMO',name:'Güney Yapı A.Ş.',vkn:'1234567890',taxOffice:'Batman',phone:'04882121212',password:'Demo1234',verified:true,taxFile:'demo-vergi-levhasi.pdf'}]
+ };
+ localStorage.setItem(AUTH_ACCOUNTS,JSON.stringify(seedAccounts));return seedAccounts;
+}
+function saveAccounts(a){localStorage.setItem(AUTH_ACCOUNTS,JSON.stringify(a))}
+function getSession(){return JSON.parse(localStorage.getItem(AUTH_SESSION)||'null')}
+function cleanPhone(v){return (v||'').replace(/\D/g,'')}
+function showAuthError(msg){const e=document.getElementById('authError');e.textContent=msg;e.style.display='block'}
+function clearAuthError(){const e=document.getElementById('authError');if(e)e.style.display='none'}
+function showAuthTab(tab){
+ clearAuthError();
+ ['loginPanel','registerPanel','verificationPanel'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+ document.getElementById(tab+'Panel')?.classList.add('active');
+ document.getElementById('loginTab')?.classList.toggle('active',tab==='login');
+ document.getElementById('registerTab')?.classList.toggle('active',tab==='register');
+}
+function setAuthRole(role){
+ authRole=role;clearAuthError();
+ document.getElementById('driverRoleBtn').classList.toggle('active',role==='driver');
+ document.getElementById('companyRoleBtn').classList.toggle('active',role==='company');
+ document.getElementById('driverLogin').style.display=role==='driver'?'block':'none';
+ document.getElementById('companyLogin').style.display=role==='company'?'block':'none';
+ document.getElementById('driverRegister').style.display=role==='driver'?'block':'none';
+ document.getElementById('companyRegister').style.display=role==='company'?'block':'none';
+}
+function registerDriver(){
+ clearAuthError();const a=getAccounts();
+ const firstName=document.getElementById('driverFirstName').value.trim(),lastName=document.getElementById('driverLastName').value.trim();
+ const phone=cleanPhone(document.getElementById('driverPhone').value),plate=document.getElementById('driverPlate').value.trim().toUpperCase(),password=document.getElementById('driverPassword').value;
+ if(!firstName||!lastName||phone.length<10||!plate||password.length<6)return showAuthError('Ad, soyad, telefon, plaka ve en az 6 karakter şifre gerekli.');
+ if(a.drivers.some(x=>cleanPhone(x.phone)===phone))return showAuthError('Bu telefonla daha önce şoför hesabı açılmış.');
+ const user={id:'D-'+Date.now(),firstName,lastName,phone,plate,password};a.drivers.push(user);saveAccounts(a);
+ localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'driver',id:user.id,name:firstName+' '+lastName,plate}));
+ enterSession();
+}
+function registerCompany(){
+ clearAuthError();const a=getAccounts();
+ const name=document.getElementById('companyName').value.trim(),vkn=document.getElementById('companyVkn').value.replace(/\D/g,''),taxOffice=document.getElementById('companyTaxOffice').value.trim(),phone=cleanPhone(document.getElementById('companyPhone').value),password=document.getElementById('companyPassword').value,file=document.getElementById('companyTaxFile').files[0];
+ if(!name||vkn.length!==10||!taxOffice||phone.length<10||password.length<8||!file)return showAuthError('Şirket bilgileri, 10 haneli VKN, vergi levhası ve en az 8 karakter şifre gerekli.');
+ if(a.companies.some(x=>x.vkn===vkn))return showAuthError('Bu vergi numarasıyla kayıt zaten mevcut.');
+ const user={id:'C-'+Date.now(),name,vkn,taxOffice,phone,password,taxFile:file.name,verified:false,verification:'pending'};a.companies.push(user);saveAccounts(a);
+ document.getElementById('verifyFileState').textContent=file.name;
+ ['loginPanel','registerPanel'].forEach(id=>document.getElementById(id).classList.remove('active'));document.getElementById('verificationPanel').classList.add('active');
+}
+function loginDriver(){
+ clearAuthError();const a=getAccounts(),phone=cleanPhone(document.getElementById('driverLoginPhone').value),password=document.getElementById('driverLoginPassword').value;
+ const u=a.drivers.find(x=>cleanPhone(x.phone)===phone&&x.password===password);if(!u)return showAuthError('Telefon veya şifre hatalı.');
+ localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'driver',id:u.id,name:u.firstName+' '+u.lastName,plate:u.plate}));enterSession();
+}
+function loginCompany(){
+ clearAuthError();const a=getAccounts(),vkn=document.getElementById('companyLoginVkn').value.replace(/\D/g,''),password=document.getElementById('companyLoginPassword').value;
+ const u=a.companies.find(x=>x.vkn===vkn&&x.password===password);if(!u)return showAuthError('Vergi numarası veya şifre hatalı.');
+ if(!u.verified)return showAuthError('Firma doğrulaması henüz tamamlanmadı. Firma paneli kilitli.');
+ localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'company',id:u.id,name:u.name,vkn:u.vkn,verified:true}));enterSession();
+}
+function demoVerifiedCompany(){
+ localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'company',id:'C-DEMO',name:'Güney Yapı A.Ş.',vkn:'1234567890',verified:true}));enterSession();
+}
+function enterSession(){
+ const s=getSession();if(!s)return;
+ document.getElementById('authGate').style.display='none';
+ localStorage.setItem('yukyol_role',s.role);
+ document.body.classList.remove('driver-mode','company-mode');document.body.classList.add(s.role==='driver'?'driver-mode':'company-mode');
  const lbl=document.getElementById('roleLabel'),desc=document.getElementById('roleDesc');
- if(role==='driver'){
-   if(lbl)lbl.textContent='Şoför Modu';
-   if(desc)desc.textContent='Basit ekran: mevcut iş, teslim, yeni yük.';
-   go('driver');
- }else{
-   if(lbl)lbl.textContent='Firma Modu';
-   if(desc)desc.textContent='Detaylı operasyon ve takip ekranları.';
-   go('dashboard');
- }
+ if(lbl)lbl.textContent=s.name||'Hesap';
+ if(desc)desc.textContent=s.role==='driver'?((s.plate||'')+' • Şoför hesabı'):'Doğrulanmış firma hesabı';
+ go(s.role==='driver'?'driver':'dashboard');
 }
-function switchRole(){
- localStorage.removeItem('yukyol_role');
- document.getElementById('roleGate').style.display='grid';
+function logoutUser(){
+ localStorage.removeItem(AUTH_SESSION);localStorage.removeItem('yukyol_role');
+ document.body.classList.remove('driver-mode','company-mode');
+ document.getElementById('authGate').style.display='grid';showAuthTab('login');setAuthRole('driver');
 }
-function initRole(){
- const role=localStorage.getItem('yukyol_role');
- if(role) chooseRole(role);
-}
+function chooseRole(role){setAuthRole(role);showAuthTab('login');document.getElementById('authGate').style.display='grid'}
+function switchRole(){logoutUser()}
+function initRole(){const s=getSession();if(s)enterSession();else{document.getElementById('authGate').style.display='grid';setAuthRole('driver');showAuthTab('login')}}
 function driverTab(id,el){
   document.querySelectorAll('.driver-bottom button').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
