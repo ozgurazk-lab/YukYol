@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YükYol</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--b:#0f172a;--a:#2563eb;--g:#16a34a;--r:#dc2626;--m:#64748b;--l:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial;background:#f8fafc;color:#0f172a}
+header{background:var(--b);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:22px}.wrap{max-width:1100px;margin:auto;padding:22px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+nav button{background:#e2e8f0}.active{background:var(--a)!important;color:#fff}
+.card{background:#fff;border:1px solid var(--l);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px #0f172a0d}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px}label{font-size:13px;font-weight:700;display:grid;gap:6px}
+.primary{background:var(--a);color:#fff}.ok{background:var(--g);color:#fff}.danger{background:#fee2e2;color:#991b1b}
+.muted{color:var(--m)}.route{font-size:18px;font-weight:800}.badge{display:inline-block;background:#eef2ff;padding:5px 8px;border-radius:999px;font-size:12px;margin:4px 4px 0 0}
+section{display:none}section.show{display:block}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat b{font-size:28px}
+@media(max-width:700px){.grid,.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><b>YükYol</b><span>Yük • Araç • Eşleşme</span></header>
+<div class="wrap">
+<nav>
+<button data-s="home" class="active">Genel Bakış</button>
+<button data-s="loads">Yük İlanları</button>
+<button data-s="vehicles">Araçlar</button>
+<button data-s="matches">Eşleşmeler</button>
+<button data-s="offers">Teklifler</button>
+<button data-s="shipments">Taşımalar</button>
+</nav>
+
+<section id="home" class="show">
+<div class="card"><h1>Boş dönüşü gelire dönüştür.</h1><p class="muted">Yük sahipleri ile uygun nakliye araçlarını güzergâh, tarih, araç tipi ve kapasiteye göre eşleştir.</p></div>
+<div class="stats">
+<div class="card stat"><span class="muted">Aktif Yük</span><br><b id="sl">0</b></div>
+<div class="card stat"><span class="muted">Araç</span><br><b id="sv">0</b></div>
+<div class="card stat"><span class="muted">Açık Teklif</span><br><b id="so">0</b></div>
+</div>
+<div class="card"><h3>En iyi eşleşmeler</h3><div id="hm"></div></div>
+</section>
+
+<section id="loads">
+<div class="card"><h2>Yeni yük ilanı</h2><form id="lf" class="grid">
+<label>Çıkış<input name="from" required placeholder="Batman"></label>
+<label>Varış<input name="to" required placeholder="Gaziantep"></label>
+<label>Yük türü<select name="cargo"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Diğer</option></select></label>
+<label>Araç tipi<select name="type"><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></label>
+<label>Ağırlık kg<input name="weight" type="number" min="1" value="5000" required></label>
+<label>Tarih<input name="date" type="date" required></label>
+<label class="full">Not<textarea name="note"></textarea></label>
+<button class="primary full">Yayınla</button></form></div><div id="ll"></div>
+</section>
+
+<section id="vehicles">
+<div class="card"><h2>Yeni araç</h2><form id="vf" class="grid">
+<label>Bulunduğu şehir<input name="from" required></label><label>Gideceği yön<input name="to" required></label>
+<label>Araç tipi<select name="type"><option>Kamyonet</option><option>Kamyon</option><option>Tır</option><option>Frigorifik</option><option>Panelvan</option></select></label>
+<label>Boş kapasite kg<input name="cap" type="number" value="10000" required></label>
+<label>Tarih<input name="date" type="date" required></label><label>Plaka<input name="plate" required></label>
+<label class="full">Sürücü/Firma<input name="driver" required></label><button class="primary full">Aracı yayınla</button>
+</form></div><div id="vl"></div>
+</section>
+
+<section id="matches"><div id="ml"></div></section>
+<section id="offers"><div id="ol"></div></section>
+<section id="shipments"><div id="sh"></div></section>
+</div>
+
+<script>
+const K='yuk_yol_mvp_v2',today=new Date().toISOString().slice(0,10);
+const seed={loads:[{id:'L1',from:'Batman',to:'Gaziantep',cargo:'Yapı malzemesi',type:'Tır',weight:12000,date:today,note:'Paletli ürün'}],vehicles:[{id:'V1',from:'Batman',to:'Gaziantep',type:'Tır',cap:18000,date:today,plate:'72 YY 001',driver:'Kaya Nakliyat'}],offers:[],shipments:[]};
+let db=JSON.parse(localStorage.getItem(K)||'null')||seed;
+const $=id=>document.getElementById(id),uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase(),n=s=>(s||'').trim().toLocaleLowerCase('tr-TR');
+function save(){localStorage.setItem(K,JSON.stringify(db));render()}
+function score(l,v){let s=0;if(n(l.from)==n(v.from))s+=35;if(n(l.to)==n(v.to))s+=35;if(l.type==v.type)s+=15;if(l.date==v.date)s+=10;if(+v.cap>=+l.weight)s+=5;return s}
+function matches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{let s=score(l,v);if(s>=45&&+v.cap>=+l.weight)a.push({l,v,s})}));return a.sort((a,b)=>b.s-a.s)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('section').forEach(x=>x.classList.remove('show'));$(b.dataset.s).classList.add('show')});
+function card(html){return '<div class="card">'+html+'</div>'}
+function render(){
+$('sl').textContent=db.loads.length;$('sv').textContent=db.vehicles.length;$('so').textContent=db.offers.filter(x=>x.status=='Açık').length;
+$('ll').innerHTML=db.loads.map(x=>card(`<div class="route">${x.from} → ${x.to}</div><span class="badge">${x.cargo}</span><span class="badge">${x.type}</span><span class="badge">${x.weight} kg</span><p class="muted">${x.date}</p><button class="danger" onclick="delL('${x.id}')">Sil</button>`)).join('')||card('Yük yok');
+$('vl').innerHTML=db.vehicles.map(x=>card(`<div class="route">${x.from} → ${x.to}</div><span class="badge">${x.driver}</span><span class="badge">${x.plate}</span><span class="badge">${x.cap} kg</span><p class="muted">${x.date}</p><button class="danger" onclick="delV('${x.id}')">Sil</button>`)).join('')||card('Araç yok');
+const ms=matches();
+$('ml').innerHTML=ms.map(m=>card(`<div class="route">${m.l.from} → ${m.l.to}</div><b>%${m.s} uyum</b><p>${m.v.driver} • ${m.v.plate}</p><button class="primary" onclick="offer('${m.l.id}','${m.v.id}')">Teklif oluştur</button>`)).join('')||card('Uygun eşleşme yok');
+$('hm').innerHTML=ms.slice(0,3).map(m=>`<p><b>${m.l.from} → ${m.l.to}</b> — %${m.s}</p>`).join('')||'Eşleşme yok';
+$('ol').innerHTML=db.offers.map(o=>card(`<div class="route">${o.load.from} → ${o.load.to}</div><p>${o.vehicle.driver}</p><span class="badge">${o.price.toLocaleString('tr-TR')} TL</span><span class="badge">${o.status}</span>${o.status=='Açık'?'<p><button class="ok" onclick="accept(\''+o.id+'\')">Kabul et</button></p>':''}`)).join('')||card('Teklif yok');
+$('sh').innerHTML=db.shipments.map(s=>card(`<div class="route">${s.load.from} → ${s.load.to}</div><p>${s.vehicle.driver}</p><span class="badge">${s.stage}</span>${s.stage!='Teslim edildi'?'<p><button class="primary" onclick="next(\''+s.id+'\')">Sonraki aşama</button></p>':''}`)).join('')||card('Aktif taşıma yok');
+}
+$('lf').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset();setDates()}
+$('vf').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));db.vehicles.unshift({id:uid('V'),...d,cap:+d.cap});save();e.target.reset();setDates()}
+function delL(id){db.loads=db.loads.filter(x=>x.id!=id);save()}function delV(id){db.vehicles=db.vehicles.filter(x=>x.id!=id);save()}
+function offer(lid,vid){let l=db.loads.find(x=>x.id==lid),v=db.vehicles.find(x=>x.id==vid);if(db.offers.some(x=>x.lid==lid&&x.vid==vid&&x.status=='Açık'))return alert('Bu eşleşme için açık teklif var');db.offers.unshift({id:uid('O'),lid,vid,load:l,vehicle:v,price:Math.max(3500,Math.round(l.weight/1000*650)),status:'Açık'});save()}
+function accept(id){let o=db.offers.find(x=>x.id==id);o.status='Kabul edildi';db.shipments.unshift({id:uid('S'),load:o.load,vehicle:o.vehicle,stage:'Onaylandı'});save()}
+function next(id){let a=['Onaylandı','Yükleme','Yolda','Teslim edildi'],s=db.shipments.find(x=>x.id==id),i=a.indexOf(s.stage);if(i<a.length-1)s.stage=a[i+1];save()}
+function setDates(){document.querySelectorAll('input[type=date]').forEach(x=>x.value=today)}setDates();render();
+</script>
+</body></html>
