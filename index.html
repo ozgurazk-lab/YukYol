@@ -49,6 +49,7 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
   <button data-target="matches">Eşleşmeler</button>
   <button data-target="trips">Canlı Taşımalar</button>
   <button data-target="delivery">Teslim / POD</button>
+  <button data-target="ratings">Puan & Yorumlar</button>
   <button data-target="backhaul">Sonraki Yük</button>
   <button data-target="docs">Evraklar</button>
  </div>
@@ -147,6 +148,42 @@ main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display
   </div>
  </section>
 
+ <section id="ratings" class="section">
+  <div class="title"><div><h2>Puan & Yorum Sistemi</h2><p>Şoför ve yük veren firma birbirini taşıma tamamlandıktan sonra değerlendirir.</p></div><span class="chip green">Çift taraflı güven</span></div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="cardhead"><h3>Şoförü değerlendir</h3><span class="chip blue">Yük sahibi → Şoför</span></div>
+      <label>Şoför<select id="rateDriverSelect"></select></label>
+      <div class="ops-grid" style="margin-top:12px">
+        <label>Zamanında teslim<select id="driverOnTime"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>İletişim<select id="driverComm"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Yük güvenliği<select id="driverCargo"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Belge / POD<select id="driverPod"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+      </div>
+      <label style="margin-top:12px">Yorum<textarea id="driverComment" placeholder="Teslimat, iletişim ve profesyonellik hakkında yorum..."></textarea></label>
+      <button class="btn primary" style="margin-top:10px" onclick="submitDriverRating()">Şoför puanını kaydet</button>
+    </div>
+
+    <div class="card">
+      <div class="cardhead"><h3>Yük veren firmayı değerlendir</h3><span class="chip green">Şoför → Firma</span></div>
+      <label>Firma<select id="rateCompanySelect"></select></label>
+      <div class="ops-grid" style="margin-top:12px">
+        <label>Ödeme hızı<select id="companyPayment"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Yükleme bekleme<select id="companyLoading"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Boşaltma bekleme<select id="companyUnloading"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Bilgi doğruluğu<select id="companyAccuracy"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+      </div>
+      <label style="margin-top:12px">Yorum<textarea id="companyComment" placeholder="Ödeme, bekleme süresi ve operasyon hakkında yorum..."></textarea></label>
+      <button class="btn primary" style="margin-top:10px" onclick="submitCompanyRating()">Firma puanını kaydet</button>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><div class="cardhead"><h3>Şoför güven puanları</h3><span class="chip blue">Taşıma kalitesi</span></div><div id="driverRatingsList"></div></div>
+    <div class="card"><div class="cardhead"><h3>Firma güven puanları</h3><span class="chip green">Ödeme & operasyon</span></div><div id="companyRatingsList"></div></div>
+  </div>
+ </section>
+
  <section id="backhaul" class="section">
   <div class="title"><div><h2>Boş Dönüşü Engelle — Sonraki Yük</h2><p>Teslim şehrinden sonraki uygun yükleri otomatik bul.</p></div></div>
   <div class="grid g2">
@@ -180,6 +217,21 @@ const seed={
  trips:[
   {id:'T1',loadId:'L1',vehicleId:'V1',stage:'Yolda',progress:58,eta:'15:52',distanceLeft:118,emptyKm:22,delay:12,pickupConfirmed:true,pickupAt:'09:42',unloadAt:null,deliveredAt:null,pod:false,receiverConfirmed:false}
  ],
+ companies:[
+  {id:'C1',name:'Güney Yapı A.Ş.',city:'Batman',paymentDays:7,paymentScore:4.9,opsScore:4.7,totalScore:4.8,reviews:18},
+  {id:'C2',name:'Başpınar Tekstil',city:'Gaziantep',paymentDays:3,paymentScore:5.0,opsScore:4.8,totalScore:4.9,reviews:31},
+  {id:'C3',name:'Dicle Gıda',city:'Diyarbakır',paymentDays:21,paymentScore:4.2,opsScore:4.4,totalScore:4.3,reviews:12}
+ ],
+ driverRatings:[
+  {driver:'Mehmet Kaya',plate:'72 YY 001',score:4.9,reviews:42,lastComment:'Zamanında teslim, iletişim çok iyi.'},
+  {driver:'Ali Güven',plate:'21 YY 003',score:4.8,reviews:27,lastComment:'Soğuk zincir sürecini eksiksiz yönetti.'},
+  {driver:'Hasan Polat',plate:'63 YY 441',score:4.7,reviews:19,lastComment:'Yük güvenliği iyi, iletişim düzenli.'}
+ ],
+ companyRatings:[
+  {company:'Güney Yapı A.Ş.',score:4.8,paymentScore:4.9,reviews:18,lastComment:'Ödeme zamanında, yükleme hızlı.'},
+  {company:'Başpınar Tekstil',score:4.9,paymentScore:5.0,reviews:31,lastComment:'Aynı gün evrak, 3 günde ödeme.'},
+  {company:'Dicle Gıda',score:4.3,paymentScore:4.2,reviews:12,lastComment:'Boşaltmada zaman zaman bekleme var.'}
+ ],
  docs:[
   {name:'Yük emri',loadNo:'YY-2026-1001',status:'Oluşturuldu',time:'08:55'},
   {name:'Yükleme onayı',loadNo:'YY-2026-1001',status:'Onaylandı',time:'09:42'},
@@ -194,9 +246,9 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.t
 function load(id){return db.loads.find(x=>x.id===id)}function vehicle(id){return db.vehicles.find(x=>x.id===id)}function trip(){return db.trips.find(x=>x.id===selectedTrip)||db.trips[0]}
 function renderStats(){document.getElementById('sLoads').textContent=db.loads.length;document.getElementById('sVehicles').textContent=db.vehicles.length;document.getElementById('sTrips').textContent=db.trips.filter(x=>x.stage!=='Teslim edildi').length;document.getElementById('sDelivered').textContent=db.trips.filter(x=>x.stage==='Teslim edildi').length;document.getElementById('sBackhaul').textContent=getBackhaul().length}
 function renderDash(){document.getElementById('dashTrips').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<div class="item"><div class="itemtop"><div><div class="route">${l.from} → ${l.to}</div><div class="muted">${l.loadNo} • ${v.plate} • ${v.driver}</div></div><span class="chip green">${t.stage}</span></div><div class="progress"><div class="bar" style="width:${t.progress}%"></div></div><div class="chips"><span class="chip blue">ETA ${t.eta}</span><span class="chip">${t.distanceLeft} km kaldı</span><span class="chip ${t.delay>20?'red':'amber'}">+${t.delay} dk</span></div></div>`}).join('')||'<div class="empty">Aktif taşıma yok.</div>'}
-function renderLoads(){document.getElementById('loadCount').textContent=db.loads.length+' yük';document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip green">${x.receiver}</span></div><p class="muted" style="font-size:13px">${x.pickupAddress}<br>→ ${x.deliveryAddress}</p></div>`).join('')}
+function renderLoads(){document.getElementById('loadCount').textContent=db.loads.length+' yük';document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div><div class="chips"><span class="chip green">Firma güveni ★ 4.8</span><span class="chip blue">Ödeme güvenilir</span></div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip green">${x.receiver}</span></div><p class="muted" style="font-size:13px">${x.pickupAddress}<br>→ ${x.deliveryAddress}</p></div>`).join('')}
 function renderVehicles(){document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="card"><div class="itemtop"><div><div class="route">${v.plate}</div><div class="muted">${v.company}</div></div><span class="chip ${v.status==='Yolda'?'green':v.status==='Boş'?'blue':'amber'}">${v.status}</span></div><div class="chips"><span class="chip">${v.type}</span><span class="chip">${money(v.capacity)} kg</span><span class="chip">★ ${v.rating}</span></div><div class="ops-grid" style="margin-top:12px"><div class="detail"><small>Konum</small><b>${v.location}</b></div><div class="detail"><small>GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/s</b></div><div class="detail"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="detail"><small>Sürücü</small><b>${v.driver}</b></div><div class="detail"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div></div></div>`).join('')}
-function score(l,v){let s=0;if(l.vehicleType===v.type)s+=25;if(+v.capacity>=+l.weight)s+=20;if(norm(v.location).includes(norm(l.from))||v.status==='Boş')s+=20;if(v.verified)s+=10;s+=Math.round(v.rating*5);return Math.min(100,s)}
+function score(l,v){let s=0;if(l.vehicleType===v.type)s+=25;if(+v.capacity>=+l.weight)s+=20;if(norm(v.location).includes(norm(l.from))||v.status==='Boş')s+=20;if(v.verified)s+=10;s+=Math.round(v.rating*4);s+=5;return Math.min(100,s)}
 function renderMatches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{if(+v.capacity>=+l.weight)a.push({l,v,s:score(l,v)})}));a.sort((a,b)=>b.s-a.s);document.getElementById('matchList').innerHTML=a.map(m=>`<div class="item"><div class="itemtop"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted">${m.l.loadNo} • ${m.v.plate} • ${m.v.company}</div></div><span class="chip blue">% ${m.s} uyum</span></div><div class="chips"><span class="chip">${m.l.vehicleType}</span><span class="chip green">${money(m.v.capacity)} kg kapasite</span><span class="chip">${m.v.status}</span></div></div>`).join('')}
 function renderTripSelector(){document.getElementById('tripSelector').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<button class="btn ${t.id===selectedTrip?'primary':'soft'}" onclick="selectedTrip='${t.id}';renderTrips()">${v.plate} • ${l.from}→${l.to}</button>`}).join(' ')}
 function renderTrips(){renderTripSelector();const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId);document.getElementById('tripRouteTitle').textContent=l.from+' → '+l.to;document.getElementById('tripMeta').textContent=l.loadNo+' • '+v.plate+' • '+v.driver;document.getElementById('tripStatus').textContent=t.stage;document.getElementById('mapPickup').textContent=l.from+' • '+l.pickupAddress;document.getElementById('mapDelivery').textContent=l.to+' • '+l.deliveryAddress;document.getElementById('gpsLabel').textContent=v.location+' • '+v.lastGps;document.getElementById('tripBar').style.width=t.progress+'%';
@@ -210,9 +262,32 @@ function confirmDelivery(){const t=trip(),l=load(t.loadId);t.stage='Teslim edild
 function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&+l.weight<=+v.capacity).map(l=>({l,score:92-(Math.abs(+l.weight-(+v.capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
 function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">Kapasite ${money(v.capacity)} kg</span><span class="chip">Boş km: ${t.emptyKm}</span></div><div class="kpis"><div class="kpi"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Fırsat</small><b>${a.length} yük</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">% ${x.score} uyum</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü azaltır</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Sonraki yük olarak ata</button></div>`).join(''):'<div class="empty">Bu teslim şehrinden uygun sonraki yük yok.</div>'}
 function assignBackhaul(loadId){const old=trip(),v=vehicle(old.vehicleId),l=load(loadId);db.trips.unshift({id:uid('T'),loadId:l.id,vehicleId:v.id,stage:'Atandı',progress:0,eta:'Hesaplanıyor',distanceLeft:0,emptyKm:8,delay:0,pickupConfirmed:false,pod:false,receiverConfirmed:false});selectedTrip=db.trips[0].id;v.status='Atandı';db.docs.push({name:'Sonraki yük ataması',loadNo:l.loadNo,status:'Atandı',time:new Date().toLocaleString('tr-TR')});save();go('trips')}
+function renderRatings(){
+ const ds=document.getElementById('rateDriverSelect'),cs=document.getElementById('rateCompanySelect');
+ if(ds) ds.innerHTML=db.vehicles.map(v=>'<option value="'+v.id+'">'+v.driver+' • '+v.plate+'</option>').join('');
+ if(cs) cs.innerHTML=(db.companies||[]).map(c=>'<option value="'+c.id+'">'+c.name+' • '+c.city+'</option>').join('');
+ const dl=document.getElementById('driverRatingsList'),cl=document.getElementById('companyRatingsList');
+ if(dl) dl.innerHTML=(db.driverRatings||[]).sort((a,b)=>b.score-a.score).map(r=>'<div class="item"><div class="itemtop"><div><div class="route">'+r.driver+'</div><div class="muted">'+r.plate+' • '+r.reviews+' değerlendirme</div></div><span class="chip green">★ '+r.score.toFixed(1)+'</span></div><p class="muted" style="font-size:13px">“'+r.lastComment+'”</p></div>').join('');
+ if(cl) cl.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.score-a.score).map(r=>'<div class="item"><div class="itemtop"><div><div class="route">'+r.company+'</div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div><span class="chip green">★ '+r.score.toFixed(1)+'</span></div><div class="chips"><span class="chip blue">Ödeme ★ '+r.paymentScore.toFixed(1)+'</span><span class="chip green">Daha çok araç önerilir</span></div><p class="muted" style="font-size:13px">“'+r.lastComment+'”</p></div>').join('');
+}
+function submitDriverRating(){
+ const id=document.getElementById('rateDriverSelect').value,v=vehicle(id);if(!v)return;
+ const vals=['driverOnTime','driverComm','driverCargo','driverPod'].map(x=>+document.getElementById(x).value);
+ const score=vals.reduce((a,b)=>a+b,0)/vals.length,comment=document.getElementById('driverComment').value||'Yeni değerlendirme.';
+ let r=(db.driverRatings||[]).find(x=>x.driver===v.driver);if(r){r.score=((r.score*r.reviews)+score)/(r.reviews+1);r.reviews++;r.lastComment=comment}else{db.driverRatings.push({driver:v.driver,plate:v.plate,score,reviews:1,lastComment:comment})}
+ v.rating=Number(r?r.score:score);save();renderRatings();alert('Şoför değerlendirmesi kaydedildi.');
+}
+function submitCompanyRating(){
+ const id=document.getElementById('rateCompanySelect').value,c=(db.companies||[]).find(x=>x.id===id);if(!c)return;
+ const pay=+document.getElementById('companyPayment').value;
+ const vals=[pay,+document.getElementById('companyLoading').value,+document.getElementById('companyUnloading').value,+document.getElementById('companyAccuracy').value];
+ const score=vals.reduce((a,b)=>a+b,0)/vals.length,comment=document.getElementById('companyComment').value||'Yeni değerlendirme.';
+ let r=(db.companyRatings||[]).find(x=>x.company===c.name);if(r){r.score=((r.score*r.reviews)+score)/(r.reviews+1);r.paymentScore=((r.paymentScore*r.reviews)+pay)/(r.reviews+1);r.reviews++;r.lastComment=comment}else{db.companyRatings.push({company:c.name,score,paymentScore:pay,reviews:1,lastComment:comment})}
+ c.totalScore=Number(r?r.score:score);c.paymentScore=Number(r?r.paymentScore:pay);save();renderRatings();alert('Firma değerlendirmesi kaydedildi.');
+}
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
-function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderDocs()}
+function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();renderDocs()}
 renderAll();
 </script>
 </body></html>
