@@ -91,8 +91,14 @@ body.company-mode #driverBottom{display:none!important}
   <button class="company-only" data-target="delivery">Teslim / POD</button>
   <button class="company-only" data-target="ratings">Puan & Yorumlar</button>
   <button class="company-only" data-target="regional">Bölgesel Güven</button>
-  <button class="driver-only" data-target="backhaul">Sonraki Yük</button>
+  <button class="company-only" data-target="payments">Ödemeler</button>
+  <button class="company-only" data-target="messages">Mesajlar</button>
+  <button class="company-only" data-target="notifications">Bildirimler</button>
   <button class="company-only" data-target="docs">Evraklar</button>
+  <button class="company-only" data-target="support">Destek</button>
+  <button class="driver-only" data-target="driverJobs">Yüklerim</button>
+  <button class="driver-only" data-target="driverEarnings">Kazanç</button>
+  <button class="driver-only" data-target="driverProfile">Profil</button>
  </div>
  <div class="sidebox"><b id="roleLabel">Rol seçilmedi</b><small id="roleDesc">Firma ve şoför ekranları ayrıdır.</small><button class="btn soft" style="margin-top:10px;width:100%" onclick="switchRole()">Rol değiştir</button></div>
 </aside>
@@ -130,6 +136,7 @@ body.company-mode #driverBottom{display:none!important}
     <div class="driver-simple-card" style="margin-top:14px">
       <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px" onclick="alert('Navigasyon demo')">🧭 NAVİGASYONU AÇ</button>
       <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="alert('Telefon araması demo')">📞 TESLİM ALANI ARA</button>
+      <button class="btn danger driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="openDriverIssue()">⚠️ SORUN BİLDİR</button>
     </div>
 
     <div class="driver-simple-card" style="margin-top:14px">
@@ -305,6 +312,122 @@ body.company-mode #driverBottom{display:none!important}
   </div>
  </section>
 
+ <section id="driverJobs" class="section">
+  <div class="driver-shell">
+   <div class="title"><div><h2>Yüklerim</h2><p>Bugünkü ve sıradaki işler.</p></div><span class="chip blue">Şoför</span></div>
+   <div class="driver-simple-card">
+    <div class="cardhead"><h3>Şu anki yük</h3><span class="chip green">AKTİF</span></div>
+    <div id="driverCurrentJob"></div>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
+    <div class="cardhead"><h3>Sıradaki yük</h3><span class="chip amber">ÖNERİ</span></div>
+    <div id="driverNextJob"></div>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
+    <div class="cardhead"><h3>Tamamlanan işler</h3></div>
+    <div id="driverCompletedJobs"></div>
+   </div>
+  </div>
+ </section>
+
+ <section id="driverEarnings" class="section">
+  <div class="driver-shell">
+   <div class="title"><div><h2>Kazanç</h2><p>Ne kazandın, ne zaman ödenecek?</p></div><span class="chip green">Basit</span></div>
+   <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+    <div class="stat"><small>Bu hafta</small><b id="driverWeekEarn">₺0</b></div>
+    <div class="stat"><small>Bekleyen ödeme</small><b id="driverPendingEarn">₺0</b></div>
+   </div>
+   <div class="driver-simple-card">
+    <div class="cardhead"><h3>Ödemelerim</h3></div>
+    <div id="driverPaymentList"></div>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
+    <div class="cardhead"><h3>Firma ödeme güveni</h3><span class="chip green">Önemli</span></div>
+    <div id="driverTrustedCompanies"></div>
+   </div>
+  </div>
+ </section>
+
+ <section id="driverProfile" class="section">
+  <div class="driver-shell">
+   <div class="title"><div><h2>Profil</h2><p>Şoför bilgilerin ve puanın.</p></div><span class="chip blue">Şoför</span></div>
+   <div class="driver-status">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+     <div><div style="font-size:13px;opacity:.75">Şoför</div><div style="font-size:28px;font-weight:900">Mehmet Kaya</div><div style="opacity:.85">72 YY 001 • Tır</div></div>
+     <div style="font-size:34px;font-weight:900">★ 4.9</div>
+    </div>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
+    <div class="driver-row"><span>Telefon</span><b>0530 000 00 00</b></div>
+    <div class="driver-row"><span>Doğrulama</span><b>✓ Tamamlandı</b></div>
+    <div class="driver-row"><span>Toplam yorum</span><b>42</b></div>
+    <div class="driver-row"><span>Araç kapasitesi</span><b>18.000 kg</b></div>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
+    <div class="cardhead"><h3>Sık çalıştığın bölgeler</h3></div>
+    <div class="chips"><span class="chip blue">Batman OSB</span><span class="chip blue">Başpınar OSB</span><span class="chip blue">Nizip</span></div>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
+    <div class="cardhead"><h3>Son yorumlar</h3></div>
+    <div class="item"><b>★ 5.0</b><p class="muted">“Zamanında teslim, iletişim çok iyi.”</p></div>
+    <div class="item"><b>★ 4.8</b><p class="muted">“Yükü sorunsuz teslim etti.”</p></div>
+   </div>
+   <button class="btn soft driver-big-btn" style="font-size:17px;padding:15px;margin-top:14px" onclick="switchRole()">↔ Firma / Şoför değiştir</button>
+  </div>
+ </section>
+
+ <section id="payments" class="section">
+  <div class="title"><div><h2>Ödeme Merkezi</h2><p>Şoför ödemeleri, vadeler ve gecikme riskleri.</p></div><span class="chip green">Firma</span></div>
+  <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+   <div class="stat"><small>Bu ay taşıma</small><b>₺186.400</b></div>
+   <div class="stat"><small>Ödendi</small><b>₺121.600</b></div>
+   <div class="stat"><small>Bekliyor</small><b>₺64.800</b></div>
+   <div class="stat"><small>Geciken</small><b>₺0</b></div>
+  </div>
+  <div class="card">
+   <table class="table"><thead><tr><th>Taşıma</th><th>Şoför</th><th>Tutar</th><th>Vade</th><th>Durum</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table>
+  </div>
+ </section>
+
+ <section id="messages" class="section">
+  <div class="title"><div><h2>Mesajlar</h2><p>Şoför ve operasyon iletişimi tek yerde.</p></div><span class="chip blue">3 konuşma</span></div>
+  <div class="grid g2">
+   <div class="card"><div class="cardhead"><h3>Konuşmalar</h3></div><div id="conversationList"></div></div>
+   <div class="card">
+    <div class="cardhead"><h3>Mehmet Kaya • 72 YY 001</h3><span class="chip green">Yolda</span></div>
+    <div id="messageThread" style="min-height:280px"></div>
+    <div style="display:flex;gap:8px;margin-top:12px"><input id="messageInput" placeholder="Mesaj yaz..." style="flex:1"><button class="btn primary" onclick="sendDemoMessage()">Gönder</button></div>
+   </div>
+  </div>
+ </section>
+
+ <section id="notifications" class="section">
+  <div class="title"><div><h2>Bildirimler</h2><p>Sadece aksiyon gerektiren konular öne çıkar.</p></div><span class="chip amber">4 yeni</span></div>
+  <div id="notificationList"></div>
+ </section>
+
+ <section id="support" class="section">
+  <div class="title"><div><h2>Destek & Güvenlik</h2><p>Operasyon sorunu, ödeme anlaşmazlığı veya teknik destek.</p></div></div>
+  <div class="grid g2">
+   <div class="card">
+    <div class="cardhead"><h3>Hızlı destek</h3></div>
+    <div style="display:grid;gap:10px">
+     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Araç gelmedi')">🚚 Araç gelmedi</button>
+     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Yük hasarı')">📦 Yük hasarı / eksik teslim</button>
+     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Ödeme sorunu')">₺ Ödeme sorunu</button>
+     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Uygulama sorunu')">⚙️ Uygulama sorunu</button>
+    </div>
+   </div>
+   <div class="card">
+    <div class="cardhead"><h3>Doğrulama durumu</h3><span class="chip green">Güvenli</span></div>
+    <div class="driver-row"><span>Firma doğrulaması</span><b>✓ Tamamlandı</b></div>
+    <div class="driver-row"><span>Telefon doğrulaması</span><b>✓ Tamamlandı</b></div>
+    <div class="driver-row"><span>Şoför/araç kontrolü</span><b>✓ Aktif</b></div>
+    <div class="driver-row"><span>POD kayıtları</span><b>✓ Saklanıyor</b></div>
+   </div>
+  </div>
+ </section>
+
  <section id="docs" class="section">
   <div class="title"><div><h2>Evrak & Kayıt Merkezi</h2><p>Taşıma boyunca oluşan tüm kayıtlar.</p></div></div>
   <div class="card">
@@ -316,9 +439,9 @@ body.company-mode #driverBottom{display:none!important}
 
 <div class="driver-bottom" id="driverBottom">
   <button class="active" onclick="driverTab('driver',this)"><b>⌂</b>Ana Sayfa</button>
-  <button onclick="driverTab('trips',this)"><b>🚚</b>Yüklerim</button>
-  <button onclick="driverTab('backhaul',this)"><b>₺</b>Kazanç</button>
-  <button onclick="driverTab('ratings',this)"><b>◉</b>Profil</button>
+  <button onclick="driverTab('driverJobs',this)"><b>🚚</b>Yüklerim</button>
+  <button onclick="driverTab('driverEarnings',this)"><b>₺</b>Kazanç</button>
+  <button onclick="driverTab('driverProfile',this)"><b>◉</b>Profil</button>
 </div>
 
 <script>
@@ -353,6 +476,22 @@ const seed={
   {company:'Güney Yapı A.Ş.',score:4.8,paymentScore:4.9,reviews:18,lastComment:'Ödeme zamanında, yükleme hızlı.'},
   {company:'Başpınar Tekstil',score:4.9,paymentScore:5.0,reviews:31,lastComment:'Aynı gün evrak, 3 günde ödeme.'},
   {company:'Dicle Gıda',score:4.3,paymentScore:4.2,reviews:12,lastComment:'Boşaltmada zaman zaman bekleme var.'}
+ ],
+ payments:[
+  {id:'P1',loadNo:'YY-2026-1001',driver:'Mehmet Kaya',amount:7800,due:'2026-10-08',status:'Bekliyor'},
+  {id:'P2',loadNo:'YY-2026-0984',driver:'Ali Güven',amount:9200,due:'2026-10-03',status:'Ödendi'},
+  {id:'P3',loadNo:'YY-2026-0971',driver:'Hasan Polat',amount:6400,due:'2026-10-01',status:'Ödendi'}
+ ],
+ conversations:[
+  {id:'M1',name:'Mehmet Kaya',plate:'72 YY 001',last:'Gaziantep girişindeyim.',time:'15:06'},
+  {id:'M2',name:'Ali Güven',plate:'21 YY 003',last:'Yükleme başladı.',time:'14:42'},
+  {id:'M3',name:'Hasan Polat',plate:'63 YY 441',last:'Yeni yük bakıyorum.',time:'13:18'}
+ ],
+ notifications:[
+  {level:'red',title:'Gecikme riski',text:'63 YY 441 tahmini 35 dk gecikiyor.',action:'Canlı takibi aç'},
+  {level:'amber',title:'Teslim saati yaklaşıyor',text:'72 YY 001 Gaziantep teslimine 46 dk kaldı.',action:'Taşımayı aç'},
+  {level:'green',title:'POD tamamlandı',text:'YY-2026-0984 teslim kanıtı yüklendi.',action:'Belgeyi gör'},
+  {level:'blue',title:'Yeni eşleşme',text:'Gaziantep → Mersin için %92 uygun araç bulundu.',action:'Eşleşmeyi aç'}
  ],
  docs:[
   {name:'Yük emri',loadNo:'YY-2026-1001',status:'Oluşturuldu',time:'08:55'},
@@ -450,6 +589,40 @@ function renderRegional(){
  const avgWait=companies.length?Math.round(companies.reduce((s,c)=>s+c.loadingWait+c.unloadingWait,0)/(companies.length*2)):'-';
  if(se)se.innerHTML='<div class="kpi"><small>Bölge</small><b>'+r.city+' / '+r.district+'</b></div><div class="kpi"><small>Firma puanı</small><b>★ '+avgScore+'</b></div><div class="kpi"><small>Ort. ödeme</small><b>'+avgPay+' gün</b></div><div class="kpi"><small>Ort. bekleme</small><b>'+avgWait+' dk</b></div>';
 }
+function renderDriverViews(){
+ const t=trip(),l=t?load(t.loadId):null,v=t?vehicle(t.vehicleId):null;
+ const cur=document.getElementById('driverCurrentJob');
+ if(cur) cur.innerHTML=l&&v?'<div class="item"><div class="route">'+l.from+' → '+l.to+'</div><div class="muted">'+l.loadNo+' • '+v.plate+'</div><div class="chips"><span class="chip green">'+t.stage+'</span><span class="chip">'+t.distanceLeft+' km kaldı</span><span class="chip blue">ETA '+t.eta+'</span></div><button class="btn primary" style="margin-top:12px" onclick="go(\'driver\')">İşe dön</button></div>':'<div class="empty">Aktif iş yok.</div>';
+ const next=document.getElementById('driverNextJob'),back=getBackhaul();
+ if(next) next.innerHTML=back.length?'<div class="item"><div class="route">'+back[0].l.from+' → '+back[0].l.to+'</div><div class="muted">'+back[0].l.loadNo+' • '+back[0].l.cargoType+'</div><div class="chips"><span class="chip green">% '+back[0].score+' uyum</span><span class="chip">'+money(back[0].l.weight)+' kg</span></div><button class="btn primary" style="margin-top:12px" onclick="assignBackhaul(\''+back[0].l.id+'\')">Bu yükü al</button></div>':'<div class="empty">Şu an uygun yeni yük yok.</div>';
+ const comp=document.getElementById('driverCompletedJobs');
+ if(comp) comp.innerHTML='<div class="item"><div class="route">Diyarbakır → Mersin</div><div class="muted">YY-2026-0984 • 3 Ekim</div><div class="chips"><span class="chip green">Teslim edildi</span><span class="chip">₺9.200</span></div></div>';
+ const pays=db.payments||[];
+ const week=pays.reduce((s,p)=>s+p.amount,0),pending=pays.filter(p=>p.status!=='Ödendi').reduce((s,p)=>s+p.amount,0);
+ const we=document.getElementById('driverWeekEarn'),pe=document.getElementById('driverPendingEarn');
+ if(we)we.textContent='₺'+money(week);if(pe)pe.textContent='₺'+money(pending);
+ const pl=document.getElementById('driverPaymentList');
+ if(pl)pl.innerHTML=pays.map(p=>'<div class="item"><div class="itemtop"><div><b>'+p.loadNo+'</b><div class="muted">'+p.driver+'</div></div><b>₺'+money(p.amount)+'</b></div><div class="chips"><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span><span class="chip">Vade '+p.due+'</span></div></div>').join('');
+ const tc=document.getElementById('driverTrustedCompanies');
+ if(tc)tc.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.paymentScore-a.paymentScore).slice(0,3).map(r=>'<div class="item"><div class="itemtop"><b>'+r.company+'</b><span class="chip green">Ödeme ★ '+r.paymentScore.toFixed(1)+'</span></div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div>').join('');
+}
+function renderPayments(){
+ const el=document.getElementById('paymentRows');if(!el)return;
+ el.innerHTML=(db.payments||[]).map(p=>'<tr><td>'+p.loadNo+'</td><td>'+p.driver+'</td><td>₺'+money(p.amount)+'</td><td>'+p.due+'</td><td><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span></td><td>'+(p.status==='Ödendi'?'':'<button class="btn green" onclick="markPaid(\''+p.id+'\')">Ödendi</button>')+'</td></tr>').join('');
+}
+function markPaid(id){const p=(db.payments||[]).find(x=>x.id===id);if(p){p.status='Ödendi';save();renderPayments();renderDriverViews();}}
+function renderMessages(){
+ const list=document.getElementById('conversationList');if(list)list.innerHTML=(db.conversations||[]).map(c=>'<div class="item"><div class="itemtop"><div><b>'+c.name+'</b><div class="muted">'+c.plate+'</div></div><small>'+c.time+'</small></div><p class="muted">'+c.last+'</p></div>').join('');
+ const th=document.getElementById('messageThread');if(th)th.innerHTML='<div class="item" style="max-width:78%"><b>Mehmet Kaya</b><p>Gaziantep girişindeyim. Tahmini 15:52 teslim.</p></div><div class="item" style="max-width:78%;margin-left:auto;background:#eef4ff"><b>Operasyon</b><p>Tamam, boşaltma ekibine haber verildi.</p></div>';
+}
+function sendDemoMessage(){const i=document.getElementById('messageInput');if(!i||!i.value.trim())return;const th=document.getElementById('messageThread');th.innerHTML+='<div class="item" style="max-width:78%;margin-left:auto;background:#eef4ff"><b>Operasyon</b><p>'+i.value.replace(/[<>]/g,'')+'</p></div>';i.value='';}
+function renderNotifications(){
+ const el=document.getElementById('notificationList');if(!el)return;
+ el.innerHTML=(db.notifications||[]).map(n=>'<div class="alert '+(n.level==='red'?'red':n.level==='green'?'green':'')+'"><div class="itemtop"><div><b>'+n.title+'</b><div class="muted">'+n.text+'</div></div><button class="btn soft" onclick="notificationAction(\''+n.title+'\')">'+n.action+'</button></div></div>').join('');
+}
+function notificationAction(title){if(title.includes('Gecikme')||title.includes('Teslim'))go('trips');else if(title.includes('POD'))go('docs');else go('matches');}
+function supportDemo(type){alert(type+' için destek kaydı oluşturuldu. Demo sürümünde gerçek destek sistemine gönderilmez.');}
+function openDriverIssue(){const t=trip(),l=t?load(t.loadId):null;const msg=l?'Yük '+l.loadNo+' için sorun kaydı açıldı.':'Sorun kaydı açıldı.';alert(msg+' Operasyon ekibine bildirim gönderilecek.');}
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 document.getElementById('loadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));db.loads.unshift({id:uid('L'),...d,weight:+d.weight});save();e.target.reset()}
 function chooseRole(role){
@@ -488,7 +661,7 @@ function driverAction(type){
  if(type==='deliver'){t.stage='Boşaltma';t.progress=96;save();go('delivery');return;}
  save();renderTrips();
 }
-function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();initRegionFilters();renderRegional();renderDocs()}
+function renderAll(){renderStats();renderDash();renderLoads();renderVehicles();renderMatches();renderTrips();renderRatings();initRegionFilters();renderRegional();renderDriverViews();renderPayments();renderMessages();renderNotifications();renderDocs()}
 renderAll();initRole();
 </script>
 </body></html>
