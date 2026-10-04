@@ -56,6 +56,330 @@ body.driver-mode aside .company-only,body.company-mode aside .driver-only{displa
 body.driver-mode .company-top{display:none!important}
 body.company-mode #driverBottom{display:none!important}
 @media(max-width:700px){.role-grid{grid-template-columns:1fr}.role-box{padding:20px}.role-box h1{font-size:28px}}
+
+/* ===== YukYol Refined Interface / v4 ===== */
+:root{
+  --bg:#f5f5f7;
+  --card:rgba(255,255,255,.94);
+  --ink:#1d1d1f;
+  --muted:#6e6e73;
+  --line:rgba(0,0,0,.08);
+  --blue:#0071e3;
+  --cyan:#0071e3;
+  --green:#248a3d;
+  --amber:#b76e00;
+  --red:#d70015;
+  --dark:#1d1d1f;
+  --shadow:0 8px 30px rgba(0,0,0,.055);
+}
+html{background:#f5f5f7}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  letter-spacing:-.01em;
+}
+.app{grid-template-columns:248px 1fr}
+aside{
+  background:rgba(255,255,255,.82);
+  color:var(--ink);
+  border-right:1px solid var(--line);
+  backdrop-filter:saturate(180%) blur(22px);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);
+  padding:24px 16px;
+}
+.brand{padding:0 7px;margin-bottom:28px}
+.brandmark{
+  width:40px;height:40px;border-radius:12px;
+  background:#1d1d1f;
+  color:#fff;
+  font-size:20px;
+  box-shadow:none;
+}
+.brand b{font-size:19px;letter-spacing:-.03em;color:#1d1d1f}
+.brand small{color:#86868b;font-size:11px}
+.nav{gap:4px}
+.nav button{
+  color:#515154;
+  border-radius:11px;
+  padding:10px 12px;
+  font-size:13px;
+  font-weight:600;
+  transition:.16s ease;
+}
+.nav button:hover{background:rgba(0,0,0,.045);color:#1d1d1f}
+.nav button.active{
+  background:#1d1d1f;
+  color:#fff;
+  box-shadow:none;
+}
+.sidebox{
+  margin-top:26px;
+  padding:14px;
+  background:#f2f2f4;
+  border:0;
+  border-radius:14px;
+  color:#1d1d1f;
+}
+.sidebox b{font-size:13px}
+.sidebox small{color:#77777c;font-size:11px}
+main{padding:30px 36px 56px;max-width:1440px}
+.top{
+  min-height:48px;
+  margin-bottom:28px;
+}
+.search{max-width:460px}
+.search input{
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:12px;
+  padding:11px 14px;
+  box-shadow:none;
+}
+.user b{font-size:13px}
+.avatar{
+  width:38px;height:38px;
+  background:#1d1d1f;color:#fff;
+  font-size:12px;
+}
+.title{margin-bottom:22px;align-items:center}
+.title h1,.title h2{
+  font-size:30px;
+  letter-spacing:-.04em;
+  line-height:1.08;
+  font-weight:700;
+}
+.title p{font-size:14px;line-height:1.5;color:#86868b}
+
+.hero{
+  background:#1d1d1f;
+  border-radius:24px;
+  padding:34px;
+  min-height:220px;
+  box-shadow:none;
+}
+.hero h1{
+  font-size:38px;
+  line-height:1.04;
+  letter-spacing:-.05em;
+  max-width:760px;
+  font-weight:700;
+}
+.hero p{color:#d2d2d7;font-size:15px;max-width:650px}
+.hero:after{opacity:.08;filter:grayscale(1)}
+
+.btn{
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:13px;
+  font-weight:650;
+  transition:.15s ease;
+}
+.btn:hover{transform:translateY(-1px)}
+.primary{background:#0071e3;color:#fff}
+.soft{background:#f0f0f2;color:#1d1d1f}
+.green{background:#eaf7ed;color:#166c2c}
+.amber{background:#fff6e8;color:#8a5800}
+.danger{background:#fff0f1;color:#b00014}
+.dark{background:#1d1d1f;color:#fff}
+
+.stats{gap:12px}
+.stat,.card,.driver-simple-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.stat{
+  border-radius:17px;
+  padding:18px;
+}
+.stat small{font-size:12px;color:#86868b}
+.stat b{
+  font-size:27px;
+  letter-spacing:-.04em;
+  margin-top:9px;
+}
+.card{
+  border-radius:20px;
+  padding:20px;
+}
+.cardhead{margin-bottom:16px}
+.cardhead h3{font-size:16px;letter-spacing:-.025em}
+.item{
+  border:0;
+  border-radius:14px;
+  background:#f7f7f9;
+  padding:15px;
+}
+.item + .item{margin-top:8px}
+.itemtop{align-items:flex-start}
+.route{font-size:17px;letter-spacing:-.025em}
+.muted{color:#86868b}
+.chips{gap:6px}
+.chip{
+  background:#f0f0f2;
+  color:#5d5d61;
+  padding:5px 8px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:650;
+}
+.chip.blue{background:#edf5ff;color:#0066cc}
+.chip.green{background:#edf8ef;color:#1b7332}
+.chip.amber{background:#fff7eb;color:#9a6200}
+.chip.red{background:#fff0f1;color:#c00014}
+
+.form{gap:14px}
+label{
+  color:#515154;
+  font-size:12px;
+  font-weight:600;
+}
+input,select,textarea{
+  border:1px solid rgba(0,0,0,.11);
+  background:#fff;
+  border-radius:10px;
+  padding:11px 12px;
+  color:#1d1d1f;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#0071e3;
+  box-shadow:0 0 0 3px rgba(0,113,227,.11);
+}
+textarea{min-height:88px}
+
+.map{
+  border-radius:16px;
+  border:1px solid var(--line);
+  filter:saturate(.7);
+}
+.progress{height:7px;background:#ececef}
+.bar{background:#0071e3}
+.timeline{gap:6px}
+.step{
+  border-radius:8px;
+  background:#f0f0f2;
+  color:#77777c;
+  padding:8px 6px;
+}
+.step.done{background:#edf8ef;color:#1b7332}
+.step.now{background:#edf5ff;color:#0066cc}
+
+.kpi,.detail{
+  background:#f7f7f9;
+  border:0;
+  border-radius:12px;
+}
+.kpi small,.detail small{color:#86868b}
+.alert{
+  border:0;
+  background:#fff7eb;
+  border-radius:14px;
+  padding:13px 14px;
+}
+.alert.red{background:#fff0f1}
+.alert.green{background:#edf8ef}
+
+.table th{
+  font-size:11px;
+  color:#86868b;
+  font-weight:650;
+  text-transform:uppercase;
+  letter-spacing:.035em;
+}
+.table td{font-size:13px}
+.table th,.table td{padding:13px 10px}
+
+.driver-shell{max-width:680px}
+.driver-status{
+  background:#1d1d1f;
+  border-radius:24px;
+  padding:26px;
+  box-shadow:none;
+}
+.driver-status .bigroute{
+  font-size:32px;
+  letter-spacing:-.045em;
+}
+.driver-simple-card{border-radius:18px}
+.driver-row{padding:14px 0}
+.driver-row span{color:#86868b}
+.driver-big-btn{
+  font-size:19px !important;
+  padding:18px !important;
+  border-radius:14px;
+  letter-spacing:-.015em;
+}
+
+.role-gate{
+  background:#f5f5f7;
+}
+.role-box{
+  width:min(720px,100%);
+  border-radius:26px;
+  padding:28px;
+  box-shadow:0 30px 80px rgba(0,0,0,.10);
+  border:1px solid rgba(0,0,0,.06);
+}
+.role-box h1{
+  color:#1d1d1f;
+  font-size:32px;
+  letter-spacing:-.045em;
+}
+.role-box p{color:#86868b}
+.role-grid{gap:12px}
+.role-card{
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:18px;
+  padding:22px;
+  transition:.16s ease;
+}
+.role-card:hover{
+  border-color:rgba(0,0,0,.16);
+  box-shadow:0 10px 26px rgba(0,0,0,.06);
+  transform:translateY(-1px);
+}
+.role-card .emoji{font-size:34px;filter:grayscale(.15)}
+.role-card h3{font-size:20px;letter-spacing:-.03em}
+.role-badge{
+  background:#1d1d1f;
+  color:#fff;
+  border-radius:8px;
+  font-size:11px;
+}
+
+.driver-bottom{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(18px);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);
+  border-top:1px solid rgba(0,0,0,.08);
+  box-shadow:none;
+}
+.driver-bottom button{color:#8a8a8e}
+.driver-bottom button.active{color:#0071e3}
+
+.empty{
+  border:0;
+  background:#f7f7f9;
+  color:#86868b;
+  border-radius:14px;
+}
+
+@media(max-width:1150px){
+  aside{background:#fff}
+}
+@media(max-width:700px){
+  main{padding:18px 15px 94px}
+  .title h1,.title h2{font-size:26px}
+  .hero{padding:24px;border-radius:20px;min-height:190px}
+  .hero h1{font-size:30px}
+  .card{padding:16px;border-radius:17px}
+  .stat{padding:15px;border-radius:15px}
+  .driver-status{border-radius:20px;padding:21px}
+  .driver-status .bigroute{font-size:28px}
+  .role-box{padding:20px;border-radius:22px}
+}
+
 </style>
 </head>
 <body>
@@ -80,7 +404,7 @@ body.company-mode #driverBottom{display:none!important}
 </div>
 <div class="app">
 <aside>
- <div class="brand"><div class="brandmark">⇄</div><div><b>YükYol</b><small>Nakliye Operasyon Ağı</small></div></div>
+ <div class="brand"><div class="brandmark">⇄</div><div><b>YükYol</b><small>Lojistik Operasyon Platformu</small></div></div>
  <div class="nav">
   <button class="driver-only active" data-target="driver">Şoför Ekranı</button>
   <button class="company-only" data-target="dashboard">Genel Bakış</button>
@@ -104,11 +428,11 @@ body.company-mode #driverBottom{display:none!important}
 </aside>
 
 <main>
- <div class="top company-top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Demo ortamı</div></div><div class="avatar">YY</div></div></div>
+ <div class="top company-top"><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Operasyon</div></div><div class="avatar">YY</div></div></div>
 
  <section id="driver" class="section active">
   <div class="driver-shell">
-    <div class="title"><div><h2>Şoför</h2><p>Tek iş, tek ekran.</p></div><span class="chip green">Basit Mod</span></div>
+    <div class="title"><div><h2>Şoför</h2><p>Tek iş, tek ekran.</p></div><span class="chip green">Şoför modu</span></div>
 
     <div class="driver-status">
       <div style="opacity:.78;font-size:13px">Şu anki işin</div>
