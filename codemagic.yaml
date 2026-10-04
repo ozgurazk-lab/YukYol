@@ -1,0 +1,27 @@
+workflows:
+  yukyol-web:
+    name: YukYol Web MVP
+    instance_type: linux_x2
+    max_build_duration: 15
+    scripts:
+      - name: Check project files
+        script: |
+          set -e
+          test -f index.html
+          test -f manifest.json
+          echo "Required files found."
+      - name: Validate HTML entry
+        script: |
+          set -e
+          grep -q "<html" index.html
+          grep -q "YükYol" index.html
+          echo "index.html validation passed."
+      - name: Package web app
+        script: |
+          set -e
+          mkdir -p build
+          cp index.html manifest.json README.md build/
+          cd build
+          zip -r ../YukYol-Web-MVP.zip .
+    artifacts:
+      - YukYol-Web-MVP.zip
