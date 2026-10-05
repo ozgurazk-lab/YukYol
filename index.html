@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta name="sevkio-build" content="2026-10-05-professional-ui">
+<meta name="sevkio-build" content="2026-10-05-logistics-brand">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08111f"><title>Sevkio — Lojistik Operasyon Platformu</title>
 <link rel="manifest" href="manifest.json">
@@ -123,7 +123,7 @@
 <div class="app">
 <aside>
  <button class="mobile-nav-close" aria-label="Menüyü kapat" onclick="closeMobileNav()"><svg class="ui-icon"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
- <div class="brand"><img src="assets/logo-dark.svg" alt="Sevkio — Lojistik Operasyon Ağı"></div>
+ <div class="brand"><img src="assets/logo.svg" alt="Sevkio — Lojistik Operasyon Ağı"></div>
  <div class="nav">
   <button class="driver-only active" data-target="driver"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Şoför Ekranı</button>
   <div class="nav-label company-only">Operasyon</div><button class="company-only" data-target="dashboard"><svg class="ui-icon"><use href="#ic-home"></use></svg>Genel Bakış</button>
@@ -151,7 +151,7 @@
 
  <section id="driver" class="section active">
   <div class="driver-shell">
-    <div class="title"><div><h2>Yol arkadaşın.</h2><p>Mevcut taşıman ve sonraki adımların.</p></div></div>
+    <div class="title"><div><h2>Yeni rotalara hazır.</h2><p>Taşımanı yönet, teslimatını tamamla, sıradaki yükünü bul.</p></div></div>
 
     <div class="driver-status">
       <div style="opacity:.78;font-size:13px">Şu anki işin</div>
@@ -159,89 +159,7 @@
       <div style="opacity:.9" id="driverHomeIdentity">72 YY 001 • Mehmet Kaya</div>
       <div class="chips" style="margin-top:14px">
         <span class="chip green" id="driverHomeStatus">YÜK ALINDI</span>
-        <span class="chip blue" id="driverHomeDistance">118 km kaldı</span>
-        <span class="chip amber" id="driverHomeEta">15:52 varış</span>
-      </div>
-    </div>
-
-    <div class="driver-simple-card" style="margin-top:14px">
-      <div class="driver-row"><span>Nereye?</span><b id="driverHomeAddress">Gaziantep 4. OSB</b></div>
-      <div class="driver-row"><span>Kime?</span><b id="driverHomeReceiver">Ahmet Demir</b></div>
-      <div class="driver-row"><span>Telefon</span><b id="driverHomeReceiverPhone">0532 111 22 33</b></div>
-    </div>
-
-    <div class="driver-actions">
-      <button class="btn primary driver-big-btn" onclick="driverAction('start')"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg>Yola çıktım</button>
-      <button class="btn green driver-big-btn" onclick="driverAction('arrive')"><svg class="ui-icon lg"><use href="#ic-pin"></use></svg>Teslim yerine geldim</button>
-      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')"><svg class="ui-icon lg"><use href="#ic-check"></use></svg>Yükü teslim ettim</button>
-    </div>
-
-    <div class="driver-simple-card" style="margin-top:14px">
-      <button class="btn soft driver-big-btn"  onclick="alert('Navigasyon demo')"><svg class="ui-icon lg"><use href="#ic-nav"></use></svg>Navigasyonu aç</button>
-      <button class="btn soft driver-big-btn"  onclick="alert('Telefon araması demo')"><svg class="ui-icon lg"><use href="#ic-phone"></use></svg>Teslim alacak kişiyi ara</button>
-      <button class="btn danger driver-big-btn"  onclick="openDriverIssue()"><svg class="ui-icon lg"><use href="#ic-alert"></use></svg>Sorun bildir</button>
-    </div>
-
-    <div class="driver-simple-card" style="margin-top:14px">
-      <div class="cardhead"><h3>Sonraki adım</h3></div>
-      <button class="btn primary driver-big-btn"  onclick="go('backhaul')"><svg class="ui-icon lg"><use href="#ic-refresh"></use></svg>Yeni yük bul</button>
-      <button class="btn green driver-big-btn"  onclick="go('ratings')"><svg class="ui-icon lg"><use href="#ic-star"></use></svg>Firmayı puanla</button>
-    </div>
-  </div>
- </section>
-
- <section id="dashboard" class="section">
-  <div class="hero"><h1>Operasyonun bir bakışta.</h1><p>Yüklerini, taşımalarını ve teslimatlarını aynı yerden yönet.</p><button class="btn primary" onclick="go('loads')">Yeni yük oluştur</button><button class="btn hero-secondary" onclick="go('trips')">Taşımaları görüntüle</button></div>
-  <div class="stats">
-   <div class="stat"><small>Aktif yük</small><b id="sLoads">0</b></div>
-   <div class="stat"><small>Aktif araç</small><b id="sVehicles">0</b></div>
-   <div class="stat"><small>Yolda</small><b id="sTrips">0</b></div>
-   <div class="stat"><small>Bugün teslim</small><b id="sDelivered">0</b></div>
-   <div class="stat"><small>Sonraki yük fırsatı</small><b id="sBackhaul">0</b></div>
-  </div>
-  <div class="grid g2">
-   <div class="card"><div class="cardhead"><h3>Aktif operasyonlar</h3><span class="chip blue">Canlı</span></div><div id="dashTrips"></div></div>
-   <div class="card"><div class="cardhead"><h3>Uyarılar</h3><span class="chip amber">Operasyon</span></div>
-    <div class="alert red"><b>Gecikme riski</b><div class="muted">63 YY 441 • Tahmini +35 dk</div></div>
-    <div class="alert"><b>Boşaltma randevusu yaklaşıyor</b><div class="muted">72 YY 001 • 15:40 Gaziantep</div></div>
-    <div class="alert green"><b>Sonraki yük bulundu</b><div class="muted">Gaziantep → Mersin • %92 uyum</div></div>
-   </div>
-  </div>
- </section>
-
- <section id="loads" class="section">
-  <div class="title"><div><h2>Yükler</h2><p>Yükleme, teslim, ürün ve alıcı bilgilerini eksiksiz kaydet.</p></div></div>
-  <div class="grid g2">
-   <div class="card"><div class="cardhead"><h3>Yeni yük oluştur</h3><span class="chip blue">Detaylı</span></div>
-    <form id="loadForm" class="form">
-     <label>Yük no<input name="loadNo" placeholder="SV-2026-1001" required></label><label>Yük türü<select name="cargoType"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Paletli ürün</option></select></label>
-     <label>Yükleme şehri<input name="from" required></label><label>Yükleme adresi<input name="pickupAddress" required></label>
-     <label>Teslim şehri<input name="to" required></label><label>Boşaltma adresi<input name="deliveryAddress" required></label>
-     <label>Ağırlık kg<input name="weight" type="number" required></label><label>Araç tipi<select name="vehicleType"><option>Tır</option><option>Kamyon</option><option>Kamyonet</option><option>Frigorifik</option></select></label>
-     <label>Yükleme tarih/saat<input name="pickupTime" type="datetime-local" required></label><label>Planlı teslim<input name="deliveryTime" type="datetime-local" required></label>
-     <label>Alıcı firma<input name="receiverCompany" placeholder="Karşı firma unvanı" required></label><label>Alıcı firma VKN<input name="receiverCompanyVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN" required></label>
-     <label>Teslim alacak kişi<input name="receiver" required></label><label>Alıcı telefonu<input name="receiverPhone" required></label>
-     <label class="full">Yük / operasyon notu<textarea name="notes"></textarea></label>
-     <div class="media-box full" style="background:linear-gradient(90deg,#fff 72%,rgba(255,255,255,.72)),url('https://images.unsplash.com/photo-1725781535657-29d825bc7824?auto=format&fit=crop&fm=jpg&q=55&w=500') right center/38% 100% no-repeat">
-       <div class="media-box-title"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğrafları</div>
-       <p>Yük araca yüklenirken çekilen fotoğraflar karşı firmaya görünür.</p>
-       <input class="media-input" id="pickupPhotos" type="file" accept="image/*" multiple>
-     </div>
-     <div class="media-box full">
-       <div class="media-box-title"><svg class="ui-icon"><use href="#ic-video"></use></svg>Yükleme videosu</div>
-       <p>Yükleme durumunu gösteren kısa video eklenebilir.</p>
-       <input class="media-input" id="pickupVideo" type="file" accept="video/*">
-     </div>
-     <div id="pickupMediaSummary" class="media-summary full"></div>
-     <button class="btn primary full"><svg class="ui-icon"><use href="#ic-upload"></use></svg>Yükü ve kanıtları yayınla</button>
-    </form>
-   </div>
-   <div class="card"><div class="cardhead"><h3>Aktif yükler</h3><span id="loadCount" class="chip"></span></div><div id="loadList"></div></div>
-  </div>
- </section>
-
- <section id="vehicles" class="section">
-  <div class="title"><div><h2>Araç Filosu</h2><p>Konum, durum, kapasite, sürücü ve sonraki uygunluk.</p></div></div>
+        <span class="cv class="title"><div><h2>Araç Filosu</h2><p>Konum, durum, kapasite, sürücü ve sonraki uygunluk.</p></div></div>
   <div id="vehicleList" class="grid g3"></div>
  </section>
 
