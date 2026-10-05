@@ -1,497 +1,11 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta name="sevkio-build" content="2026-10-05-auth-reference">
+<meta name="sevkio-build" content="2026-10-05-professional-ui">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08111f"><title>Sevkio — Lojistik Operasyon Platformu</title>
 <link rel="manifest" href="manifest.json">
-<style>
-:root{--bg:#f4f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--blue:#145dff;--cyan:#06b6d4;--green:#16a34a;--amber:#f59e0b;--red:#dc2626;--dark:#08111f;--shadow:0 14px 40px rgba(15,23,42,.07)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink)}
-button,input,select,textarea{font:inherit}.app{display:grid;grid-template-columns:265px 1fr;min-height:100vh}
-aside{background:linear-gradient(180deg,#08111f,#111d31);color:#fff;padding:22px 18px;position:sticky;top:0;height:100vh;overflow:auto}
-.brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}.brandmark{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;font-size:23px}.brand b{font-size:20px}.brand small{display:block;color:#91a4bf;margin-top:2px}
-.nav{display:grid;gap:7px}.nav button{border:0;background:transparent;color:#a9b8cc;text-align:left;padding:12px 13px;border-radius:12px;cursor:pointer}.nav button.active,.nav button:hover{background:#18253a;color:#fff}
-.sidebox{margin-top:24px;padding:15px;border:1px solid #263752;background:#132039;border-radius:16px}.sidebox small{color:#9fb1ca;line-height:1.5}.sidebox b{display:block;margin-bottom:5px}
-main{max-width:1550px;width:100%;margin:auto;padding:24px 28px 45px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}
-.search{flex:1;max-width:520px}.search input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:#fff}.user{display:flex;align-items:center;gap:10px}.avatar{width:40px;height:40px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800}
-.section{display:none}.section.active{display:block}.title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:16px}.title h1,.title h2{margin:0}.title p{margin:5px 0 0;color:var(--muted)}
-.hero{background:linear-gradient(135deg,#0b1730,#17459a 58%,#0786a4);border-radius:26px;color:#fff;padding:28px;position:relative;overflow:hidden;min-height:230px;margin-bottom:18px}.hero h1{font-size:38px;max-width:720px;line-height:1.08;margin:0 0 12px}.hero p{color:#d6e3f7;max-width:690px;line-height:1.6}.hero:after{content:"";font-size:130px;position:absolute;right:38px;bottom:10px;opacity:.25}
-.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff}.soft{background:#eaf1ff;color:#1e4fb7}.green{background:#dcfce7;color:#166534}.amber{background:#fff7ed;color:#9a3412}.danger{background:#fee2e2;color:#991b1b}.dark{background:#111827;color:#fff}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.stat small{color:var(--muted)}.stat b{display:block;font-size:27px;margin-top:8px}
-.grid{display:grid;gap:16px}.g2{grid-template-columns:1.15fr .85fr}.g3{grid-template-columns:repeat(3,1fr)}
-.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.cardhead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.cardhead h3{margin:0}
-.item{border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:10px;background:#fff}.item:last-child{margin-bottom:0}.itemtop{display:flex;justify-content:space-between;gap:12px}.route{font-size:18px;font-weight:900}.muted{color:var(--muted)}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;font-weight:750;padding:6px 9px;border-radius:999px;background:#f1f5f9;color:#475569}.chip.blue{background:#e8f0ff;color:#1d4ed8}.chip.green{background:#dcfce7;color:#166534}.chip.amber{background:#fff7ed;color:#c2410c}.chip.red{background:#fee2e2;color:#b91c1c}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:13px;font-weight:800;color:#334155;display:grid;gap:6px}input,select,textarea{border:1px solid #cbd5e1;border-radius:11px;padding:10px 11px;outline:none;background:white}textarea{min-height:82px;resize:vertical}.full{grid-column:1/-1}
-.map{height:360px;border-radius:18px;border:1px solid #dbe4ef;position:relative;overflow:hidden;background:linear-gradient(45deg,#edf3f9 25%,#f8fafc 25%,#f8fafc 50%,#edf3f9 50%,#edf3f9 75%,#f8fafc 75%);background-size:38px 38px}
-.road{position:absolute;height:9px;border-radius:9px;background:#cbd5e1;transform-origin:left}.r1{width:420px;left:40px;top:115px;transform:rotate(16deg)}.r2{width:330px;left:180px;top:245px;transform:rotate(-21deg)}.r3{width:230px;left:50px;top:280px;transform:rotate(-7deg)}
-.pin{position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;border:6px solid var(--blue);box-shadow:0 5px 12px #0002}.p1{left:85px;top:112px}.p2{right:70px;bottom:85px}.truck{position:absolute;font-size:31px;left:48%;top:44%;filter:drop-shadow(0 5px 8px #0003)}.maplabel{position:absolute;background:#fff;border-radius:10px;padding:7px 9px;font-size:12px;font-weight:800;box-shadow:0 8px 20px #0002}.la{left:40px;top:67px}.lb{right:25px;bottom:43px}.gps{position:absolute;left:50%;top:54%;background:#0f172a;color:#fff;border-radius:10px;padding:6px 8px;font-size:11px}
-.progress{height:9px;background:#e9eef5;border-radius:999px;overflow:hidden;margin:12px 0}.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan))}
-.timeline{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:14px}.step{padding:8px 7px;text-align:center;border-radius:10px;background:#eef2f7;color:#64748b;font-size:11px;font-weight:800}.step.done{background:#dcfce7;color:#166534}.step.now{background:#dbeafe;color:#1d4ed8}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.kpi{background:#f8fafc;border:1px solid #eef2f7;border-radius:13px;padding:11px}.kpi small{display:block;color:var(--muted);font-size:11px}.kpi b{font-size:16px}
-.alert{border-left:4px solid var(--amber);background:#fffaf0;border-radius:12px;padding:11px 12px;margin-bottom:9px}.alert.red{border-color:var(--red);background:#fff5f5}.alert.green{border-color:var(--green);background:#f3fff6}
-.ops-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.detail{background:#f8fafc;border:1px solid #edf2f7;border-radius:14px;padding:12px}.detail small{display:block;color:var(--muted);font-size:11px;margin-bottom:4px}.detail b{font-size:14px}
-.pod{border:1px dashed #94a3b8;border-radius:14px;padding:15px;background:#fbfdff}.nextload{border:1px solid #bfdbfe;background:#f7fbff;border-radius:16px;padding:15px;margin-top:10px}
-.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:16px;text-align:center;color:var(--muted)}
-.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:11px;border-bottom:1px solid var(--line);font-size:13px}.table th{color:#64748b}
-@media(max-width:1150px){.app{grid-template-columns:1fr}aside{position:static;height:auto}.nav{grid-template-columns:repeat(4,1fr)}.sidebox{display:none}.stats{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}}
-.driver-bottom{display:none}
-.driver-shell{max-width:760px;margin:auto}
-.driver-status{background:linear-gradient(135deg,#0d1b33,#17459a);color:#fff;border-radius:24px;padding:22px;box-shadow:var(--shadow)}
-.driver-status .bigroute{font-size:30px;font-weight:900;margin:6px 0}
-.driver-big-btn{width:100%;font-size:22px;padding:20px;border-radius:16px}
-.driver-simple-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:var(--shadow)}
-.driver-row{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid #eef2f7}
-.driver-row:last-child{border-bottom:0}.driver-row span{color:var(--muted)}.driver-row b{text-align:right}
-@media(max-width:700px){main{padding:15px;padding-bottom:92px}.nav{grid-template-columns:1fr 1fr}.hero h1{font-size:29px}.hero:after{font-size:90px;right:5px}.form,.ops-grid{grid-template-columns:1fr}.full{grid-column:auto}.timeline{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.top .search{display:none}.driver-bottom{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #dbe3ee;z-index:50;padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(15,23,42,.08)}.driver-bottom button{border:0;background:transparent;padding:8px 3px;font-size:11px;color:#64748b}.driver-bottom button b{display:block;font-size:20px;margin-bottom:2px}.driver-bottom button.active{color:#145dff}.driver-shell{max-width:none}}
-.role-gate{position:fixed;inset:0;background:linear-gradient(135deg,#08111f,#12346c);z-index:999;display:grid;place-items:center;padding:20px}
-.role-box{width:min(760px,100%);background:#fff;border-radius:28px;padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.28)}
-.role-box h1{margin:0 0 8px;font-size:34px}.role-box p{color:#64748b;margin:0 0 20px}
-.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.role-card{border:1px solid #e2e8f0;border-radius:20px;padding:22px;text-align:left;background:#fff;cursor:pointer}
-.role-card:hover{border-color:#93c5fd;box-shadow:0 10px 30px rgba(20,93,255,.1)}
-.role-card .emoji{font-size:40px}.role-card h3{font-size:22px;margin:10px 0 7px}.role-card p{font-size:14px;line-height:1.5}
-.role-badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#eef4ff;color:#1d4ed8;font-size:12px;font-weight:800}
-body.driver-mode aside .company-only,body.company-mode aside .driver-only{display:none!important}
-body.driver-mode .company-top{display:none!important}
-body.company-mode #driverBottom{display:none!important}
-@media(max-width:700px){.role-grid{grid-template-columns:1fr}.role-box{padding:20px}.role-box h1{font-size:28px}}
-
-/* ===== YukYol Refined Interface / v4 ===== */
-:root{
-  --bg:#f5f5f7;
-  --card:rgba(255,255,255,.94);
-  --ink:#1d1d1f;
-  --muted:#6e6e73;
-  --line:rgba(0,0,0,.08);
-  --blue:#0071e3;
-  --cyan:#0071e3;
-  --green:#248a3d;
-  --amber:#b76e00;
-  --red:#d70015;
-  --dark:#1d1d1f;
-  --shadow:0 8px 30px rgba(0,0,0,.055);
-}
-html{background:#f5f5f7}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
-  letter-spacing:-.01em;
-}
-.app{grid-template-columns:248px 1fr}
-aside{
-  background:rgba(255,255,255,.82);
-  color:var(--ink);
-  border-right:1px solid var(--line);
-  backdrop-filter:saturate(180%) blur(22px);
-  -webkit-backdrop-filter:saturate(180%) blur(22px);
-  padding:24px 16px;
-}
-.brand{padding:0 7px;margin-bottom:28px}
-.brandmark{
-  width:40px;height:40px;border-radius:12px;
-  background:#1d1d1f;
-  color:#fff;
-  font-size:20px;
-  box-shadow:none;
-}
-.brand b{font-size:19px;letter-spacing:-.03em;color:#1d1d1f}
-.brand small{color:#86868b;font-size:11px}
-.nav{gap:4px}
-.nav button{
-  color:#515154;
-  border-radius:11px;
-  padding:10px 12px;
-  font-size:13px;
-  font-weight:600;
-  transition:.16s ease;
-}
-.nav button:hover{background:rgba(0,0,0,.045);color:#1d1d1f}
-.nav button.active{
-  background:#1d1d1f;
-  color:#fff;
-  box-shadow:none;
-}
-.sidebox{
-  margin-top:26px;
-  padding:14px;
-  background:#f2f2f4;
-  border:0;
-  border-radius:14px;
-  color:#1d1d1f;
-}
-.sidebox b{font-size:13px}
-.sidebox small{color:#77777c;font-size:11px}
-main{padding:30px 36px 56px;max-width:1440px}
-.top{
-  min-height:48px;
-  margin-bottom:28px;
-}
-.search{max-width:460px}
-.search input{
-  background:rgba(255,255,255,.84);
-  border:1px solid rgba(0,0,0,.07);
-  border-radius:12px;
-  padding:11px 14px;
-  box-shadow:none;
-}
-.user b{font-size:13px}
-.avatar{
-  width:38px;height:38px;
-  background:#1d1d1f;color:#fff;
-  font-size:12px;
-}
-.title{margin-bottom:22px;align-items:center}
-.title h1,.title h2{
-  font-size:30px;
-  letter-spacing:-.04em;
-  line-height:1.08;
-  font-weight:700;
-}
-.title p{font-size:14px;line-height:1.5;color:#86868b}
-
-.hero{
-  background:#1d1d1f;
-  border-radius:24px;
-  padding:34px;
-  min-height:220px;
-  box-shadow:none;
-}
-.hero h1{
-  font-size:38px;
-  line-height:1.04;
-  letter-spacing:-.05em;
-  max-width:760px;
-  font-weight:700;
-}
-.hero p{color:#d2d2d7;font-size:15px;max-width:650px}
-.hero:after{opacity:.08;filter:grayscale(1)}
-
-.btn{
-  border-radius:10px;
-  padding:10px 14px;
-  font-size:13px;
-  font-weight:650;
-  transition:.15s ease;
-}
-.btn:hover{transform:translateY(-1px)}
-.primary{background:#0071e3;color:#fff}
-.soft{background:#f0f0f2;color:#1d1d1f}
-.green{background:#eaf7ed;color:#166c2c}
-.amber{background:#fff6e8;color:#8a5800}
-.danger{background:#fff0f1;color:#b00014}
-.dark{background:#1d1d1f;color:#fff}
-
-.stats{gap:12px}
-.stat,.card,.driver-simple-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-}
-.stat{
-  border-radius:17px;
-  padding:18px;
-}
-.stat small{font-size:12px;color:#86868b}
-.stat b{
-  font-size:27px;
-  letter-spacing:-.04em;
-  margin-top:9px;
-}
-.card{
-  border-radius:20px;
-  padding:20px;
-}
-.cardhead{margin-bottom:16px}
-.cardhead h3{font-size:16px;letter-spacing:-.025em}
-.item{
-  border:0;
-  border-radius:14px;
-  background:#f7f7f9;
-  padding:15px;
-}
-.item + .item{margin-top:8px}
-.itemtop{align-items:flex-start}
-.route{font-size:17px;letter-spacing:-.025em}
-.muted{color:#86868b}
-.chips{gap:6px}
-.chip{
-  background:#f0f0f2;
-  color:#5d5d61;
-  padding:5px 8px;
-  border-radius:8px;
-  font-size:11px;
-  font-weight:650;
-}
-.chip.blue{background:#edf5ff;color:#0066cc}
-.chip.green{background:#edf8ef;color:#1b7332}
-.chip.amber{background:#fff7eb;color:#9a6200}
-.chip.red{background:#fff0f1;color:#c00014}
-
-.form{gap:14px}
-label{
-  color:#515154;
-  font-size:12px;
-  font-weight:600;
-}
-input,select,textarea{
-  border:1px solid rgba(0,0,0,.11);
-  background:#fff;
-  border-radius:10px;
-  padding:11px 12px;
-  color:#1d1d1f;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:#0071e3;
-  box-shadow:0 0 0 3px rgba(0,113,227,.11);
-}
-textarea{min-height:88px}
-
-.map{
-  border-radius:16px;
-  border:1px solid var(--line);
-  filter:saturate(.7);
-}
-.progress{height:7px;background:#ececef}
-.bar{background:#0071e3}
-.timeline{gap:6px}
-.step{
-  border-radius:8px;
-  background:#f0f0f2;
-  color:#77777c;
-  padding:8px 6px;
-}
-.step.done{background:#edf8ef;color:#1b7332}
-.step.now{background:#edf5ff;color:#0066cc}
-
-.kpi,.detail{
-  background:#f7f7f9;
-  border:0;
-  border-radius:12px;
-}
-.kpi small,.detail small{color:#86868b}
-.alert{
-  border:0;
-  background:#fff7eb;
-  border-radius:14px;
-  padding:13px 14px;
-}
-.alert.red{background:#fff0f1}
-.alert.green{background:#edf8ef}
-
-.table th{
-  font-size:11px;
-  color:#86868b;
-  font-weight:650;
-  text-transform:uppercase;
-  letter-spacing:.035em;
-}
-.table td{font-size:13px}
-.table th,.table td{padding:13px 10px}
-
-.driver-shell{max-width:680px}
-.driver-status{
-  background:#1d1d1f;
-  border-radius:24px;
-  padding:26px;
-  box-shadow:none;
-}
-.driver-status .bigroute{
-  font-size:32px;
-  letter-spacing:-.045em;
-}
-.driver-simple-card{border-radius:18px}
-.driver-row{padding:14px 0}
-.driver-row span{color:#86868b}
-.driver-big-btn{
-  font-size:19px !important;
-  padding:18px !important;
-  border-radius:14px;
-  letter-spacing:-.015em;
-}
-
-.role-gate{
-  background:#f5f5f7;
-}
-.role-box{
-  width:min(720px,100%);
-  border-radius:26px;
-  padding:28px;
-  box-shadow:0 30px 80px rgba(0,0,0,.10);
-  border:1px solid rgba(0,0,0,.06);
-}
-.role-box h1{
-  color:#1d1d1f;
-  font-size:32px;
-  letter-spacing:-.045em;
-}
-.role-box p{color:#86868b}
-.role-grid{gap:12px}
-.role-card{
-  border:1px solid rgba(0,0,0,.08);
-  border-radius:18px;
-  padding:22px;
-  transition:.16s ease;
-}
-.role-card:hover{
-  border-color:rgba(0,0,0,.16);
-  box-shadow:0 10px 26px rgba(0,0,0,.06);
-  transform:translateY(-1px);
-}
-.role-card .emoji{font-size:34px;filter:grayscale(.15)}
-.role-card h3{font-size:20px;letter-spacing:-.03em}
-.role-badge{
-  background:#1d1d1f;
-  color:#fff;
-  border-radius:8px;
-  font-size:11px;
-}
-
-.driver-bottom{
-  background:rgba(255,255,255,.92);
-  backdrop-filter:saturate(180%) blur(18px);
-  -webkit-backdrop-filter:saturate(180%) blur(18px);
-  border-top:1px solid rgba(0,0,0,.08);
-  box-shadow:none;
-}
-.driver-bottom button{color:#8a8a8e}
-.driver-bottom button.active{color:#0071e3}
-
-.empty{
-  border:0;
-  background:#f7f7f9;
-  color:#86868b;
-  border-radius:14px;
-}
-
-@media(max-width:1150px){
-  aside{background:#fff}
-}
-@media(max-width:700px){
-  main{padding:18px 15px 94px}
-  .title h1,.title h2{font-size:26px}
-  .hero{padding:24px;border-radius:20px;min-height:190px}
-  .hero h1{font-size:30px}
-  .card{padding:16px;border-radius:17px}
-  .stat{padding:15px;border-radius:15px}
-  .driver-status{border-radius:20px;padding:21px}
-  .driver-status .bigroute{font-size:28px}
-  .role-box{padding:20px;border-radius:22px}
-}
-
-
-/* ===== Sevkio icon + proof media system ===== */
-.icon-sprite{position:absolute;width:0;height:0;overflow:hidden}
-.ui-icon{width:18px;height:18px;display:inline-block;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
-.ui-icon.sm{width:16px;height:16px}.ui-icon.lg{width:22px;height:22px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.nav button{display:flex;align-items:center;gap:10px}
-.nav button .ui-icon{width:17px;height:17px;opacity:.86}
-.brandmark{display:grid;place-items:center}.brandmark .ui-icon{width:21px;height:21px}
-.media-box{border:1px solid rgba(0,0,0,.09);background:#fafafa;border-radius:14px;padding:14px}
-.media-box-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;margin-bottom:5px}
-.media-box p{font-size:12px;color:#86868b;margin:0 0 10px;line-height:1.45}
-.media-input{display:block;width:100%;padding:10px;border:1px dashed rgba(0,0,0,.18);border-radius:10px;background:#fff;font-size:12px}
-.media-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-.media-modal{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1500;display:none;place-items:center;padding:20px}
-.media-modal.open{display:grid}.media-modal-card{width:min(900px,100%);max-height:86vh;overflow:auto;background:#fff;border-radius:22px;padding:20px;box-shadow:0 30px 90px rgba(0,0,0,.22)}
-.media-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.media-gallery img,.media-gallery video{width:100%;max-height:380px;object-fit:contain;background:#0b0b0c;border-radius:14px}
-.media-file{padding:14px;background:#f7f7f9;border-radius:12px}
-.driver-bottom button b{height:20px}
-.driver-bottom button b .ui-icon{width:20px;height:20px}
-@media(max-width:700px){.media-gallery{grid-template-columns:1fr}}
-
-
-/* ===== Premium visual system v6 ===== */
-:root{--font-ui:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-body{font-family:var(--font-ui);font-feature-settings:"cv02","cv03","cv04","cv11";letter-spacing:-.012em}
-h1,h2,h3,.route,.bigroute,.stat b{font-family:var(--font-ui);font-weight:750;letter-spacing:-.035em}
-.brand b{font-size:20px;font-weight:800;letter-spacing:-.045em}
-.brand small{letter-spacing:.01em}
-.brandmark{
- background:linear-gradient(145deg,#0d1117,#273244)!important;
- border-radius:13px!important;
- box-shadow:0 8px 22px rgba(15,23,42,.18)!important;
-}
-.brandmark svg{stroke-width:2.2}
-.hero{
- position:relative;overflow:hidden;min-height:310px;
- background:
- linear-gradient(90deg,rgba(8,13,20,.96) 0%,rgba(8,13,20,.86) 43%,rgba(8,13,20,.25) 75%,rgba(8,13,20,.12) 100%),
- url("https://images.unsplash.com/photo-1725781535657-29d825bc7824?auto=format&fit=crop&fm=jpg&q=82&w=1800") center/cover no-repeat!important;
- display:flex;flex-direction:column;justify-content:flex-end;
- border-radius:26px;
-}
-.hero:after{display:none!important}
-.hero h1{font-size:44px;max-width:700px;text-shadow:0 2px 16px rgba(0,0,0,.22)}
-.hero p{max-width:620px;font-size:15px}
-.hero .hero-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.hero .hero-proof span{padding:7px 10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:999px;color:#fff;font-size:11px;font-weight:700}
-.photo-strip{display:grid;grid-template-columns:1.4fr .9fr;gap:12px;margin:14px 0}
-.real-photo{position:relative;overflow:hidden;border-radius:18px;min-height:180px;background:#ddd}
-.real-photo img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
-.real-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.7))}
-.real-photo-copy{position:absolute;z-index:2;left:16px;right:16px;bottom:14px;color:white}
-.real-photo-copy b{display:block;font-size:16px;letter-spacing:-.025em}.real-photo-copy small{opacity:.82}
-.driver-status{
- position:relative;overflow:hidden;
- background:
- linear-gradient(90deg,rgba(10,15,23,.96),rgba(10,15,23,.83) 55%,rgba(10,15,23,.35)),
- url("https://images.unsplash.com/photo-1779832291376-1e2ce950d18c?auto=format&fit=crop&fm=jpg&q=80&w=1400") center/cover no-repeat!important;
- min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;
-}
-.driver-status>*{position:relative;z-index:1}
-.driver-simple-card{box-shadow:0 10px 32px rgba(0,0,0,.06)}
-.avatar{background:linear-gradient(145deg,#101827,#34445c)}
-.media-box{background:#fff;border:1px solid rgba(0,0,0,.08);box-shadow:0 5px 18px rgba(0,0,0,.035)}
-@media(max-width:700px){
- .hero{min-height:290px;background-position:60% center!important}.hero h1{font-size:33px}
- .photo-strip{grid-template-columns:1fr}.real-photo{min-height:160px}
-}
-
-
-/* ===== Mobile slide navigation ===== */
-.mobile-menu-btn,.mobile-nav-backdrop,.mobile-nav-close{display:none}
-@media(max-width:900px){
- .app{display:block!important}
- aside{position:fixed!important;left:0;top:0;bottom:0;z-index:900;width:min(330px,86vw);height:100dvh!important;transform:translateX(-105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:18px 0 55px rgba(0,0,0,.14);overflow:auto;padding:22px 16px calc(28px + env(safe-area-inset-bottom))!important}
- body.mobile-nav-open aside{transform:translateX(0)}
- .mobile-nav-backdrop{display:block;position:fixed;inset:0;z-index:890;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .25s}
- body.mobile-nav-open .mobile-nav-backdrop{opacity:1;pointer-events:auto}
- .mobile-menu-btn{display:inline-flex;width:42px;height:42px;border:1px solid rgba(0,0,0,.08);border-radius:13px;background:#fff;align-items:center;justify-content:center;color:#1d1d1f;flex:0 0 auto}
- .mobile-nav-close{display:grid;position:absolute;right:14px;top:18px;width:38px;height:38px;border:0;border-radius:12px;background:#f2f2f4;place-items:center;color:#1d1d1f}
- aside .brand{padding-right:45px}
- aside .nav{display:grid!important;grid-template-columns:1fr!important;gap:3px!important}
- aside .nav button{width:100%;padding:12px 13px!important}
- aside .sidebox{display:block!important}
- main{width:100%!important;max-width:none!important;padding:18px 15px 94px!important;overflow:hidden}
- .top{gap:10px;margin-bottom:18px}.top .search{display:none!important}.top .user{margin-left:auto}
-}
-
-
-/* ===== Brand identity & premium shell v7 ===== */
-.sevkio-lockup{display:flex;align-items:center;gap:11px;min-width:0}
-.sevkio-symbol{width:48px;height:48px;flex:0 0 auto;filter:drop-shadow(0 7px 14px rgba(0,87,217,.16))}
-.sevkio-word{display:flex;flex-direction:column;line-height:1}.sevkio-word b{font-size:20px;font-weight:850;letter-spacing:.045em;color:#101318}.sevkio-word small{margin-top:6px;font-size:9px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:#92969d}
-aside .brand{padding:4px 4px 22px!important;border-bottom:1px solid rgba(0,0,0,.07);margin-bottom:14px}
-aside .sevkio-symbol{width:45px;height:45px}
-.hero{background-image:linear-gradient(90deg,rgba(8,13,20,.92) 0%,rgba(8,13,20,.67) 48%,rgba(8,13,20,.12) 78%),url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1800&q=88")!important;background-position:center!important}
-@media(min-width:901px){
- aside{background:#fbfbfc!important;border-right:1px solid #e9eaec!important}
- aside .nav{gap:2px!important}
- aside .nav button{border-radius:11px!important;padding:10px 11px!important;font-size:12px!important;font-weight:650!important}
- aside .nav button.active{background:#11151b!important;color:#fff!important;box-shadow:0 7px 20px rgba(15,23,42,.12)!important}
-}
-@media(max-width:900px){
- aside .brand{padding-right:48px!important}
- .sevkio-word small{display:block!important}
-}
-
-
-</style>
+<link rel="stylesheet" href="assets/app.css">
 <link rel="stylesheet" href="assets/auth.css">
 </head>
 <body>
@@ -609,16 +123,10 @@ aside .sevkio-symbol{width:45px;height:45px}
 <div class="app">
 <aside>
  <button class="mobile-nav-close" aria-label="Menüyü kapat" onclick="closeMobileNav()"><svg class="ui-icon"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
- <div class="brand"><div class="sevkio-lockup" aria-label="Sevkio">
-<svg class="sevkio-symbol" viewBox="0 0 64 64" aria-hidden="true">
- <defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2584ff"/><stop offset="1" stop-color="#0057d9"/></linearGradient><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#334155"/></linearGradient></defs>
- <path d="M9 13h34c7 0 11 3 12 8-2-2-5-3-9-3H25c-5 0-8 2-9 5-1 3 1 5 6 7l12 4-8 8-12-5C5 33 2 27 4 21c1-4 3-6 5-8Z" fill="url(#sg1)"/>
- <path d="M55 51H21c-7 0-11-3-12-8 2 2 5 3 9 3h21c5 0 8-2 9-5 1-3-1-5-6-7l-12-4 8-8 12 5c9 4 12 10 10 16-1 4-3 6-5 8Z" fill="url(#sg2)"/>
-</svg>
-<div class="sevkio-word"><b>SEVKIO</b><small>Lojistik Operasyon Ağı</small></div></div></div>
+ <div class="brand"><img src="assets/logo-dark.svg" alt="Sevkio — Lojistik Operasyon Ağı"></div>
  <div class="nav">
   <button class="driver-only active" data-target="driver"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Şoför Ekranı</button>
-  <button class="company-only" data-target="dashboard"><svg class="ui-icon"><use href="#ic-home"></use></svg>Genel Bakış</button>
+  <div class="nav-label company-only">Operasyon</div><button class="company-only" data-target="dashboard"><svg class="ui-icon"><use href="#ic-home"></use></svg>Genel Bakış</button>
   <button class="company-only" data-target="loads"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yükler</button>
   <button class="company-only" data-target="vehicles"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Araçlar</button>
   <button class="company-only" data-target="matches"><svg class="ui-icon"><use href="#ic-route"></use></svg>Eşleşmeler</button>
@@ -627,7 +135,7 @@ aside .sevkio-symbol{width:45px;height:45px}
   <button class="company-only" data-target="ratings"><svg class="ui-icon"><use href="#ic-star"></use></svg>Puan & Yorumlar</button>
   <button class="company-only" data-target="regional"><svg class="ui-icon"><use href="#ic-pin"></use></svg>Bölgesel Güven</button>
   <button class="company-only" data-target="payments"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Ödemeler</button>
-  <button class="company-only" data-target="messages"><svg class="ui-icon"><use href="#ic-message"></use></svg>Mesajlar</button>
+  <div class="nav-label company-only">İletişim ve hesap</div><button class="company-only" data-target="messages"><svg class="ui-icon"><use href="#ic-message"></use></svg>Mesajlar</button>
   <button class="company-only" data-target="notifications"><svg class="ui-icon"><use href="#ic-bell"></use></svg>Bildirimler</button>
   <button class="company-only" data-target="docs"><svg class="ui-icon"><use href="#ic-file"></use></svg>Evraklar</button>
   <button class="company-only" data-target="support"><svg class="ui-icon"><use href="#ic-shield"></use></svg>Destek</button>
@@ -639,11 +147,11 @@ aside .sevkio-symbol{width:45px;height:45px}
 </aside>
 
 <main>
- <div class="top company-top"><button class="mobile-menu-btn" aria-label="Menüyü aç" onclick="openMobileNav()"><svg class="ui-icon lg"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="search"><input placeholder="Plaka, sürücü, rota, yük no ara"></div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Operasyon</div></div><div class="avatar">SV</div></div></div>
+ <div class="top"><button class="mobile-menu-btn" aria-label="Menüyü aç" onclick="openMobileNav()"><svg class="ui-icon lg"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="workspace-label"><b>Sevkio</b> / Çalışma alanı</div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Operasyon</div></div><div class="avatar">SV</div></div></div>
 
  <section id="driver" class="section active">
   <div class="driver-shell">
-    <div class="title"><div><h2>Şoför</h2><p>Tek iş, tek ekran.</p></div><span class="chip green">Şoför modu</span></div>
+    <div class="title"><div><h2>Yol arkadaşın.</h2><p>Mevcut taşıman ve sonraki adımların.</p></div></div>
 
     <div class="driver-status">
       <div style="opacity:.78;font-size:13px">Şu anki işin</div>
@@ -662,28 +170,28 @@ aside .sevkio-symbol{width:45px;height:45px}
       <div class="driver-row"><span>Telefon</span><b id="driverHomeReceiverPhone">0532 111 22 33</b></div>
     </div>
 
-    <div style="display:grid;gap:12px;margin-top:14px">
-      <button class="btn primary driver-big-btn" onclick="driverAction('start')"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg>YOLA ÇIKTIM</button>
-      <button class="btn green driver-big-btn" onclick="driverAction('arrive')"><svg class="ui-icon lg"><use href="#ic-pin"></use></svg>TESLİM YERİNE GELDİM</button>
-      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')"><svg class="ui-icon lg"><use href="#ic-check"></use></svg>YÜKÜ TESLİM ETTİM</button>
+    <div class="driver-actions">
+      <button class="btn primary driver-big-btn" onclick="driverAction('start')"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg>Yola çıktım</button>
+      <button class="btn green driver-big-btn" onclick="driverAction('arrive')"><svg class="ui-icon lg"><use href="#ic-pin"></use></svg>Teslim yerine geldim</button>
+      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')"><svg class="ui-icon lg"><use href="#ic-check"></use></svg>Yükü teslim ettim</button>
     </div>
 
     <div class="driver-simple-card" style="margin-top:14px">
-      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px" onclick="alert('Navigasyon demo')"><svg class="ui-icon lg"><use href="#ic-nav"></use></svg>NAVİGASYONU AÇ</button>
-      <button class="btn soft driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="alert('Telefon araması demo')"><svg class="ui-icon lg"><use href="#ic-phone"></use></svg>TESLİM ALANI ARA</button>
-      <button class="btn danger driver-big-btn" style="font-size:18px;padding:15px;margin-top:9px" onclick="openDriverIssue()"><svg class="ui-icon lg"><use href="#ic-alert"></use></svg>SORUN BİLDİR</button>
+      <button class="btn soft driver-big-btn"  onclick="alert('Navigasyon demo')"><svg class="ui-icon lg"><use href="#ic-nav"></use></svg>Navigasyonu aç</button>
+      <button class="btn soft driver-big-btn"  onclick="alert('Telefon araması demo')"><svg class="ui-icon lg"><use href="#ic-phone"></use></svg>Teslim alacak kişiyi ara</button>
+      <button class="btn danger driver-big-btn"  onclick="openDriverIssue()"><svg class="ui-icon lg"><use href="#ic-alert"></use></svg>Sorun bildir</button>
     </div>
 
     <div class="driver-simple-card" style="margin-top:14px">
-      <div class="cardhead"><h3>İş bitince</h3></div>
-      <button class="btn primary driver-big-btn" style="font-size:18px;padding:16px" onclick="go('backhaul')"><svg class="ui-icon lg"><use href="#ic-refresh"></use></svg>YENİ YÜK BUL</button>
-      <button class="btn green driver-big-btn" style="font-size:18px;padding:16px;margin-top:9px" onclick="go('ratings')"><svg class="ui-icon lg"><use href="#ic-star"></use></svg>FİRMAYI PUANLA</button>
+      <div class="cardhead"><h3>Sonraki adım</h3></div>
+      <button class="btn primary driver-big-btn"  onclick="go('backhaul')"><svg class="ui-icon lg"><use href="#ic-refresh"></use></svg>Yeni yük bul</button>
+      <button class="btn green driver-big-btn"  onclick="go('ratings')"><svg class="ui-icon lg"><use href="#ic-star"></use></svg>Firmayı puanla</button>
     </div>
   </div>
  </section>
 
  <section id="dashboard" class="section">
-  <div class="hero"><h1>Sadece araç bulma değil, nakliyenin tamamını yönet.</h1><p>Yükleme noktasından teslimata, araç konumundan boşaltma onayına ve sonraki yüke kadar tek akış.</p><button class="btn primary" onclick="go('trips')">Canlı taşımayı aç</button></div>
+  <div class="hero"><h1>Operasyonun bir bakışta.</h1><p>Yüklerini, taşımalarını ve teslimatlarını aynı yerden yönet.</p><button class="btn primary" onclick="go('loads')">Yeni yük oluştur</button><button class="btn hero-secondary" onclick="go('trips')">Taşımaları görüntüle</button></div>
   <div class="stats">
    <div class="stat"><small>Aktif yük</small><b id="sLoads">0</b></div>
    <div class="stat"><small>Aktif araç</small><b id="sVehicles">0</b></div>
@@ -781,7 +289,7 @@ aside .sevkio-symbol{width:45px;height:45px}
     </div>
    </div>
    <div class="card"><div class="cardhead"><h3>Boşaltma kontrol listesi</h3></div>
-    <table class="table"><tr><th>Kontrol</th><th>Durum</th></tr><tr><td>Boşaltma adresine varış</td><td><span class="chip green">GPS doğrulandı</span></td></tr><tr><td>Alıcı kimliği</td><td><span class="chip blue">Kayıtlı</span></td></tr><tr><td>Ürün sayımı</td><td><span class="chip amber">Onay bekliyor</span></td></tr><tr><td>Hasar kontrolü</td><td><span class="chip">Beyan yok</span></td></tr><tr><td>İrsaliye/POD</td><td><span class="chip blue">Dijital</span></td></tr></table>
+    <div class="table-scroll"><table class="table"><tr><th>Kontrol</th><th>Durum</th></tr><tr><td>Boşaltma adresine varış</td><td><span class="chip green">GPS doğrulandı</span></td></tr><tr><td>Alıcı kimliği</td><td><span class="chip blue">Kayıtlı</span></td></tr><tr><td>Ürün sayımı</td><td><span class="chip amber">Onay bekliyor</span></td></tr><tr><td>Hasar kontrolü</td><td><span class="chip">Beyan yok</span></td></tr><tr><td>İrsaliye/POD</td><td><span class="chip blue">Dijital</span></td></tr></table></div>
    </div>
   </div>
  </section>
@@ -884,7 +392,7 @@ aside .sevkio-symbol{width:45px;height:45px}
   <div class="driver-shell">
    <div class="title"><div><h2>Kazanç</h2><p>Ne kazandın, ne zaman ödenecek?</p></div><span class="chip green">Basit</span></div>
    <div class="stats" style="grid-template-columns:repeat(2,1fr)">
-    <div class="stat"><small>Bu hafta</small><b id="driverWeekEarn">₺0</b></div>
+    <div class="stat"><small>Toplam kazanç</small><b id="driverWeekEarn">₺0</b></div>
     <div class="stat"><small>Bekleyen ödeme</small><b id="driverPendingEarn">₺0</b></div>
    </div>
    <div class="driver-simple-card">
@@ -929,13 +437,13 @@ aside .sevkio-symbol{width:45px;height:45px}
  <section id="payments" class="section">
   <div class="title"><div><h2>Ödeme Merkezi</h2><p>Şoför ödemeleri, vadeler ve gecikme riskleri.</p></div><span class="chip green">Firma</span></div>
   <div class="stats" style="grid-template-columns:repeat(4,1fr)">
-   <div class="stat"><small>Bu ay taşıma</small><b>₺186.400</b></div>
-   <div class="stat"><small>Ödendi</small><b>₺121.600</b></div>
-   <div class="stat"><small>Bekliyor</small><b>₺64.800</b></div>
-   <div class="stat"><small>Geciken</small><b>₺0</b></div>
+   <div class="stat"><small>Toplam taşıma bedeli</small><b id="payTotal">₺0</b></div>
+   <div class="stat"><small>Ödendi</small><b id="payPaid">₺0</b></div>
+   <div class="stat"><small>Bekliyor</small><b id="payPending">₺0</b></div>
+   <div class="stat"><small>Ödeme bekleyen kayıt</small><b id="payCount">0</b></div>
   </div>
   <div class="card">
-   <table class="table"><thead><tr><th>Taşıma</th><th>Şoför</th><th>Tutar</th><th>Vade</th><th>Durum</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table>
+   <div class="table-scroll"><table class="table"><thead><tr><th>Taşıma</th><th>Şoför</th><th>Tutar</th><th>Vade</th><th>Durum</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></div>
   </div>
  </section>
 
@@ -981,7 +489,7 @@ aside .sevkio-symbol{width:45px;height:45px}
  <section id="docs" class="section">
   <div class="title"><div><h2>Evrak & Kayıt Merkezi</h2><p>Taşıma boyunca oluşan tüm kayıtlar.</p></div></div>
   <div class="card">
-   <table class="table"><thead><tr><th>Belge / kayıt</th><th>Yük</th><th>Durum</th><th>Zaman</th></tr></thead><tbody id="docsBody"></tbody></table>
+   <div class="table-scroll"><table class="table"><thead><tr><th>Belge / kayıt</th><th>Yük</th><th>Durum</th><th>Zaman</th></tr></thead><tbody id="docsBody"></tbody></table></div>
   </div>
  </section>
 </main>
@@ -1106,7 +614,7 @@ async function confirmDelivery(){
 }
 function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&+l.weight<=+v.capacity).map(l=>({l,score:92-(Math.abs(+l.weight-(+v.capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
 function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">Kapasite ${money(v.capacity)} kg</span><span class="chip">Boş km: ${t.emptyKm}</span></div><div class="kpis"><div class="kpi"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Fırsat</small><b>${a.length} yük</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">% ${x.score} uyum</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü azaltır</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Sonraki yük olarak ata</button></div>`).join(''):'<div class="empty">Bu teslim şehrinden uygun sonraki yük yok.</div>'}
-function assignBackhaul(loadId){const old=trip(),v=vehicle(old.vehicleId),l=load(loadId);db.trips.unshift({id:uid('T'),loadId:l.id,vehicleId:v.id,stage:'Atandı',progress:0,eta:'Hesaplanıyor',distanceLeft:0,emptyKm:8,delay:0,pickupConfirmed:false,pod:false,receiverConfirmed:false});selectedTrip=db.trips[0].id;v.status='Atandı';db.docs.push({name:'Sonraki yük ataması',loadNo:l.loadNo,status:'Atandı',time:new Date().toLocaleString('tr-TR')});save();go('trips')}
+function assignBackhaul(loadId){const old=trip(),v=vehicle(old.vehicleId),l=load(loadId);db.trips.unshift({id:uid('T'),loadId:l.id,vehicleId:v.id,stage:'Atandı',progress:0,eta:'Hesaplanıyor',distanceLeft:0,emptyKm:8,delay:0,pickupConfirmed:false,pod:false,receiverConfirmed:false});selectedTrip=db.trips[0].id;v.status='Atandı';db.docs.push({name:'Sonraki yük ataması',loadNo:l.loadNo,status:'Atandı',time:new Date().toLocaleString('tr-TR')});save();go(getSession()?.role==='driver'?'driver':'trips')}
 function renderRatings(){
  const ds=document.getElementById('rateDriverSelect'),cs=document.getElementById('rateCompanySelect');
  if(ds) ds.innerHTML=db.vehicles.map(v=>'<option value="'+v.id+'">'+v.driver+' • '+v.plate+'</option>').join('');
@@ -1191,6 +699,8 @@ function renderDriverViews(){
  if(tc)tc.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.paymentScore-a.paymentScore).slice(0,3).map(r=>'<div class="item"><div class="itemtop"><b>'+r.company+'</b><span class="chip green">Ödeme ★ '+r.paymentScore.toFixed(1)+'</span></div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div>').join('');
 }
 function renderPayments(){
+ const payments=db.payments||[],paid=payments.filter(p=>p.status==='Ödendi'),pending=payments.filter(p=>p.status!=='Ödendi');
+ for(const [id,value] of Object.entries({payTotal:'₺'+money(payments.reduce((n,p)=>n+p.amount,0)),payPaid:'₺'+money(paid.reduce((n,p)=>n+p.amount,0)),payPending:'₺'+money(pending.reduce((n,p)=>n+p.amount,0)),payCount:pending.length})){const node=document.getElementById(id);if(node)node.textContent=value;}
  const el=document.getElementById('paymentRows');if(!el)return;
  el.innerHTML=(db.payments||[]).map(p=>'<tr><td>'+p.loadNo+'</td><td>'+p.driver+'</td><td>₺'+money(p.amount)+'</td><td>'+p.due+'</td><td><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span></td><td>'+(p.status==='Ödendi'?'':'<button class="btn green" onclick="markPaid(\''+p.id+'\')">Ödendi</button>')+'</td></tr>').join('');
 }
