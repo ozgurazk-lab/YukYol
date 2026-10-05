@@ -1,9 +1,16 @@
 {
-  "name": "Sevkio - Nakliye Eşleştirme",
+  "name": "Sevkio — Yük ve nakliye platformu",
   "short_name": "Sevkio",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#0f172a",
-  "description": "Yük sahipleri ile uygun nakliye araçlarını eşleştiren MVP."
+  "background_color": "#f4f6fa",
+  "theme_color": "#0b1b2e",
+  "description": "Yük sahiplerini doğrulanmış şoförlerle buluşturan, taşımayı canlı takip ettiren platform.",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
 }

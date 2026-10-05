@@ -13,13 +13,13 @@ workflows:
         script: |
           set -e
           grep -q "<html" index.html
-          grep -q "YükYol" index.html
+          grep -q "Sevkio" index.html
           echo "index.html validation passed."
       - name: Package web app
         script: |
           set -e
           mkdir -p build
-          cp index.html manifest.json README.md build/
+          cp -r index.html manifest.json README.md assets .nojekyll build/
           cd build
           zip -r ../YukYol-Web-MVP.zip .
     artifacts:
