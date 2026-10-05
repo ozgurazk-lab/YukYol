@@ -497,6 +497,43 @@ h1,h2,h3,.route,.bigroute,.stat b{font-family:var(--font-ui);font-weight:750;let
  .top{gap:10px;margin-bottom:18px}.top .search{display:none!important}.top .user{margin-left:auto}
 }
 
+
+/* ===== Premium authentication experience v2 ===== */
+.premium-auth{padding:0!important;background:#0b0d10!important;display:grid!important;grid-template-columns:minmax(0,1.08fr) minmax(430px,.92fr)!important;overflow:hidden}
+.premium-auth .auth-visual{position:relative;min-height:100dvh;background:url("https://images.unsplash.com/photo-1725781535657-29d825bc7824?auto=format&fit=crop&fm=jpg&q=88&w=1800") center/cover no-repeat;color:#fff;overflow:hidden}
+.auth-visual-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,12,.28),rgba(5,8,12,.32) 38%,rgba(5,8,12,.94) 100%)}
+.auth-visual-brand{position:absolute;z-index:2;left:clamp(28px,4vw,64px);top:clamp(28px,4vw,54px);display:flex;align-items:center;gap:12px;font-size:24px;letter-spacing:-.045em}
+.auth-visual-brand .auth-logo{background:rgba(10,12,16,.7)!important;border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(16px)}
+.auth-visual-copy{position:absolute;z-index:2;left:clamp(28px,5vw,76px);right:clamp(28px,5vw,76px);bottom:clamp(38px,7vh,84px);max-width:720px}
+.auth-visual-copy .eyebrow{font-size:11px;letter-spacing:.16em;font-weight:800;color:rgba(255,255,255,.72)}
+.auth-visual-copy h1{font-size:clamp(44px,5.1vw,76px);line-height:.96;letter-spacing:-.065em;margin:16px 0 22px;font-weight:760}
+.auth-visual-copy p{font-size:16px;line-height:1.65;color:rgba(255,255,255,.72);max-width:610px;margin:0}
+.trust-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:25px}.trust-row span{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(14px);font-size:11px;font-weight:700}
+.auth-workspace{min-height:100dvh;background:#f7f7f8;padding:clamp(30px,6vh,70px) clamp(28px,5vw,78px);overflow:auto;display:flex;flex-direction:column;justify-content:center}
+.auth-mobile-brand{display:none}.auth-intro{max-width:540px;width:100%;margin:0 auto 24px}.auth-intro h2{font-size:34px;line-height:1.05;letter-spacing:-.05em;margin:16px 0 8px}.auth-intro p{margin:0;color:#77777c;font-size:14px}.secure-pill{display:inline-flex;align-items:center;gap:6px;color:#248a3d;font-size:11px;font-weight:800;letter-spacing:.02em}
+.premium-auth .auth-body{max-width:540px;width:100%;margin:0 auto;padding:0!important}
+.premium-auth .auth-tabs{width:100%;display:grid;grid-template-columns:1fr 1fr;padding:4px;margin-bottom:18px}
+.premium-auth .auth-tabs button{padding:11px}
+.premium-auth .auth-role{gap:9px}.premium-auth .auth-role button{min-height:74px;padding:13px;border-radius:15px}
+.premium-auth .auth-form{gap:11px}.premium-auth .auth-form label{font-size:11px;font-weight:750;color:#5e5e63}
+.premium-auth .auth-form input{margin-top:6px;min-height:48px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.09);font-size:14px}
+.premium-auth .auth-form input:focus{border-color:#0071e3;box-shadow:0 0 0 3px rgba(0,113,227,.1)}
+.premium-auth .auth-form .btn.primary{min-height:50px;border-radius:13px;background:#15171a;font-size:14px;margin-top:3px}
+.premium-auth .auth-form .btn.primary:hover{background:#000}
+.premium-auth .auth-note{border-radius:12px;font-size:11px;line-height:1.55}
+.premium-auth .auth-body>div:last-child{margin-top:16px!important;padding-top:16px;border-top:1px solid rgba(0,0,0,.07)}
+.premium-auth .auth-body>div:last-child .btn{font-size:11px;padding:9px 11px}
+.auth-legal{max-width:540px;width:100%;margin:18px auto 0;color:#9a9a9f;font-size:10px;line-height:1.5}
+@media(max-width:820px){
+ .premium-auth{display:block!important;background:#f7f7f8!important;overflow:auto}
+ .premium-auth .auth-visual{display:none}
+ .auth-workspace{padding:26px 20px 38px;justify-content:flex-start}
+ .auth-mobile-brand{display:flex;align-items:center;gap:11px;margin-bottom:46px}.auth-mobile-brand b{display:block;font-size:22px;letter-spacing:-.05em}.auth-mobile-brand small{display:block;color:#86868b;font-size:11px;margin-top:2px}
+ .auth-intro h2{font-size:30px}
+ .premium-auth .auth-role{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.premium-auth .auth-role{grid-template-columns:1fr}.auth-mobile-brand{margin-bottom:36px}}
+
 </style>
 </head>
 <body>
@@ -524,13 +561,24 @@ h1,h2,h3,.route,.bigroute,.stat b{font-family:var(--font-ui);font-weight:750;let
 <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
 <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
 </svg>
-<div id="authGate" class="auth-gate">
- <div class="auth-shell">
-  <div class="auth-head">
-   <div class="auth-brand"><div class="auth-logo"><svg viewBox="0 0 32 32" width="27" height="27" aria-hidden="true" style="color:white"><path d="M8 7h10.5a5.5 5.5 0 0 1 0 11H14a5 5 0 0 0 0 10h10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="8" cy="7" r="2.4" fill="currentColor"/><circle cx="24" cy="28" r="2.4" fill="currentColor"/></svg></div><div><h1>Sevkio</h1><p>Güvenli nakliye ağı</p></div></div>
-   <span class="role-badge">Doğrulanmış hesap sistemi</span>
-  </div>
-  <div class="auth-body">
+<div id="authGate" class="auth-gate premium-auth">
+ <div class="auth-visual">
+   <div class="auth-visual-shade"></div>
+   <div class="auth-visual-brand">
+     <div class="auth-logo"><svg viewBox="0 0 32 32" width="27" height="27" aria-hidden="true" style="color:white"><path d="M8 7h10.5a5.5 5.5 0 0 1 0 11H14a5 5 0 0 0 0 10h10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="8" cy="7" r="2.4" fill="currentColor"/><circle cx="24" cy="28" r="2.4" fill="currentColor"/></svg></div>
+     <b>Sevkio</b>
+   </div>
+   <div class="auth-visual-copy">
+     <span class="eyebrow">DOĞRULANMIŞ LOJİSTİK AĞI</span>
+     <h1>Yükten teslime.<br>Tek operasyon ağı.</h1>
+     <p>Doğrulanmış firmalar ve şoförler, canlı operasyon takibi ve dijital teslim kanıtları aynı yerde.</p>
+     <div class="trust-row"><span><svg class="ui-icon"><use href="#ic-shield"></use></svg> Firma doğrulama</span><span><svg class="ui-icon"><use href="#ic-map"></use></svg> Canlı takip</span><span><svg class="ui-icon"><use href="#ic-file"></use></svg> Dijital POD</span></div>
+   </div>
+ </div>
+ <div class="auth-workspace">
+   <div class="auth-mobile-brand"><div class="auth-logo"><svg viewBox="0 0 32 32" width="25" height="25" style="color:white"><path d="M8 7h10.5a5.5 5.5 0 0 1 0 11H14a5 5 0 0 0 0 10h10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="8" cy="7" r="2.4" fill="currentColor"/><circle cx="24" cy="28" r="2.4" fill="currentColor"/></svg></div><div><b>Sevkio</b><small>Güvenli lojistik ağı</small></div></div>
+   <div class="auth-intro"><span class="secure-pill"><svg class="ui-icon sm"><use href="#ic-shield"></use></svg> Güvenli erişim</span><h2>Hesabınıza erişin</h2><p>Şoför veya firma hesabınızla devam edin.</p></div>
+   <div class="auth-body">
    <div class="auth-tabs"><button id="loginTab" class="active" onclick="showAuthTab('login')">Giriş yap</button><button id="registerTab" onclick="showAuthTab('register')">Kayıt ol</button></div>
    <div class="auth-role">
     <button id="driverRoleBtn" class="active" onclick="setAuthRole('driver')"><span class="role-icon"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg></span><span><b>Şoför</b><small>Telefon ve plaka ile</small></span></button>
@@ -604,6 +652,7 @@ h1,h2,h3,.route,.bigroute,.stat b{font-family:var(--font-ui);font-weight:750;let
   <button class="btn primary" onclick="demoVerifiedDriver()"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Doğrulanmış şoför demosu</button>
  </div>
   </div>
+   <div class="auth-legal">Hesabınıza devam ederek platform kullanım koşullarını ve gizlilik politikasını kabul etmiş olursunuz.</div>
  </div>
 </div>
 <div id="roleGate" style="display:none"></div>
