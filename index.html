@@ -1,10 +1,15 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta name="sevkio-build" content="2026-10-05-logistics-brand">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#08111f"><title>Sevkio — Lojistik Operasyon Platformu</title>
+<meta name="sevkio-build" content="2026-10-05-redesign">
+<meta name="theme-color" content="#0b1b2e"><title>Sevkio — Yükünü doğru araçla buluştur</title>
+<meta name="description" content="Sevkio, yük sahiplerini doğrulanmış şoförlerle buluşturur. Yükünü oluştur, aracını canlı takip et, teslimatı dijital belgeyle kapat.">
+<meta property="og:title" content="Sevkio — Yükünü doğru araçla buluştur"><meta property="og:description" content="Doğrulanmış şoförler, canlı takip ve dijital teslim belgesi tek platformda."><meta property="og:image" content="assets/hero.webp"><meta property="og:locale" content="tr_TR">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/app.css">
 <link rel="stylesheet" href="assets/auth.css">
 </head>
@@ -36,18 +41,20 @@
 <div id="authGate" class="auth-gate">
  <section class="auth-visual" aria-labelledby="authHeadline">
   <div class="auth-brand-reference" role="img" aria-label="SEVKIO — Lojistik Operasyon Ağı"></div>
-  <div class="auth-visual-copy"><h1 id="authHeadline">Yükünüz<br>güvende,<br>yolunuz açık.</h1><p>Firma, şoför ve yük operasyonlarını<br>tek platformda yönetin.</p></div>
+  <div class="auth-visual-copy"><h1 id="authHeadline">Yükünüz güvende,<br>yolunuz açık.</h1><p>Yük sahiplerini doğrulanmış şoförlerle buluşturuyoruz. Taşımanı baştan sona takip et, teslimatı belgesiyle kapat.</p>
+   <ul class="auth-points"><li><svg class="ui-icon"><use href="#ic-shield"></use></svg>Doğrulanmış firma ve şoförler</li><li><svg class="ui-icon"><use href="#ic-map"></use></svg>Canlı konum ve varış saati</li><li><svg class="ui-icon"><use href="#ic-file"></use></svg>Dijital teslim belgesi</li></ul></div>
  </section>
  <div class="auth-workspace">   <div class="auth-body">
+   <div class="auth-head"><h2 id="authTitle">Hesabına giriş yap</h2><p id="authSubtitle">Önce hesap türünü seç.</p></div>
    <div class="auth-tabs"><button id="loginTab" class="active" onclick="showAuthTab('login')">Giriş yap</button><button id="registerTab" onclick="showAuthTab('register')">Kayıt ol</button></div>
    <div class="auth-role role-photo-grid">
-    <button id="driverRoleBtn" class="active role-photo-card" onclick="setAuthRole('driver')">
+    <button id="driverRoleBtn" class="active role-photo-card" aria-pressed="true" onclick="setAuthRole('driver')">
       <span class="role-photo driver-photo"><span class="role-check"><svg class="ui-icon"><use href="#ic-check"></use></svg></span></span>
-      <span class="role-copy"><span class="role-mini-symbol driver-symbol"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7a5 5 0 0 1 10 0v3a5 5 0 0 1-10 0V7ZM7 6h10M5 21v-4a4 4 0 0 1 4-4l3 4 3-4a4 4 0 0 1 4 4v4M8 18v3m8-3v3M12 17v4"/></svg></span><span><b>Şoför</b><small>Taşımaları yönet, kazancını<br>artır.</small></span></span>
+      <span class="role-copy"><span class="role-mini-symbol driver-symbol"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7a5 5 0 0 1 10 0v3a5 5 0 0 1-10 0V7ZM7 6h10M5 21v-4a4 4 0 0 1 4-4l3 4 3-4a4 4 0 0 1 4 4v4M8 18v3m8-3v3M12 17v4"/></svg></span><span><b>Şoförüm</b><small>Yük bul, taşımanı yönet, kazancını gör.</small></span></span>
     </button>
     <button id="companyRoleBtn" class="role-photo-card" onclick="setAuthRole('company')">
       <span class="role-photo company-photo"><span class="role-check"><svg class="ui-icon"><use href="#ic-check"></use></svg></span></span>
-      <span class="role-copy"><span class="role-mini-symbol company-symbol"><svg class="ui-icon"><use href="#ic-building"></use></svg></span><span><b>Firma</b><small>Yüklerini oluştur, süreci<br>güvenle takip et.</small></span></span>
+      <span class="role-copy"><span class="role-mini-symbol company-symbol"><svg class="ui-icon"><use href="#ic-building"></use></svg></span><span><b>Firmayım</b><small>Yük oluştur, aracı seç, teslimatı izle.</small></span></span>
     </button>
    </div>
    <div id="authError" class="auth-error"></div>
@@ -55,32 +62,32 @@
    <div id="loginPanel" class="auth-panel active">
     <div id="driverLogin">
      <div class="auth-form">
-      <label class="full">Telefon Numarası<div class="field-with-icon"><svg class="ui-icon"><use href="#ic-phone"></use></svg><input id="driverLoginPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05xx xxx xx xx"><button type="button" class="clear-phone" aria-label="Telefon numarasını temizle" onclick="document.getElementById('driverLoginPhone').value='';document.getElementById('driverLoginPhone').focus()"><svg class="ui-icon" aria-hidden="true"><use href="#ic-x"></use></svg></button></div></label>
-      <div class="full password-label"><label for="driverLoginPassword">Şifre</label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum?</button><div class="password-field"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lock"></use></svg><input id="driverLoginPassword" autocomplete="current-password" type="password" placeholder="Şifrenizi girin"><button type="button" class="eye-btn" onclick="togglePassword('driverLoginPassword',this)" aria-label="Şifreyi göster"><svg class="ui-icon" aria-hidden="true"><use href="#ic-eye-off"></use></svg></button></div></div>
+      <label class="full">Telefon numarası<div class="field-with-icon"><svg class="ui-icon"><use href="#ic-phone"></use></svg><input id="driverLoginPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05xx xxx xx xx"><button type="button" class="clear-phone" aria-label="Telefon numarasını temizle" onclick="document.getElementById('driverLoginPhone').value='';document.getElementById('driverLoginPhone').focus()"><svg class="ui-icon" aria-hidden="true"><use href="#ic-x"></use></svg></button></div></label>
+      <div class="full password-label"><label for="driverLoginPassword">Şifre</label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum</button><div class="password-field"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lock"></use></svg><input id="driverLoginPassword" autocomplete="current-password" type="password" placeholder="Şifrenizi girin"><button type="button" class="eye-btn" onclick="togglePassword('driverLoginPassword',this)" aria-label="Şifreyi göster"><svg class="ui-icon" aria-hidden="true"><use href="#ic-eye-off"></use></svg></button></div></div>
       <button class="btn primary full" onclick="loginDriver()">Şoför olarak giriş yap<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
     </div>
     <div id="companyLogin" style="display:none">
      <div class="auth-form">
-      <label class="full">Vergi kimlik numarası<input id="companyLoginVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN"></label>
-      <div class="full password-label"><label for="companyLoginPassword">Şifre</label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum?</button><div class="password-field"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lock"></use></svg><input id="companyLoginPassword" autocomplete="current-password" type="password" placeholder="Şifrenizi girin"><button type="button" class="eye-btn" onclick="togglePassword('companyLoginPassword',this)" aria-label="Şifreyi göster"><svg class="ui-icon" aria-hidden="true"><use href="#ic-eye-off"></use></svg></button></div></div>
+      <label class="full">Vergi kimlik numarası (VKN)<input id="companyLoginVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN"></label>
+      <div class="full password-label"><label for="companyLoginPassword">Şifre</label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum</button><div class="password-field"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lock"></use></svg><input id="companyLoginPassword" autocomplete="current-password" type="password" placeholder="Şifrenizi girin"><button type="button" class="eye-btn" onclick="togglePassword('companyLoginPassword',this)" aria-label="Şifreyi göster"><svg class="ui-icon" aria-hidden="true"><use href="#ic-eye-off"></use></svg></button></div></div>
       <button class="btn primary full" onclick="loginCompany()">Firma olarak giriş yap<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
-     <div class="auth-note">Firma paneli yalnızca doğrulanmış firma hesaplarına açılır.</div>
+     <div class="auth-note">Firma paneli, vergi bilgileri doğrulanmış hesaplara açılır.</div>
     </div>
    </div>
 
    <div id="registerPanel" class="auth-panel">
     <div id="driverRegister">
      <div class="auth-form">
-      <label>Ad<input id="driverFirstName" placeholder="Ad"></label>
-      <label>Soyad<input id="driverLastName" placeholder="Soyad"></label>
-      <label>Telefon<input id="driverPhone" inputmode="tel" placeholder="05xx xxx xx xx"></label>
-      <label>Plaka<input id="driverPlate" placeholder="72 ABC 123"></label>
-      <label class="full">Şifre<input id="driverPassword" type="password" placeholder="En az 6 karakter"></label>
-      <button class="btn primary full" onclick="registerDriver()">Şoför hesabı oluştur</button>
+      <label>Ad<input id="driverFirstName" autocomplete="given-name" placeholder="Adın"></label>
+      <label>Soyad<input id="driverLastName" autocomplete="family-name" placeholder="Soyadın"></label>
+      <label>Telefon<input id="driverPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx"></label>
+      <label>Araç plakası<input id="driverPlate" placeholder="Örn. 72 ABC 123"></label>
+      <label class="full">Şifre<input id="driverPassword" type="password" autocomplete="new-password" placeholder="En az 6 karakter"></label>
+      <button class="btn primary full" onclick="registerDriver()">Şoför hesabı oluştur<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
-     <div class="auth-note">Şoför hesabı yalnızca şoför ekranlarına erişir. Firma yönetim ekranı açılmaz.</div>
+     <div class="auth-note">Şoför hesabıyla yalnızca kendi taşımalarını ve kazancını görürsün.</div>
     </div>
 
     <div id="companyRegister" style="display:none">
@@ -88,33 +95,33 @@
       <label class="full">Şirket unvanı<input id="companyName" placeholder="Ticari unvan"></label>
       <label>Vergi kimlik numarası<input id="companyVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN"></label>
       <label>Vergi dairesi<input id="companyTaxOffice" placeholder="Vergi dairesi"></label>
-      <label>Telefon<input id="companyPhone" inputmode="tel" placeholder="0xxx xxx xx xx"></label>
-      <label>Şifre<input id="companyPassword" type="password" placeholder="En az 8 karakter"></label>
-      <label class="full">Vergi levhası<input id="companyTaxFile" type="file" accept=".pdf,image/*"></label>
-      <button class="btn primary full" onclick="registerCompany()">Firma başvurusu oluştur</button>
+      <label>Telefon<input id="companyPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="0xxx xxx xx xx"></label>
+      <label>Şifre<input id="companyPassword" type="password" autocomplete="new-password" placeholder="En az 8 karakter"></label>
+      <label class="full">Vergi levhası (PDF veya fotoğraf)<input id="companyTaxFile" type="file" accept=".pdf,image/*"></label>
+      <button class="btn primary full" onclick="registerCompany()">Firma başvurusu gönder<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
-     <div class="auth-note warning"><b>Doğrulama zorunlu.</b> Vergi levhasındaki şirket unvanı, VKN ve vergi dairesi resmî GİB kayıtlarıyla eşleşmeden firma hesabı aktif edilmez.</div>
+     <div class="auth-note warning"><b>Neden doğruluyoruz?</b> Şoförlerin güvenle çalışabilmesi için unvan, VKN ve vergi dairesini GİB kayıtlarıyla karşılaştırıyoruz. Eşleşince hesabın açılır.</div>
     </div>
    </div>
 
-   <div class="mobile-register-link"><span>Hesabın yok mu?</span><button type="button" onclick="showAuthTab('register')">Kayıt ol</button></div>
+   <div class="mobile-register-link"><span>Hesabın yok mu?</span><button type="button" onclick="showAuthTab('register')">Ücretsiz kayıt ol</button></div>
 <div id="verificationPanel" class="auth-panel">
-    <h2 style="margin:0 0 6px">Firma doğrulaması bekliyor</h2>
-    <p class="muted" style="margin-top:0">Başvurunuz kaydedildi. Firma paneli doğrulama tamamlanana kadar kilitli.</p>
+    <h2 class="verify-title">Başvurun alındı</h2>
+    <p class="muted">Vergi bilgilerin doğrulanınca firma panelin açılır. Bu genellikle 1 iş günü sürer.</p>
     <div class="verify-card">
       <div class="verify-line"><span>Vergi levhası</span><b id="verifyFileState">Yüklendi</b></div>
-      <div class="verify-line"><span>VKN biçim kontrolü</span><b style="color:#248a3d">✓ Geçti</b></div>
-      <div class="verify-line"><span>GİB kayıt doğrulaması</span><b style="color:#b76e00">Bekliyor</b></div>
+      <div class="verify-line"><span>VKN biçim kontrolü</span><b class="ok">Geçti</b></div>
+      <div class="verify-line"><span>GİB kayıt doğrulaması</span><b class="wait">Bekliyor</b></div>
       <div class="verify-line"><span>Firma paneli</span><b>Kilitli</b></div>
     </div>
-    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px">
+    <div class="verify-actions">
       <button class="btn soft" onclick="window.open('https://dijital.gib.gov.tr/dogrulamalar/ivdBelgeDogrulama','_blank')">GİB doğrulama sayfasını aç</button>
       <button class="btn dark" onclick="showAuthTab('login')">Giriş ekranına dön</button>
     </div>
-    <div class="auth-note">Bu GitHub Pages demosu GİB sistemine sunucu taraflı bağlanamaz. Gerçek sürümde doğrulama backend üzerinden yapılıp sonuç hesaba yazılmalıdır.</div>
+    <div class="auth-note">Demo sürümü GİB sistemine bağlanmaz; doğrulama gerçek sürümde otomatik yapılır.</div>
    </div>
 
-   <details class="demo-access"><summary>Demo erişimi <svg class="ui-icon" aria-hidden="true"><use href="#ic-chevron-down"></use></svg></summary><div><button class="btn soft" onclick="demoVerifiedCompany()">Firma demosu</button><button class="btn soft" onclick="demoVerifiedDriver()">Şoför demosu</button></div></details>
+   <details class="demo-access"><summary>Hesap açmadan demoyu dene <svg class="ui-icon" aria-hidden="true"><use href="#ic-chevron-down"></use></svg></summary><div><button class="btn soft" onclick="demoVerifiedCompany()"><svg class="ui-icon"><use href="#ic-building"></use></svg>Firma paneli</button><button class="btn soft" onclick="demoVerifiedDriver()"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Şoför ekranı</button></div></details>
   </div>
 </div>
 </div>
@@ -122,53 +129,149 @@
 <div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
 <div class="app">
 <aside>
- <button class="mobile-nav-close" aria-label="Menüyü kapat" onclick="closeMobileNav()"><svg class="ui-icon"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+ <button class="mobile-nav-close" aria-label="Menüyü kapat" onclick="closeMobileNav()"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
  <div class="brand"><img src="assets/logo.svg" alt="Sevkio — Lojistik Operasyon Ağı"></div>
  <div class="nav">
-  <button class="driver-only active" data-target="driver"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Şoför Ekranı</button>
-  <div class="nav-label company-only">Operasyon</div><button class="company-only" data-target="dashboard"><svg class="ui-icon"><use href="#ic-home"></use></svg>Genel Bakış</button>
+  <button class="driver-only active" data-target="driver"><svg class="ui-icon"><use href="#ic-home"></use></svg>Ana sayfa</button>
+  <div class="nav-label company-only">Operasyon</div><button class="company-only" data-target="dashboard"><svg class="ui-icon"><use href="#ic-home"></use></svg>Genel bakış</button>
   <button class="company-only" data-target="loads"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yükler</button>
   <button class="company-only" data-target="vehicles"><svg class="ui-icon"><use href="#ic-truck"></use></svg>Araçlar</button>
   <button class="company-only" data-target="matches"><svg class="ui-icon"><use href="#ic-route"></use></svg>Eşleşmeler</button>
-  <button class="company-only" data-target="trips"><svg class="ui-icon"><use href="#ic-map"></use></svg>Canlı Taşımalar</button>
-  <button class="company-only" data-target="delivery"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslim / POD</button>
-  <button class="company-only" data-target="ratings"><svg class="ui-icon"><use href="#ic-star"></use></svg>Puan & Yorumlar</button>
-  <button class="company-only" data-target="regional"><svg class="ui-icon"><use href="#ic-pin"></use></svg>Bölgesel Güven</button>
+  <button class="company-only" data-target="trips"><svg class="ui-icon"><use href="#ic-map"></use></svg>Canlı takip</button>
+  <button class="company-only" data-target="backhaul"><svg class="ui-icon"><use href="#ic-refresh"></use></svg>Dönüş yükleri</button>
+  <button class="company-only" data-target="delivery"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslimat</button>
+  <button class="company-only" data-target="ratings"><svg class="ui-icon"><use href="#ic-star"></use></svg>Değerlendirmeler</button>
+  <button class="company-only" data-target="regional"><svg class="ui-icon"><use href="#ic-pin"></use></svg>Bölge puanları</button>
   <button class="company-only" data-target="payments"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Ödemeler</button>
-  <div class="nav-label company-only">İletişim ve hesap</div><button class="company-only" data-target="messages"><svg class="ui-icon"><use href="#ic-message"></use></svg>Mesajlar</button>
+  <div class="nav-label company-only">İletişim</div><button class="company-only" data-target="messages"><svg class="ui-icon"><use href="#ic-message"></use></svg>Mesajlar</button>
   <button class="company-only" data-target="notifications"><svg class="ui-icon"><use href="#ic-bell"></use></svg>Bildirimler</button>
   <button class="company-only" data-target="docs"><svg class="ui-icon"><use href="#ic-file"></use></svg>Evraklar</button>
   <button class="company-only" data-target="support"><svg class="ui-icon"><use href="#ic-shield"></use></svg>Destek</button>
   <button class="driver-only" data-target="driverJobs"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yüklerim</button>
-  <button class="driver-only" data-target="driverEarnings"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Kazanç</button>
-  <button class="driver-only" data-target="driverProfile"><svg class="ui-icon"><use href="#ic-user"></use></svg>Profil</button>
+  <button class="driver-only" data-target="driverEarnings"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Kazancım</button>
+  <button class="driver-only" data-target="driverProfile"><svg class="ui-icon"><use href="#ic-user"></use></svg>Profilim</button>
  </div>
- <div class="sidebox"><b id="roleLabel">Hesap</b><small id="roleDesc">Giriş yapılmadı.</small><button class="btn soft logout-btn" onclick="logoutUser()">Çıkış yap</button></div>
+ <div class="sidebox"><b id="roleLabel">Hesap</b><small id="roleDesc">Giriş yapılmadı.</small><button class="btn ghost logout-btn" onclick="logoutUser()">Çıkış yap</button></div>
 </aside>
 
 <main>
- <div class="top"><button class="mobile-menu-btn" aria-label="Menüyü aç" onclick="openMobileNav()"><svg class="ui-icon lg"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="workspace-label"><b>Sevkio</b> / Çalışma alanı</div><div class="user"><div><b>Operasyon Merkezi</b><div class="muted" style="font-size:12px">Operasyon</div></div><div class="avatar">SV</div></div></div>
+ <div class="top"><button class="mobile-menu-btn" aria-label="Menüyü aç" onclick="openMobileNav()"><svg class="ui-icon lg" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="workspace-label"><span>Sevkio</span><svg class="ui-icon sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><b id="crumb">Genel bakış</b></div><div class="user"><div><b id="topUserName">Hesap</b><small id="topUserRole">Firma hesabı</small></div><div class="avatar" id="topAvatar">SV</div></div></div>
 
  <section id="driver" class="section active">
   <div class="driver-shell">
-    <div class="title"><div><h2>Yeni rotalara hazır.</h2><p>Taşımanı yönet, teslimatını tamamla, sıradaki yükünü bul.</p></div></div>
+    <div class="title"><div><span class="eyebrow">Bugün</span><h2>Aktif taşıman</h2><p>Yolculuğunu adım adım işaretle, teslimatı tamamla, sıradaki yükü bul.</p></div></div>
 
     <div class="driver-status">
-      <div style="opacity:.78;font-size:13px">Şu anki işin</div>
+      <div class="driver-status-label">Şu anki iş</div>
       <div class="bigroute" id="driverHomeRoute">Batman → Gaziantep</div>
-      <div style="opacity:.9" id="driverHomeIdentity">72 YY 001 • Mehmet Kaya</div>
-      <div class="chips" style="margin-top:14px">
-        <span class="chip green" id="driverHomeStatus">YÜK ALINDI</span>
-        <span class="cv class="title"><div><h2>Araç Filosu</h2><p>Konum, durum, kapasite, sürücü ve sonraki uygunluk.</p></div></div>
+      <div class="driver-status-meta" id="driverHomeIdentity">72 YY 001 • Mehmet Kaya</div>
+      <div class="chips">
+        <span class="chip green" id="driverHomeStatus">Yük alındı</span>
+        <span class="chip blue" id="driverHomeDistance">118 km kaldı</span>
+        <span class="chip amber" id="driverHomeEta">Varış 15:52</span>
+      </div>
+    </div>
+
+    <div class="driver-simple-card">
+      <div class="driver-row"><span>Teslim adresi</span><b id="driverHomeAddress">Gaziantep 4. OSB</b></div>
+      <div class="driver-row"><span>Teslim alacak kişi</span><b id="driverHomeReceiver">Ahmet Demir</b></div>
+      <div class="driver-row"><span>Telefon</span><b id="driverHomeReceiverPhone">0532 111 22 33</b></div>
+    </div>
+
+    <h3 class="group-title">Yolculuk adımları</h3>
+    <div class="driver-actions">
+      <button class="btn primary driver-big-btn" onclick="driverAction('start')"><svg class="ui-icon lg"><use href="#ic-truck"></use></svg>Yola çıktım</button>
+      <button class="btn green driver-big-btn" onclick="driverAction('arrive')"><svg class="ui-icon lg"><use href="#ic-pin"></use></svg>Teslim yerine vardım</button>
+      <button class="btn dark driver-big-btn" onclick="driverAction('deliver')"><svg class="ui-icon lg"><use href="#ic-check"></use></svg>Yükü teslim ettim</button>
+    </div>
+
+    <h3 class="group-title">Hızlı işlemler</h3>
+    <div class="driver-tools">
+      <button class="btn soft" onclick="alert('Navigasyon demo sürümünde açılmaz.')"><svg class="ui-icon"><use href="#ic-nav"></use></svg>Navigasyonu aç</button>
+      <button class="btn soft" onclick="alert('Arama demo sürümünde yapılmaz.')"><svg class="ui-icon"><use href="#ic-phone"></use></svg>Alıcıyı ara</button>
+      <button class="btn danger" onclick="openDriverIssue()"><svg class="ui-icon"><use href="#ic-alert"></use></svg>Sorun bildir</button>
+    </div>
+
+    <div class="brand-strip">
+      <button class="visual-link" onclick="go('backhaul')"><img src="assets/route.webp" alt="" loading="lazy"><span>Boş dönme</span><b>Dönüş yükü bul</b></button>
+      <button class="visual-link" onclick="go('ratings')"><img src="assets/dock.webp" alt="" loading="lazy"><span>Taşıma bitti mi?</span><b>Firmayı değerlendir</b></button>
+    </div>
+  </div>
+ </section>
+
+ <section id="dashboard" class="section">
+  <div class="hero">
+   <span class="hero-eyebrow">Genel bakış</span>
+   <h1>Tüm operasyonun tek ekranda.</h1>
+   <p>Yük oluştur, aracını canlı takip et, teslimatı belgesiyle kapat.</p>
+   <div class="hero-actions"><button class="btn primary" onclick="go('loads')"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yeni yük oluştur</button><button class="btn hero-secondary" onclick="go('trips')"><svg class="ui-icon"><use href="#ic-map"></use></svg>Canlı takibi aç</button></div>
+  </div>
+  <div class="stats">
+   <div class="stat"><small><svg class="ui-icon sm"><use href="#ic-box"></use></svg>Açık yük</small><b id="sLoads">0</b></div>
+   <div class="stat"><small><svg class="ui-icon sm"><use href="#ic-truck"></use></svg>Kayıtlı araç</small><b id="sVehicles">0</b></div>
+   <div class="stat"><small><svg class="ui-icon sm"><use href="#ic-route"></use></svg>Yolda</small><b id="sTrips">0</b></div>
+   <div class="stat"><small><svg class="ui-icon sm"><use href="#ic-check"></use></svg>Teslim edilen</small><b id="sDelivered">0</b></div>
+   <div class="stat"><small><svg class="ui-icon sm"><use href="#ic-refresh"></use></svg>Dönüş yükü fırsatı</small><b id="sBackhaul">0</b></div>
+  </div>
+  <div class="grid g2">
+   <div class="card"><div class="cardhead"><h3>Yoldaki taşımalar</h3><span class="chip blue">Canlı</span></div><div id="dashTrips"></div></div>
+   <div class="card"><div class="cardhead"><h3>Dikkat edilecekler</h3><button class="link-btn" onclick="go('notifications')">Tümü</button></div>
+    <div class="alert red"><b>Gecikme riski</b><div class="muted">63 YY 441 • tahminen 35 dk geç</div></div>
+    <div class="alert"><b>Teslim saati yaklaşıyor</b><div class="muted">72 YY 001 • Gaziantep, 15:40</div></div>
+    <div class="alert green"><b>Dönüş yükü bulundu</b><div class="muted">Gaziantep → Mersin • %92 uygun</div></div>
+   </div>
+  </div>
+  <div class="brand-strip">
+   <button class="visual-link" onclick="go('vehicles')"><img src="assets/dock.webp" alt="" loading="lazy"><span>Filo</span><b>Araçlarını ve şoförlerini gör</b></button>
+   <button class="visual-link" onclick="go('backhaul')"><img src="assets/route.webp" alt="" loading="lazy"><span>Verimlilik</span><b>Boş dönüşleri azalt</b></button>
+  </div>
+ </section>
+
+ <section id="loads" class="section">
+  <div class="title"><div><h2>Yükler</h2><p>Yeni yük oluştur. Şoför, alıcı ve adres bilgileri taşıma boyunca herkese aynı görünür.</p></div></div>
+  <div class="grid g2">
+   <div class="card"><div class="cardhead"><h3>Yeni yük oluştur</h3></div>
+    <form id="loadForm" class="form">
+     <div class="form-group full">Yük bilgileri</div>
+     <label>Yük numarası<input name="loadNo" placeholder="Örn. SV-2026-1001" required></label><label>Yük türü<select name="cargoType"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Paletli ürün</option></select></label>
+     <label>Ağırlık (kg)<input name="weight" type="number" min="1" placeholder="Örn. 12000" required></label><label>Araç tipi<select name="vehicleType"><option>Tır</option><option>Kamyon</option><option>Kamyonet</option><option>Frigorifik</option></select></label>
+     <div class="form-group full">Güzergâh ve zaman</div>
+     <label>Yükleme şehri<input name="from" placeholder="Örn. Batman" required></label><label>Yükleme adresi<input name="pickupAddress" placeholder="Örn. Batman OSB 3. Cadde" required></label>
+     <label>Teslim şehri<input name="to" placeholder="Örn. Gaziantep" required></label><label>Teslim adresi<input name="deliveryAddress" placeholder="Örn. Gaziantep 4. OSB" required></label>
+     <label>Yükleme zamanı<input name="pickupTime" type="datetime-local" required></label><label>Planlanan teslim<input name="deliveryTime" type="datetime-local" required></label>
+     <div class="form-group full">Alıcı</div>
+     <label>Alıcı firma<input name="receiverCompany" placeholder="Ticari unvan" required></label><label>Alıcı firma VKN<input name="receiverCompanyVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli vergi no" required></label>
+     <label>Teslim alacak kişi<input name="receiver" placeholder="Ad soyad" required></label><label>Alıcı telefonu<input name="receiverPhone" type="tel" placeholder="05xx xxx xx xx" required></label>
+     <label class="full">Not (isteğe bağlı)<textarea name="notes" placeholder="Örn. 12 palet, forklift hazır"></textarea></label>
+     <div class="media-box media-box-photo full">
+       <div class="media-box-title"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğrafları <em>zorunlu</em></div>
+       <p>Yük araca konurken çekilen fotoğraflar. Alıcı firma bunları görebilir.</p>
+       <input class="media-input" id="pickupPhotos" type="file" accept="image/*" multiple>
+     </div>
+     <div class="media-box full">
+       <div class="media-box-title"><svg class="ui-icon"><use href="#ic-video"></use></svg>Yükleme videosu <em>isteğe bağlı</em></div>
+       <p>Yükün durumunu gösteren kısa bir video ekleyebilirsin.</p>
+       <input class="media-input" id="pickupVideo" type="file" accept="video/*">
+     </div>
+     <div id="pickupMediaSummary" class="media-summary full"></div>
+     <button class="btn primary full"><svg class="ui-icon"><use href="#ic-upload"></use></svg>Yükü yayınla</button>
+    </form>
+   </div>
+   <div class="card"><div class="cardhead"><h3>Açık yükler</h3><span id="loadCount" class="chip"></span></div><div id="loadList"></div></div>
+  </div>
+ </section>
+
+ <section id="vehicles" class="section">
+  <div class="title"><div><h2>Araçlar</h2><p>Her aracın konumu, durumu, kapasitesi ve ne zaman boşa çıkacağı.</p></div></div>
   <div id="vehicleList" class="grid g3"></div>
  </section>
 
  <section id="matches" class="section">
-  <div class="title"><div><h2>Eşleşmeler</h2><p>Rota + tarih + kapasite + boş dönüş avantajına göre.</p></div></div><div id="matchList"></div>
+  <div class="title"><div><h2>Eşleşmeler</h2><p>Yüklerin için en uygun araçlar. Araç tipi, kapasite, konum ve şoför puanına göre sıralanır.</p></div></div><div id="matchList"></div>
  </section>
 
  <section id="trips" class="section">
-  <div class="title"><div><h2>Canlı Araç & Yük Takibi</h2><p>Aracın nerede olduğu, yükü nerede aldığı, nereye boşaltacağı ve ETA.</p></div><span class="chip green">GPS demo</span></div>
+  <div class="title"><div><h2>Canlı takip</h2><p>Araç şu an nerede, yükü nereden alıp nereye götürüyor, ne zaman varacak?</p></div><span class="chip">Demo konum verisi</span></div>
   <div id="tripSelector" style="margin-bottom:12px"></div>
   <div class="grid g2">
    <div class="card">
@@ -178,78 +281,78 @@
     <div id="tripTimeline" class="timeline"></div>
    </div>
    <div class="card">
-    <div class="cardhead"><h3>Operasyon detayları</h3><span class="chip blue">Anlık</span></div>
+    <div class="cardhead"><h3>Taşıma detayları</h3><span class="chip blue">Anlık</span></div>
     <div id="tripDetails" class="ops-grid"></div>
-    <div class="cardhead" style="margin-top:18px"><h3>Operasyon aksiyonları</h3></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn soft" onclick="advanceTrip()">Sonraki aşamaya geçir</button>
-      <button class="btn amber" onclick="delayTrip()">+30 dk gecikme</button>
-      <button class="btn green" onclick="go('delivery')">Teslim ekranı</button>
+    <div class="cardhead spaced"><h3>İşlemler</h3></div>
+    <div class="btn-row">
+      <button class="btn soft" onclick="advanceTrip()"><svg class="ui-icon"><use href="#ic-arrow-right"></use></svg>Sonraki adıma geçir</button>
+      <button class="btn amber" onclick="delayTrip()"><svg class="ui-icon"><use href="#ic-alert"></use></svg>30 dk gecikme ekle</button>
+      <button class="btn green" onclick="go('delivery')"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslimata geç</button>
     </div>
    </div>
   </div>
  </section>
 
  <section id="delivery" class="section">
-  <div class="title"><div><h2>Boşaltma & Teslim Kanıtı</h2><p>Yük nerede boşaltıldı, kim teslim aldı, hangi saatte ve hangi belgeyle.</p></div></div>
+  <div class="title"><div><h2>Teslimat</h2><p>Yükü kim, ne zaman, hangi belgeyle teslim aldı? Hepsi kayıt altında.</p></div></div>
   <div class="grid g2">
-   <div class="card"><div class="cardhead"><h3>Teslim bilgileri</h3><span class="chip green">POD</span></div>
+   <div class="card"><div class="cardhead"><h3>Teslim bilgileri</h3><span class="chip green">Dijital belge</span></div>
     <div id="deliveryInfo" class="ops-grid"></div>
-    <div class="pod" style="margin-top:14px">
-      <b>Teslim kanıtı</b><p class="muted">Teslim kapanmadan teslim evrağı ve en az bir fotoğraf eklenmelidir.</p>
+    <div class="pod">
+      <b>Teslimatı onayla</b><p class="muted">Teslimatı kapatmak için irsaliyeyi ve en az bir fotoğrafı ekle.</p>
       <label>Teslim alan kişi<input id="receiverInput"></label>
-      <label style="margin-top:10px">Teslim kodu<input id="otpInput" value="482913"></label>
-      <label style="margin-top:10px">Teslim evrağı / irsaliye<input class="media-input" id="deliveryDocument" type="file" accept=".pdf,image/*"></label>
-      <label style="margin-top:10px">Teslim fotoğrafları<input class="media-input" id="deliveryPhotos" type="file" accept="image/*" multiple></label>
+      <label>Teslim kodu (alıcıya SMS ile gider)<input id="otpInput" inputmode="numeric" value="482913"></label>
+      <label>İrsaliye veya teslim belgesi<input class="media-input" id="deliveryDocument" type="file" accept=".pdf,image/*"></label>
+      <label>Teslim fotoğrafları<input class="media-input" id="deliveryPhotos" type="file" accept="image/*" multiple></label>
       <div id="deliveryMediaSummary" class="media-summary"></div>
-      <label style="margin-top:10px">Boşaltma notu<textarea id="deliveryNote" placeholder="Eksiksiz teslim edildi / koli hasarı / bekleme..."></textarea></label>
-      <button class="btn primary" style="margin-top:10px" onclick="confirmDelivery()"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslimi ve belgeleri onayla</button>
+      <label>Not (isteğe bağlı)<textarea id="deliveryNote" placeholder="Örn. eksiksiz teslim edildi, 1 kolide ezik var"></textarea></label>
+      <button class="btn primary" onclick="confirmDelivery()"><svg class="ui-icon"><use href="#ic-check"></use></svg>Teslimatı onayla</button>
     </div>
    </div>
-   <div class="card"><div class="cardhead"><h3>Boşaltma kontrol listesi</h3></div>
-    <div class="table-scroll"><table class="table"><tr><th>Kontrol</th><th>Durum</th></tr><tr><td>Boşaltma adresine varış</td><td><span class="chip green">GPS doğrulandı</span></td></tr><tr><td>Alıcı kimliği</td><td><span class="chip blue">Kayıtlı</span></td></tr><tr><td>Ürün sayımı</td><td><span class="chip amber">Onay bekliyor</span></td></tr><tr><td>Hasar kontrolü</td><td><span class="chip">Beyan yok</span></td></tr><tr><td>İrsaliye/POD</td><td><span class="chip blue">Dijital</span></td></tr></table></div>
+   <div class="card"><div class="cardhead"><h3>Teslim kontrol listesi</h3></div>
+    <div class="table-scroll"><table class="table"><tr><th>Kontrol</th><th>Durum</th></tr><tr><td>Boşaltma adresine varış</td><td><span class="chip green">GPS doğrulandı</span></td></tr><tr><td>Alıcı kimliği</td><td><span class="chip blue">Kayıtlı</span></td></tr><tr><td>Ürün sayımı</td><td><span class="chip amber">Onay bekliyor</span></td></tr><tr><td>Hasar kontrolü</td><td><span class="chip">Beyan yok</span></td></tr><tr><td>İrsaliye / teslim belgesi</td><td><span class="chip blue">Dijital</span></td></tr></table></div>
    </div>
   </div>
  </section>
 
  <section id="ratings" class="section">
-  <div class="title"><div><h2>Puan & Yorum Sistemi</h2><p>Şoför ve yük veren firma birbirini taşıma tamamlandıktan sonra değerlendirir.</p></div><span class="chip green">Çift taraflı güven</span></div>
+  <div class="title"><div><h2>Değerlendirmeler</h2><p>Taşıma bitince şoför ve firma birbirini puanlar. Böylece herkes kiminle çalıştığını bilir.</p></div><span class="chip green">Karşılıklı puanlama</span></div>
   <div class="grid g2">
     <div class="card">
-      <div class="cardhead"><h3>Şoförü değerlendir</h3><span class="chip blue">Yük sahibi → Şoför</span></div>
+      <div class="cardhead"><h3>Şoförü değerlendir</h3><span class="chip blue">Firma puanlar</span></div>
       <label>Şoför<select id="rateDriverSelect"></select></label>
       <div class="ops-grid" style="margin-top:12px">
         <label>Zamanında teslim<select id="driverOnTime"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
         <label>İletişim<select id="driverComm"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
         <label>Yük güvenliği<select id="driverCargo"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
-        <label>Belge / POD<select id="driverPod"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Belge düzeni<select id="driverPod"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
       </div>
-      <label style="margin-top:12px">Yorum<textarea id="driverComment" placeholder="Teslimat, iletişim ve profesyonellik hakkında yorum..."></textarea></label>
-      <button class="btn primary" style="margin-top:10px" onclick="submitDriverRating()">Şoför puanını kaydet</button>
+      <label style="margin-top:12px">Yorum<textarea id="driverComment" placeholder="Teslimat ve iletişim nasıldı?"></textarea></label>
+      <button class="btn primary" style="margin-top:10px" onclick="submitDriverRating()">Puanı kaydet</button>
     </div>
 
     <div class="card">
-      <div class="cardhead"><h3>Yük veren firmayı değerlendir</h3><span class="chip green">Şoför → Firma</span></div>
+      <div class="cardhead"><h3>Firmayı değerlendir</h3><span class="chip green">Şoför puanlar</span></div>
       <label>Firma<select id="rateCompanySelect"></select></label>
       <div class="ops-grid" style="margin-top:12px">
         <label>Ödeme hızı<select id="companyPayment"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
-        <label>Yükleme bekleme<select id="companyLoading"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
-        <label>Boşaltma bekleme<select id="companyUnloading"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Yüklemede bekleme<select id="companyLoading"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        <label>Boşaltmada bekleme<select id="companyUnloading"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
         <label>Bilgi doğruluğu<select id="companyAccuracy"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
       </div>
-      <label style="margin-top:12px">Yorum<textarea id="companyComment" placeholder="Ödeme, bekleme süresi ve operasyon hakkında yorum..."></textarea></label>
-      <button class="btn primary" style="margin-top:10px" onclick="submitCompanyRating()">Firma puanını kaydet</button>
+      <label style="margin-top:12px">Yorum<textarea id="companyComment" placeholder="Ödeme ve bekleme süreleri nasıldı?"></textarea></label>
+      <button class="btn primary" style="margin-top:10px" onclick="submitCompanyRating()">Puanı kaydet</button>
     </div>
   </div>
 
   <div class="grid g2" style="margin-top:16px">
-    <div class="card"><div class="cardhead"><h3>Şoför güven puanları</h3><span class="chip blue">Taşıma kalitesi</span></div><div id="driverRatingsList"></div></div>
-    <div class="card"><div class="cardhead"><h3>Firma güven puanları</h3><span class="chip green">Ödeme & operasyon</span></div><div id="companyRatingsList"></div></div>
+    <div class="card"><div class="cardhead"><h3>Şoför puanları</h3><span class="chip blue">Taşıma kalitesi</span></div><div id="driverRatingsList"></div></div>
+    <div class="card"><div class="cardhead"><h3>Firma puanları</h3><span class="chip green">Ödeme ve düzen</span></div><div id="companyRatingsList"></div></div>
   </div>
  </section>
 
  <section id="regional" class="section">
-  <div class="title"><div><h2>Bölgesel Güven Haritası</h2><p>Şehir → ilçe/bölge → firma sıralaması. Herkes kendi bölgesinde görünür.</p></div><span class="chip blue">Bölgesel filtre</span></div>
+  <div class="title"><div><h2>Bölge puanları</h2><p>Şehir ve ilçe seç; o bölgedeki firmaları ve şoförleri puanlarına göre gör.</p></div></div>
 
   <div class="card" style="margin-bottom:16px">
     <div class="form">
@@ -264,39 +367,39 @@
 
   <div class="grid g2">
     <div class="card">
-      <div class="cardhead"><div><h3>Bölgedeki firmalar</h3><div class="muted" style="font-size:12px">Ödeme, bekleme ve operasyon puanına göre</div></div><span id="regionalFirmCount" class="chip green"></span></div>
+      <div class="cardhead"><div><h3>Bölgedeki firmalar</h3><div class="muted small">Ödeme hızı ve bekleme süresine göre</div></div><span id="regionalFirmCount" class="chip green"></span></div>
       <div id="regionalCompanies"></div>
     </div>
 
     <div class="card">
-      <div class="cardhead"><div><h3>Bu bölgeye çalışan şoförler</h3><div class="muted" style="font-size:12px">Teslim performansı ve bölge deneyimine göre</div></div><span id="regionalDriverCount" class="chip blue"></span></div>
+      <div class="cardhead"><div><h3>Bölgede çalışan şoförler</h3><div class="muted small">Teslim başarısı ve bölge deneyimine göre</div></div><span id="regionalDriverCount" class="chip blue"></span></div>
       <div id="regionalDrivers"></div>
     </div>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <div class="cardhead"><h3>Bölge özeti</h3><span class="chip amber">Operasyon verisi</span></div>
+    <div class="cardhead"><h3>Bölge özeti</h3></div>
     <div id="regionalSummary" class="kpis"></div>
   </div>
  </section>
 
  <section id="backhaul" class="section">
-  <div class="title"><div><h2>Boş Dönüşü Engelle — Sonraki Yük</h2><p>Teslim şehrinden sonraki uygun yükleri otomatik bul.</p></div></div>
+  <div class="title"><div><h2>Dönüş yükü</h2><p>Teslimat şehrinden çıkan uygun yükler. Araç boş dönmez, şoför daha çok kazanır.</p></div></div>
   <div class="grid g2">
-   <div class="card"><div class="cardhead"><h3>Mevcut aracın sonraki planı</h3><span class="chip green">Backhaul</span></div><div id="backhaulCurrent"></div></div>
-   <div class="card"><div class="cardhead"><h3>Önerilen sonraki yükler</h3><span class="chip blue">Akıllı sıra</span></div><div id="backhaulList"></div></div>
+   <div class="card"><div class="cardhead"><h3>Araç ve teslim noktası</h3></div><div id="backhaulCurrent"></div></div>
+   <div class="card"><div class="cardhead"><h3>Önerilen yükler</h3><span class="chip blue">Uygunluğa göre</span></div><div id="backhaulList"></div></div>
   </div>
  </section>
 
  <section id="driverJobs" class="section">
   <div class="driver-shell">
-   <div class="title"><div><h2>Yüklerim</h2><p>Bugünkü ve sıradaki işler.</p></div><span class="chip blue">Şoför</span></div>
+   <div class="title"><div><h2>Yüklerim</h2><p>Bugünkü işin, sıradaki önerin ve tamamladıkların.</p></div></div>
    <div class="driver-simple-card">
-    <div class="cardhead"><h3>Şu anki yük</h3><span class="chip green">AKTİF</span></div>
+    <div class="cardhead"><h3>Şu anki yük</h3><span class="chip green">Aktif</span></div>
     <div id="driverCurrentJob"></div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
-    <div class="cardhead"><h3>Sıradaki yük</h3><span class="chip amber">ÖNERİ</span></div>
+    <div class="cardhead"><h3>Sıradaki yük</h3><span class="chip amber">Öneri</span></div>
     <div id="driverNextJob"></div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
@@ -308,8 +411,8 @@
 
  <section id="driverEarnings" class="section">
   <div class="driver-shell">
-   <div class="title"><div><h2>Kazanç</h2><p>Ne kazandın, ne zaman ödenecek?</p></div><span class="chip green">Basit</span></div>
-   <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+   <div class="title"><div><h2>Kazancım</h2><p>Ne kazandın, ne zaman ödenecek?</p></div></div>
+   <div class="stats two">
     <div class="stat"><small>Toplam kazanç</small><b id="driverWeekEarn">₺0</b></div>
     <div class="stat"><small>Bekleyen ödeme</small><b id="driverPendingEarn">₺0</b></div>
    </div>
@@ -318,7 +421,7 @@
     <div id="driverPaymentList"></div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
-    <div class="cardhead"><h3>Firma ödeme güveni</h3><span class="chip green">Önemli</span></div>
+    <div class="cardhead"><h3>Zamanında ödeyen firmalar</h3></div>
     <div id="driverTrustedCompanies"></div>
    </div>
   </div>
@@ -326,17 +429,17 @@
 
  <section id="driverProfile" class="section">
   <div class="driver-shell">
-   <div class="title"><div><h2>Profil</h2><p>Şoför bilgilerin ve puanın.</p></div><span class="chip blue">Şoför</span></div>
+   <div class="title"><div><h2>Profilim</h2><p>Bilgilerin, puanın ve son yorumlar.</p></div></div>
    <div class="driver-status">
-    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
-     <div><div style="font-size:13px;opacity:.75">Şoför</div><div id="driverProfileName" style="font-size:28px;font-weight:900">Mehmet Kaya</div><div id="driverProfileMeta" style="opacity:.85">72 YY 001 • Tır</div></div>
-     <div id="driverProfileRating" style="font-size:34px;font-weight:900">4.9 / 5</div>
+    <div class="profile-head">
+     <div><div class="driver-status-label">Şoför</div><div id="driverProfileName" class="profile-name">Mehmet Kaya</div><div id="driverProfileMeta" class="driver-status-meta">72 YY 001 • Tır</div></div>
+     <div class="profile-rating"><svg class="ui-icon lg"><use href="#ic-star"></use></svg><span id="driverProfileRating">4,9</span><small>/ 5</small></div>
     </div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
     <div class="driver-row"><span>Telefon</span><b id="driverProfilePhone">0530 000 00 00</b></div>
     <div class="driver-row"><span>Doğrulama</span><b id="driverProfileVerify">Doğrulandı</b></div>
-    <div class="driver-row"><span>Toplam yorum</span><b id="driverProfileReviews">42</b></div>
+    <div class="driver-row"><span>Değerlendirme sayısı</span><b id="driverProfileReviews">42</b></div>
     <div class="driver-row"><span>Araç kapasitesi</span><b id="driverProfileCapacity">18.000 kg</b></div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
@@ -345,69 +448,69 @@
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
     <div class="cardhead"><h3>Son yorumlar</h3></div>
-    <div class="item"><b>★ 5.0</b><p class="muted">“Zamanında teslim, iletişim çok iyi.”</p></div>
-    <div class="item"><b>★ 4.8</b><p class="muted">“Yükü sorunsuz teslim etti.”</p></div>
+    <div class="item quote"><span class="chip green">★ 5,0</span><p>“Zamanında teslim, iletişim çok iyi.”</p></div>
+    <div class="item quote"><span class="chip green">★ 4,8</span><p>“Yükü sorunsuz teslim etti.”</p></div>
    </div>
-   <button class="btn soft driver-big-btn" style="font-size:17px;padding:15px;margin-top:14px" onclick="switchRole()">↔ Firma / Şoför değiştir</button>
+   <button class="btn soft driver-big-btn" onclick="switchRole()"><svg class="ui-icon"><use href="#ic-user"></use></svg>Çıkış yap / hesap değiştir</button>
   </div>
  </section>
 
  <section id="payments" class="section">
-  <div class="title"><div><h2>Ödeme Merkezi</h2><p>Şoför ödemeleri, vadeler ve gecikme riskleri.</p></div><span class="chip green">Firma</span></div>
-  <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+  <div class="title"><div><h2>Ödemeler</h2><p>Şoförlere yapılan ve yapılacak ödemeler, vade tarihleriyle.</p></div></div>
+  <div class="stats four">
    <div class="stat"><small>Toplam taşıma bedeli</small><b id="payTotal">₺0</b></div>
-   <div class="stat"><small>Ödendi</small><b id="payPaid">₺0</b></div>
-   <div class="stat"><small>Bekliyor</small><b id="payPending">₺0</b></div>
-   <div class="stat"><small>Ödeme bekleyen kayıt</small><b id="payCount">0</b></div>
+   <div class="stat"><small>Ödenen</small><b id="payPaid">₺0</b></div>
+   <div class="stat"><small>Bekleyen</small><b id="payPending">₺0</b></div>
+   <div class="stat"><small>Bekleyen ödeme sayısı</small><b id="payCount">0</b></div>
   </div>
   <div class="card">
-   <div class="table-scroll"><table class="table"><thead><tr><th>Taşıma</th><th>Şoför</th><th>Tutar</th><th>Vade</th><th>Durum</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></div>
+   <div class="table-scroll"><table class="table"><thead><tr><th>Taşıma</th><th>Şoför</th><th>Tutar</th><th>Son ödeme</th><th>Durum</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></div>
   </div>
  </section>
 
  <section id="messages" class="section">
-  <div class="title"><div><h2>Mesajlar</h2><p>Şoför ve operasyon iletişimi tek yerde.</p></div><span class="chip blue">3 konuşma</span></div>
+  <div class="title"><div><h2>Mesajlar</h2><p>Şoförlerinle tüm yazışmalar tek yerde.</p></div></div>
   <div class="grid g2">
    <div class="card"><div class="cardhead"><h3>Konuşmalar</h3></div><div id="conversationList"></div></div>
    <div class="card">
     <div class="cardhead"><h3>Mehmet Kaya • 72 YY 001</h3><span class="chip green">Yolda</span></div>
-    <div id="messageThread" style="min-height:280px"></div>
-    <div style="display:flex;gap:8px;margin-top:12px"><input id="messageInput" placeholder="Mesaj yaz..." style="flex:1"><button class="btn primary" onclick="sendDemoMessage()">Gönder</button></div>
+    <div id="messageThread" class="thread"></div>
+    <div class="composer"><input id="messageInput" placeholder="Mesaj yaz…" onkeydown="if(event.key==='Enter')sendDemoMessage()"><button class="btn primary" onclick="sendDemoMessage()"><svg class="ui-icon"><use href="#ic-arrow-right"></use></svg>Gönder</button></div>
    </div>
   </div>
  </section>
 
  <section id="notifications" class="section">
-  <div class="title"><div><h2>Bildirimler</h2><p>Sadece aksiyon gerektiren konular öne çıkar.</p></div><span class="chip amber">4 yeni</span></div>
+  <div class="title"><div><h2>Bildirimler</h2><p>Yalnızca senin bir şey yapman gereken konular.</p></div><span class="chip amber">4 yeni</span></div>
   <div id="notificationList"></div>
  </section>
 
  <section id="support" class="section">
-  <div class="title"><div><h2>Destek & Güvenlik</h2><p>Operasyon sorunu, ödeme anlaşmazlığı veya teknik destek.</p></div></div>
+  <div class="title"><div><h2>Destek</h2><p>Bir sorun mu var? Konuyu seç, ekibimiz hemen dönsün.</p></div></div>
   <div class="grid g2">
    <div class="card">
-    <div class="cardhead"><h3>Hızlı destek</h3></div>
-    <div style="display:grid;gap:10px">
-     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Araç gelmedi')">🚚 Araç gelmedi</button>
-     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Yük hasarı')">📦 Yük hasarı / eksik teslim</button>
-     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Ödeme sorunu')">₺ Ödeme sorunu</button>
-     <button class="btn soft" style="padding:16px;text-align:left" onclick="supportDemo('Uygulama sorunu')">⚙️ Uygulama sorunu</button>
+    <div class="cardhead"><h3>Ne oldu?</h3></div>
+    <div class="support-list">
+     <button class="support-btn" onclick="supportDemo('Araç gelmedi')"><span><svg class="ui-icon"><use href="#ic-truck"></use></svg></span>Araç gelmedi<svg class="ui-icon chev"><use href="#ic-arrow-right"></use></svg></button>
+     <button class="support-btn" onclick="supportDemo('Yük hasarı')"><span><svg class="ui-icon"><use href="#ic-box"></use></svg></span>Yük hasarlı veya eksik<svg class="ui-icon chev"><use href="#ic-arrow-right"></use></svg></button>
+     <button class="support-btn" onclick="supportDemo('Ödeme sorunu')"><span><svg class="ui-icon"><use href="#ic-wallet"></use></svg></span>Ödeme sorunu<svg class="ui-icon chev"><use href="#ic-arrow-right"></use></svg></button>
+     <button class="support-btn" onclick="supportDemo('Uygulama sorunu')"><span><svg class="ui-icon"><use href="#ic-alert"></use></svg></span>Uygulamada hata var<svg class="ui-icon chev"><use href="#ic-arrow-right"></use></svg></button>
     </div>
    </div>
    <div class="card">
-    <div class="cardhead"><h3>Doğrulama durumu</h3><span class="chip green">Güvenli</span></div>
-    <div class="driver-row"><span>Firma doğrulaması</span><b>✓ Tamamlandı</b></div>
-    <div class="driver-row"><span>Telefon doğrulaması</span><b>✓ Tamamlandı</b></div>
-    <div class="driver-row"><span>Şoför/araç kontrolü</span><b>✓ Aktif</b></div>
-    <div class="driver-row"><span>POD kayıtları</span><b>✓ Saklanıyor</b></div>
+    <div class="cardhead"><h3>Hesap güvenliği</h3><span class="chip green">Tamam</span></div>
+    <div class="driver-row"><span>Firma doğrulaması</span><b class="ok">Tamamlandı</b></div>
+    <div class="driver-row"><span>Telefon doğrulaması</span><b class="ok">Tamamlandı</b></div>
+    <div class="driver-row"><span>Şoför ve araç kontrolü</span><b class="ok">Aktif</b></div>
+    <div class="driver-row"><span>Teslim belgeleri</span><b class="ok">Saklanıyor</b></div>
    </div>
   </div>
  </section>
 
  <section id="docs" class="section">
-  <div class="title"><div><h2>Evrak & Kayıt Merkezi</h2><p>Taşıma boyunca oluşan tüm kayıtlar.</p></div></div>
+  <div class="title"><div><h2>Evraklar</h2><p>Her taşımada oluşan belge ve kayıtlar burada saklanır.</p></div></div>
   <div class="card">
-   <div class="table-scroll"><table class="table"><thead><tr><th>Belge / kayıt</th><th>Yük</th><th>Durum</th><th>Zaman</th></tr></thead><tbody id="docsBody"></tbody></table></div>
+   <div class="table-scroll"><table class="table"><thead><tr><th>Belge</th><th>Yük no</th><th>Durum</th><th>Zaman</th></tr></thead><tbody id="docsBody"></tbody></table></div>
   </div>
  </section>
 </main>
@@ -415,7 +518,7 @@
 
 <div id="mediaModal" class="media-modal" onclick="if(event.target===this)closeMediaModal()">
  <div class="media-modal-card">
-  <div class="cardhead"><div><h3 id="mediaModalTitle">Operasyon kanıtları</h3><div class="muted" id="mediaModalSub"></div></div><button class="btn soft" onclick="closeMediaModal()">Kapat</button></div>
+  <div class="cardhead"><div><h3 id="mediaModalTitle">Fotoğraf ve belgeler</h3><div class="muted" id="mediaModalSub"></div></div><button class="btn soft" onclick="closeMediaModal()">Kapat</button></div>
   <div id="mediaGallery" class="media-gallery"></div>
  </div>
 </div>
@@ -423,8 +526,8 @@
 <div class="driver-bottom" id="driverBottom">
   <button class="active" onclick="driverTab('driver',this)"><b><svg class="ui-icon"><use href="#ic-home"></use></svg></b>Ana Sayfa</button>
   <button onclick="driverTab('driverJobs',this)"><b><svg class="ui-icon"><use href="#ic-box"></use></svg></b>Yüklerim</button>
-  <button onclick="driverTab('driverEarnings',this)"><b><svg class="ui-icon"><use href="#ic-wallet"></use></svg></b>Kazanç</button>
-  <button onclick="driverTab('driverProfile',this)"><b><svg class="ui-icon"><use href="#ic-user"></use></svg></b>Profil</button>
+  <button onclick="driverTab('driverEarnings',this)"><b><svg class="ui-icon"><use href="#ic-wallet"></use></svg></b>Kazancım</button>
+  <button onclick="driverTab('driverProfile',this)"><b><svg class="ui-icon"><use href="#ic-user"></use></svg></b>Profilim</button>
 </div>
 
 <script>
@@ -471,19 +574,20 @@ const seed={
   {id:'M3',name:'Hasan Polat',plate:'63 YY 441',last:'Yeni yük bakıyorum.',time:'13:18'}
  ],
  notifications:[
-  {level:'red',title:'Gecikme riski',text:'63 YY 441 tahmini 35 dk gecikiyor.',action:'Canlı takibi aç'},
-  {level:'amber',title:'Teslim saati yaklaşıyor',text:'72 YY 001 Gaziantep teslimine 46 dk kaldı.',action:'Taşımayı aç'},
-  {level:'green',title:'POD tamamlandı',text:'SV-2026-0984 teslim kanıtı yüklendi.',action:'Belgeyi gör'},
-  {level:'blue',title:'Yeni eşleşme',text:'Gaziantep → Mersin için %92 uygun araç bulundu.',action:'Eşleşmeyi aç'}
+  {level:'red',title:'Gecikme riski',text:'63 YY 441 tahminen 35 dk geç varacak.',action:'Canlı takibi aç'},
+  {level:'amber',title:'Teslim saati yaklaşıyor',text:'72 YY 001 Gaziantep’e 46 dk sonra teslim edecek.',action:'Taşımayı aç'},
+  {level:'green',title:'Belge yüklendi',text:'SV-2026-0984 numaralı yükün teslim belgesi hazır.',action:'Belgeyi gör'},
+  {level:'blue',title:'Yeni eşleşme',text:'Gaziantep → Mersin yükün için %92 uygun bir araç bulundu.',action:'Eşleşmeyi gör'}
  ],
  docs:[
   {name:'Yük emri',loadNo:'SV-2026-1001',status:'Oluşturuldu',time:'08:55'},
   {name:'Yükleme onayı',loadNo:'SV-2026-1001',status:'Onaylandı',time:'09:42'},
-  {name:'GPS hareket kaydı',loadNo:'SV-2026-1001',status:'Aktif',time:'Sürekli'}
+  {name:'Konum kaydı',loadNo:'SV-2026-1001',status:'Aktif',time:'Sürekli'}
  ]
 };
 let db=JSON.parse(localStorage.getItem(K)||'null')||seed,selectedTrip='T1';
 const norm=s=>(s||'').trim().toLocaleLowerCase('tr-TR'),uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase(),money=n=>Number(n).toLocaleString('tr-TR');
+const dec=(n,d=1)=>Number(n).toFixed(d).replace('.',','),fmtDate=v=>{const d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('tr-TR',{day:'numeric',month:'short',year:'numeric'})},fmtDT=v=>{const d=new Date(v);return isNaN(d)?(v||''):d.toLocaleString('tr-TR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
 function save(){localStorage.setItem(K,JSON.stringify(db));renderAll()}
 function togglePassword(id,btn){const el=document.getElementById(id);if(!el)return;const show=el.type==='password';el.type=show?'text':'password';btn.setAttribute('aria-label',show?'Şifreyi gizle':'Şifreyi göster');btn.setAttribute('aria-pressed',String(show))}
 function openMobileNav(){document.body.classList.add('mobile-nav-open')}
@@ -491,7 +595,7 @@ function closeMobileNav(){document.body.classList.remove('mobile-nav-open')}
 function go(id){
  const session=getSession();
  const driverAllowed=['driver','driverJobs','driverEarnings','driverProfile','backhaul','ratings','delivery'];
- const companyAllowed=['dashboard','loads','vehicles','matches','trips','delivery','ratings','regional','payments','messages','notifications','docs','support'];
+ const companyAllowed=['dashboard','loads','vehicles','matches','trips','backhaul','delivery','ratings','regional','payments','messages','notifications','docs','support'];
  if(session){
    const allowed=session.role==='driver'?driverAllowed:companyAllowed;
    if(!allowed.includes(id)){alert('Bu ekran hesabınıza açık değil.');id=session.role==='driver'?'driver':'dashboard';}
@@ -499,31 +603,32 @@ function go(id){
  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
  const target=document.getElementById(id);if(target)target.classList.add('active');
  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.target===id));
+ const crumb=document.getElementById('crumb'),h=target&&target.querySelector('h1,h2');if(crumb)crumb.textContent=id==='dashboard'?'Genel bakış':(h?h.textContent:'');
  closeMobileNav();
  window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.target));
 function load(id){return db.loads.find(x=>x.id===id)}function vehicle(id){return db.vehicles.find(x=>x.id===id)}function trip(){return db.trips.find(x=>x.id===selectedTrip)||db.trips[0]}
 function renderStats(){document.getElementById('sLoads').textContent=db.loads.length;document.getElementById('sVehicles').textContent=db.vehicles.length;document.getElementById('sTrips').textContent=db.trips.filter(x=>x.stage!=='Teslim edildi').length;document.getElementById('sDelivered').textContent=db.trips.filter(x=>x.stage==='Teslim edildi').length;document.getElementById('sBackhaul').textContent=getBackhaul().length}
-function renderDash(){document.getElementById('dashTrips').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<div class="item"><div class="itemtop"><div><div class="route">${l.from} → ${l.to}</div><div class="muted">${l.loadNo} • ${v.plate} • ${v.driver}</div></div><span class="chip green">${t.stage}</span></div><div class="progress"><div class="bar" style="width:${t.progress}%"></div></div><div class="chips"><span class="chip blue">ETA ${t.eta}</span><span class="chip">${t.distanceLeft} km kaldı</span><span class="chip ${t.delay>20?'red':'amber'}">+${t.delay} dk</span></div></div>`}).join('')||'<div class="empty">Aktif taşıma yok.</div>'}
+function renderDash(){document.getElementById('dashTrips').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<div class="item"><div class="itemtop"><div><div class="route">${l.from} → ${l.to}</div><div class="muted">${l.loadNo} • ${v.plate} • ${v.driver}</div></div><span class="chip green">${t.stage}</span></div><div class="progress"><div class="bar" style="width:${t.progress}%"></div></div><div class="chips"><span class="chip blue">Varış ${t.eta}</span><span class="chip">${t.distanceLeft} km kaldı</span>${t.delay?`<span class="chip ${t.delay>20?'red':'amber'}">${t.delay} dk gecikme</span>`:'<span class="chip green">Zamanında</span>'}</div></div>`}).join('')||'<div class="empty">Şu an yolda taşıma yok.</div>'}
 function renderLoads(){
  document.getElementById('loadCount').textContent=db.loads.length+' yük';
- document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div><div class="chips"><span class="chip green">Firma güveni 4.8/5</span><span class="chip blue">Ödeme güvenilir</span></div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip green">${x.receiverCompany||x.receiver}</span></div><p class="muted" style="font-size:13px">${x.pickupAddress}<br>→ ${x.deliveryAddress}</p>${x.receiverCompany?'<div class="detail" style="margin-top:10px"><small>Karşı firma</small><b>'+x.receiverCompany+' • VKN '+x.receiverCompanyVkn+'</b></div>':''}${x.pickupMediaCount?'<button class="btn soft" style="margin-top:10px" onclick="openMedia(\''+x.id+'\',\'Yükleme kanıtları\')"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme kanıtlarını gör ('+x.pickupMediaCount+')</button>':''}</div>`).join('');
+ document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip">${x.receiverCompany||x.receiver}</span></div><p class="muted small">${x.pickupAddress} → ${x.deliveryAddress}</p>${x.receiverCompany?'<div class="detail" style="margin-top:10px"><small>Alıcı firma</small><b>'+x.receiverCompany+' • VKN '+x.receiverCompanyVkn+'</b></div>':''}${x.pickupMediaCount?'<button class="btn soft" style="margin-top:10px" onclick="openMedia(\''+x.id+'\',\'Yükleme fotoğrafları\')"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğraflarını gör ('+x.pickupMediaCount+')</button>':''}</div>`).join('');
 }
-function renderVehicles(){document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="card"><div class="itemtop"><div><div class="route">${v.plate}</div><div class="muted">${v.company}</div></div><span class="chip ${v.status==='Yolda'?'green':v.status==='Boş'?'blue':'amber'}">${v.status}</span></div><div class="chips"><span class="chip">${v.type}</span><span class="chip">${money(v.capacity)} kg</span><span class="chip">★ ${v.rating}</span></div><div class="ops-grid" style="margin-top:12px"><div class="detail"><small>Konum</small><b>${v.location}</b></div><div class="detail"><small>GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/s</b></div><div class="detail"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="detail"><small>Sürücü</small><b>${v.driver}</b></div><div class="detail"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div></div></div>`).join('')}
+function renderVehicles(){document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="card"><div class="itemtop"><div><div class="route">${v.plate}</div><div class="muted">${v.company}</div></div><span class="chip ${v.status==='Yolda'?'green':v.status==='Boş'?'blue':'amber'}">${v.status}</span></div><div class="chips"><span class="chip">${v.type}</span><span class="chip">${money(v.capacity)} kg</span><span class="chip">★ ${dec(v.rating)}</span></div><div class="ops-grid" style="margin-top:12px"><div class="detail"><small>Konum</small><b>${v.location}</b></div><div class="detail"><small>GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/sa</b></div><div class="detail"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="detail"><small>Şoför</small><b>${v.driver}</b></div><div class="detail"><small>Boşa çıkacağı saat</small><b>${v.nextAvailable}</b></div></div></div>`).join('')}
 function score(l,v){let s=0;if(l.vehicleType===v.type)s+=25;if(+v.capacity>=+l.weight)s+=20;if(norm(v.location).includes(norm(l.from))||v.status==='Boş')s+=20;if(v.verified)s+=10;s+=Math.round(v.rating*4);s+=5;return Math.min(100,s)}
-function renderMatches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{if(+v.capacity>=+l.weight)a.push({l,v,s:score(l,v)})}));a.sort((a,b)=>b.s-a.s);document.getElementById('matchList').innerHTML=a.map(m=>`<div class="item"><div class="itemtop"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted">${m.l.loadNo} • ${m.v.plate} • ${m.v.company}</div></div><span class="chip blue">% ${m.s} uyum</span></div><div class="chips"><span class="chip">${m.l.vehicleType}</span><span class="chip green">${money(m.v.capacity)} kg kapasite</span><span class="chip">${m.v.status}</span></div></div>`).join('')}
-function renderTripSelector(){document.getElementById('tripSelector').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<button class="btn ${t.id===selectedTrip?'primary':'soft'}" onclick="selectedTrip='${t.id}';renderTrips()">${v.plate} • ${l.from}→${l.to}</button>`}).join(' ')}
+function renderMatches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{if(+v.capacity>=+l.weight)a.push({l,v,s:score(l,v)})}));a.sort((a,b)=>b.s-a.s);document.getElementById('matchList').innerHTML=a.map(m=>`<div class="item"><div class="itemtop"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted">${m.l.loadNo} • ${m.v.plate} • ${m.v.company}</div></div><span class="chip blue">%${m.s} uygun</span></div><div class="chips"><span class="chip">${m.l.vehicleType}</span><span class="chip">${money(m.v.capacity)} kg kapasite</span><span class="chip">${m.v.status}</span></div></div>`).join('')}
+function renderTripSelector(){document.getElementById('tripSelector').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<button class="btn ${t.id===selectedTrip?'primary':'soft'}" onclick="selectedTrip='${t.id}';renderTrips()">${v.plate} • ${l.from} → ${l.to}</button>`}).join(' ')}
 function renderTrips(){renderTripSelector();const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId);document.getElementById('tripRouteTitle').textContent=l.from+' → '+l.to;document.getElementById('tripMeta').textContent=l.loadNo+' • '+v.plate+' • '+v.driver;document.getElementById('tripStatus').textContent=t.stage;document.getElementById('mapPickup').textContent=l.from+' • '+l.pickupAddress;document.getElementById('mapDelivery').textContent=l.to+' • '+l.deliveryAddress;document.getElementById('gpsLabel').textContent=v.location+' • '+v.lastGps;document.getElementById('tripBar').style.width=t.progress+'%';
  const stages=['Atandı','Yüklemeye gidiyor','Yükleme','Yolda','Teslim noktasında','Boşaltma','Teslim edildi'];const cur=Math.max(0,stages.indexOf(t.stage));document.getElementById('tripTimeline').innerHTML=stages.map((s,i)=>`<div class="step ${i<cur?'done':i===cur?'now':''}">${s}</div>`).join('');
- document.getElementById('tripDetails').innerHTML=`<div class="detail"><small>Şu anki konum</small><b>${v.location}</b></div><div class="detail"><small>Son GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/s</b></div><div class="detail"><small>ETA</small><b>${t.eta}</b></div><div class="detail"><small>Kalan mesafe</small><b>${t.distanceLeft} km</b></div><div class="detail"><small>Gecikme</small><b>+${t.delay} dk</b></div><div class="detail"><small>Yükleme</small><b>${t.pickupAt||'Bekliyor'}</b></div><div class="detail"><small>Boş km</small><b>${t.emptyKm} km</b></div><div class="detail"><small>Teslim alacak</small><b>${l.receiver}</b></div><div class="detail"><small>Telefon</small><b>${l.receiverPhone}</b></div>`;
+ document.getElementById('tripDetails').innerHTML=`<div class="detail"><small>Şu anki konum</small><b>${v.location}</b></div><div class="detail"><small>Son GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/sa</b></div><div class="detail"><small>Tahmini varış</small><b>${t.eta}</b></div><div class="detail"><small>Kalan mesafe</small><b>${t.distanceLeft} km</b></div><div class="detail"><small>Gecikme</small><b>${t.delay?t.delay+' dk':'Yok'}</b></div><div class="detail"><small>Yükleme saati</small><b>${t.pickupAt||'Bekliyor'}</b></div><div class="detail"><small>Boş gidilen yol</small><b>${t.emptyKm} km</b></div><div class="detail"><small>Teslim alacak kişi</small><b>${l.receiver}</b></div><div class="detail"><small>Telefon</small><b>${l.receiverPhone}</b></div>`;
  renderDelivery();renderBackhaul()}
 function advanceTrip(){const t=trip();const a=['Atandı','Yüklemeye gidiyor','Yükleme','Yolda','Teslim noktasında','Boşaltma','Teslim edildi'];let i=a.indexOf(t.stage);if(i<0)i=0;if(i<a.length-1){t.stage=a[i+1];t.progress=Math.min(100,t.progress+14);if(t.stage==='Teslim noktasında'){t.distanceLeft=0;vehicle(t.vehicleId).speed=0;vehicle(t.vehicleId).location=load(t.loadId).deliveryAddress}if(t.stage==='Teslim edildi'){t.deliveredAt=new Date().toLocaleString('tr-TR');vehicle(t.vehicleId).status='Boş';vehicle(t.vehicleId).nextAvailable='Şimdi'}}save();renderTrips()}
 function delayTrip(){const t=trip();t.delay+=30;save();renderTrips()}
-function renderDelivery(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId);document.getElementById('receiverInput').value=l.receiver;document.getElementById('deliveryInfo').innerHTML=`<div class="detail"><small>Yük</small><b>${l.loadNo}</b></div><div class="detail"><small>Araç</small><b>${v.plate}</b></div><div class="detail"><small>Boşaltma adresi</small><b>${l.deliveryAddress}</b></div><div class="detail"><small>Planlı teslim</small><b>${l.deliveryTime.replace('T',' ')}</b></div><div class="detail"><small>Teslim alacak</small><b>${l.receiver}</b></div><div class="detail"><small>Telefon</small><b>${l.receiverPhone}</b></div><div class="detail"><small>POD</small><b>${t.pod?'Tamamlandı':'Bekliyor'}</b></div><div class="detail"><small>Gerçek teslim</small><b>${t.deliveredAt||'Henüz yok'}</b></div>`}
+function renderDelivery(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId);document.getElementById('receiverInput').value=l.receiver;document.getElementById('deliveryInfo').innerHTML=`<div class="detail"><small>Yük no</small><b>${l.loadNo}</b></div><div class="detail"><small>Araç</small><b>${v.plate}</b></div><div class="detail"><small>Teslim adresi</small><b>${l.deliveryAddress}</b></div><div class="detail"><small>Planlanan teslim</small><b>${fmtDT(l.deliveryTime)}</b></div><div class="detail"><small>Teslim alacak kişi</small><b>${l.receiver}</b></div><div class="detail"><small>Telefon</small><b>${l.receiverPhone}</b></div><div class="detail"><small>Teslim belgesi</small><b>${t.pod?'Tamamlandı':'Bekliyor'}</b></div><div class="detail"><small>Teslim edildi</small><b>${t.deliveredAt||'Henüz yok'}</b></div>`}
 async function confirmDelivery(){
  const t=trip(),l=load(t.loadId),doc=document.getElementById('deliveryDocument')?.files?.[0],photos=[...(document.getElementById('deliveryPhotos')?.files||[])];
- if(!doc)return alert('Teslim evrağını ekleyin.');if(!photos.length)return alert('En az bir teslim fotoğrafı ekleyin.');
+ if(!doc)return alert('İrsaliye veya teslim belgesini ekle.');if(!photos.length)return alert('En az bir teslim fotoğrafı ekle.');
  try{await saveMediaFiles(l.id,'delivery',[doc,...photos])}catch(err){console.error(err);return alert('Teslim dosyaları kaydedilemedi.');}
  t.stage='Teslim edildi';t.progress=100;t.pod=true;t.receiverConfirmed=true;t.deliveredAt=new Date().toLocaleString('tr-TR');t.unloadAt=t.deliveredAt;
  l.receiver=document.getElementById('receiverInput').value||l.receiver;l.deliveryMediaCount=1+photos.length;l.deliveryDocument=doc.name;l.deliveryPhotoCount=photos.length;l.deliveryMediaNames=[doc.name,...photos.map(x=>x.name)];
@@ -531,15 +636,15 @@ async function confirmDelivery(){
  const v=vehicle(t.vehicleId);v.status='Boş';v.location=l.deliveryAddress;v.speed=0;v.nextAvailable='Şimdi';save();renderTrips();renderDelivery();go('backhaul');
 }
 function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&+l.weight<=+v.capacity).map(l=>({l,score:92-(Math.abs(+l.weight-(+v.capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
-function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">Kapasite ${money(v.capacity)} kg</span><span class="chip">Boş km: ${t.emptyKm}</span></div><div class="kpis"><div class="kpi"><small>Sonraki uygunluk</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Fırsat</small><b>${a.length} yük</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">% ${x.score} uyum</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü azaltır</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Sonraki yük olarak ata</button></div>`).join(''):'<div class="empty">Bu teslim şehrinden uygun sonraki yük yok.</div>'}
+function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">${money(v.capacity)} kg kapasite</span></div><div class="kpis"><div class="kpi"><small>Boşa çıkış</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Uygun yük</small><b>${a.length}</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">%${x.score} uygun</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü önler</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Bu yükü ata</button></div>`).join(''):'<div class="empty">Bu şehirden şu an uygun yük yok. Yeni yükler geldikçe burada görünür.</div>'}
 function assignBackhaul(loadId){const old=trip(),v=vehicle(old.vehicleId),l=load(loadId);db.trips.unshift({id:uid('T'),loadId:l.id,vehicleId:v.id,stage:'Atandı',progress:0,eta:'Hesaplanıyor',distanceLeft:0,emptyKm:8,delay:0,pickupConfirmed:false,pod:false,receiverConfirmed:false});selectedTrip=db.trips[0].id;v.status='Atandı';db.docs.push({name:'Sonraki yük ataması',loadNo:l.loadNo,status:'Atandı',time:new Date().toLocaleString('tr-TR')});save();go(getSession()?.role==='driver'?'driver':'trips')}
 function renderRatings(){
  const ds=document.getElementById('rateDriverSelect'),cs=document.getElementById('rateCompanySelect');
  if(ds) ds.innerHTML=db.vehicles.map(v=>'<option value="'+v.id+'">'+v.driver+' • '+v.plate+'</option>').join('');
  if(cs) cs.innerHTML=(db.companies||[]).map(c=>'<option value="'+c.id+'">'+c.name+' • '+c.city+'</option>').join('');
  const dl=document.getElementById('driverRatingsList'),cl=document.getElementById('companyRatingsList');
- if(dl) dl.innerHTML=(db.driverRatings||[]).sort((a,b)=>b.score-a.score).map(r=>'<div class="item"><div class="itemtop"><div><div class="route">'+r.driver+'</div><div class="muted">'+r.plate+' • '+r.reviews+' değerlendirme</div></div><span class="chip green">★ '+r.score.toFixed(1)+'</span></div><p class="muted" style="font-size:13px">“'+r.lastComment+'”</p></div>').join('');
- if(cl) cl.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.score-a.score).map(r=>'<div class="item"><div class="itemtop"><div><div class="route">'+r.company+'</div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div><span class="chip green">★ '+r.score.toFixed(1)+'</span></div><div class="chips"><span class="chip blue">Ödeme ★ '+r.paymentScore.toFixed(1)+'</span><span class="chip green">Daha çok araç önerilir</span></div><p class="muted" style="font-size:13px">“'+r.lastComment+'”</p></div>').join('');
+ if(dl) dl.innerHTML=(db.driverRatings||[]).sort((a,b)=>b.score-a.score).map(r=>'<div class="item"><div class="itemtop"><div><div class="route">'+r.driver+'</div><div class="muted">'+r.plate+' • '+r.reviews+' değerlendirme</div></div><span class="chip green">★ '+dec(r.score)+'</span></div><p class="muted small">“'+r.lastComment+'”</p></div>').join('');
+ if(cl) cl.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.score-a.score).map(r=>'<div class="item"><div class="itemtop"><div><div class="route">'+r.company+'</div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div><span class="chip green">★ '+dec(r.score)+'</span></div><div class="chips"><span class="chip blue">Ödeme ★ '+dec(r.paymentScore)+'</span></div><p class="muted small">“'+r.lastComment+'”</p></div>').join('');
 }
 function submitDriverRating(){
  const id=document.getElementById('rateDriverSelect').value,v=vehicle(id);if(!v)return;
@@ -592,49 +697,49 @@ function renderRegional(){
  const fc=document.getElementById('regionalFirmCount'),dc=document.getElementById('regionalDriverCount');
  if(fc)fc.textContent=companies.length+' firma';if(dc)dc.textContent=drivers.length+' şoför';
  const ce=document.getElementById('regionalCompanies'),de=document.getElementById('regionalDrivers'),se=document.getElementById('regionalSummary');
- if(ce)ce.innerHTML=companies.length?companies.sort((a,b)=>b.totalScore-a.totalScore).map(c=>'<div class="item"><div class="itemtop"><div><div class="route">'+c.name+'</div><div class="muted">'+c.city+' • '+c.district+' • '+c.zone+'</div></div><span class="chip green">★ '+c.totalScore.toFixed(1)+'</span></div><div class="chips"><span class="chip blue">Ödeme ★ '+c.paymentScore.toFixed(1)+'</span><span class="chip">Ort. ödeme '+c.paymentDays+' gün</span><span class="chip">Yükleme bekleme '+c.loadingWait+' dk</span><span class="chip">Boşaltma bekleme '+c.unloadingWait+' dk</span></div><p class="muted" style="font-size:13px">'+c.reviews+' şoför değerlendirmesi</p></div>').join(''):'<div class="empty">Bu bölgede kayıtlı firma yok.</div>';
- if(de)de.innerHTML=drivers.length?drivers.sort((a,b)=>b.rating-a.rating).map(v=>'<div class="item"><div class="itemtop"><div><div class="route">'+v.driver+'</div><div class="muted">'+v.plate+' • '+v.company+'</div></div><span class="chip blue">★ '+v.rating.toFixed(1)+'</span></div><div class="chips"><span class="chip">'+v.type+'</span><span class="chip green">'+v.status+'</span><span class="chip">Bölge deneyimli</span></div></div>').join(''):'<div class="empty">Bu bölgeye düzenli çalışan şoför yok.</div>';
- const avgPay=companies.length?(companies.reduce((s,c)=>s+c.paymentDays,0)/companies.length).toFixed(1):'-';
- const avgScore=companies.length?(companies.reduce((s,c)=>s+c.totalScore,0)/companies.length).toFixed(1):'-';
+ if(ce)ce.innerHTML=companies.length?companies.sort((a,b)=>b.totalScore-a.totalScore).map(c=>'<div class="item"><div class="itemtop"><div><div class="route">'+c.name+'</div><div class="muted">'+c.city+' • '+c.district+' • '+c.zone+'</div></div><span class="chip green">★ '+dec(c.totalScore)+'</span></div><div class="chips"><span class="chip blue">Ödeme ★ '+dec(c.paymentScore)+'</span><span class="chip">'+c.paymentDays+' günde öder</span><span class="chip">Yüklemede '+c.loadingWait+' dk bekleme</span><span class="chip">Boşaltmada '+c.unloadingWait+' dk bekleme</span></div><p class="muted small">'+c.reviews+' şoför değerlendirmesi</p></div>').join(''):'<div class="empty">Bu bölgede henüz kayıtlı firma yok.</div>';
+ if(de)de.innerHTML=drivers.length?drivers.sort((a,b)=>b.rating-a.rating).map(v=>'<div class="item"><div class="itemtop"><div><div class="route">'+v.driver+'</div><div class="muted">'+v.plate+' • '+v.company+'</div></div><span class="chip blue">★ '+dec(v.rating)+'</span></div><div class="chips"><span class="chip">'+v.type+'</span><span class="chip green">'+v.status+'</span><span class="chip">Bölgeyi biliyor</span></div></div>').join(''):'<div class="empty">Bu bölgede düzenli çalışan şoför yok.</div>';
+ const avgPay=companies.length?dec(companies.reduce((s,c)=>s+c.paymentDays,0)/companies.length):'-';
+ const avgScore=companies.length?dec(companies.reduce((s,c)=>s+c.totalScore,0)/companies.length):'-';
  const avgWait=companies.length?Math.round(companies.reduce((s,c)=>s+c.loadingWait+c.unloadingWait,0)/(companies.length*2)):'-';
- if(se)se.innerHTML='<div class="kpi"><small>Bölge</small><b>'+r.city+' / '+r.district+'</b></div><div class="kpi"><small>Firma puanı</small><b>★ '+avgScore+'</b></div><div class="kpi"><small>Ort. ödeme</small><b>'+avgPay+' gün</b></div><div class="kpi"><small>Ort. bekleme</small><b>'+avgWait+' dk</b></div>';
+ if(se)se.innerHTML='<div class="kpi"><small>Bölge</small><b>'+r.city+' / '+r.district+'</b></div><div class="kpi"><small>Ortalama firma puanı</small><b>★ '+avgScore+'</b></div><div class="kpi"><small>Ortalama ödeme süresi</small><b>'+avgPay+' gün</b></div><div class="kpi"><small>Ortalama bekleme</small><b>'+avgWait+' dk</b></div>';
 }
 function renderDriverViews(){
  const t=trip(),l=t?load(t.loadId):null,v=t?vehicle(t.vehicleId):null;
  const cur=document.getElementById('driverCurrentJob');
- if(cur) cur.innerHTML=l&&v?'<div class="item"><div class="route">'+l.from+' → '+l.to+'</div><div class="muted">'+l.loadNo+' • '+v.plate+'</div><div class="chips"><span class="chip green">'+t.stage+'</span><span class="chip">'+t.distanceLeft+' km kaldı</span><span class="chip blue">ETA '+t.eta+'</span></div><button class="btn primary" style="margin-top:12px" onclick="go(\'driver\')">İşe dön</button></div>':'<div class="empty">Aktif iş yok.</div>';
+ if(cur) cur.innerHTML=l&&v?'<div class="item"><div class="route">'+l.from+' → '+l.to+'</div><div class="muted">'+l.loadNo+' • '+v.plate+'</div><div class="chips"><span class="chip green">'+t.stage+'</span><span class="chip">'+t.distanceLeft+' km kaldı</span><span class="chip blue">Varış '+t.eta+'</span></div><button class="btn primary" style="margin-top:12px" onclick="go(\'driver\')">Taşımaya dön</button></div>':'<div class="empty">Şu an aktif taşıman yok.</div>';
  const next=document.getElementById('driverNextJob'),back=getBackhaul();
- if(next) next.innerHTML=back.length?'<div class="item"><div class="route">'+back[0].l.from+' → '+back[0].l.to+'</div><div class="muted">'+back[0].l.loadNo+' • '+back[0].l.cargoType+'</div><div class="chips"><span class="chip green">% '+back[0].score+' uyum</span><span class="chip">'+money(back[0].l.weight)+' kg</span></div><button class="btn primary" style="margin-top:12px" onclick="assignBackhaul(\''+back[0].l.id+'\')">Bu yükü al</button></div>':'<div class="empty">Şu an uygun yeni yük yok.</div>';
+ if(next) next.innerHTML=back.length?'<div class="item"><div class="route">'+back[0].l.from+' → '+back[0].l.to+'</div><div class="muted">'+back[0].l.loadNo+' • '+back[0].l.cargoType+'</div><div class="chips"><span class="chip green">%'+back[0].score+' uygun</span><span class="chip">'+money(back[0].l.weight)+' kg</span></div><button class="btn primary" style="margin-top:12px" onclick="assignBackhaul(\''+back[0].l.id+'\')">Bu yükü al</button></div>':'<div class="empty">Şu an sana uygun yeni yük yok.</div>';
  const comp=document.getElementById('driverCompletedJobs');
- if(comp) comp.innerHTML='<div class="item"><div class="route">Diyarbakır → Mersin</div><div class="muted">SV-2026-0984 • 3 Ekim</div><div class="chips"><span class="chip green">Teslim edildi</span><span class="chip">₺9.200</span></div></div>';
+ if(comp) comp.innerHTML='<div class="item"><div class="route">Diyarbakır → Mersin</div><div class="muted">SV-2026-0984 • 3 Eki 2026</div><div class="chips"><span class="chip green">Teslim edildi</span><span class="chip">₺9.200</span></div></div>';
  const sess=getSession();const pays=(db.payments||[]).filter(p=>!sess||sess.role!=='driver'||p.driver===sess.name);
  const week=pays.reduce((s,p)=>s+p.amount,0),pending=pays.filter(p=>p.status!=='Ödendi').reduce((s,p)=>s+p.amount,0);
  const we=document.getElementById('driverWeekEarn'),pe=document.getElementById('driverPendingEarn');
  if(we)we.textContent='₺'+money(week);if(pe)pe.textContent='₺'+money(pending);
  const pl=document.getElementById('driverPaymentList');
- if(pl)pl.innerHTML=pays.map(p=>'<div class="item"><div class="itemtop"><div><b>'+p.loadNo+'</b><div class="muted">'+p.driver+'</div></div><b>₺'+money(p.amount)+'</b></div><div class="chips"><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span><span class="chip">Vade '+p.due+'</span></div></div>').join('');
+ if(pl)pl.innerHTML=pays.map(p=>'<div class="item"><div class="itemtop"><div><b>'+p.loadNo+'</b><div class="muted">'+p.driver+'</div></div><b>₺'+money(p.amount)+'</b></div><div class="chips"><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span><span class="chip">Son ödeme '+fmtDate(p.due)+'</span></div></div>').join('');
  const tc=document.getElementById('driverTrustedCompanies');
- if(tc)tc.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.paymentScore-a.paymentScore).slice(0,3).map(r=>'<div class="item"><div class="itemtop"><b>'+r.company+'</b><span class="chip green">Ödeme ★ '+r.paymentScore.toFixed(1)+'</span></div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div>').join('');
+ if(tc)tc.innerHTML=(db.companyRatings||[]).sort((a,b)=>b.paymentScore-a.paymentScore).slice(0,3).map(r=>'<div class="item"><div class="itemtop"><b>'+r.company+'</b><span class="chip green">Ödeme ★ '+dec(r.paymentScore)+'</span></div><div class="muted">'+r.reviews+' şoför değerlendirmesi</div></div>').join('');
 }
 function renderPayments(){
  const payments=db.payments||[],paid=payments.filter(p=>p.status==='Ödendi'),pending=payments.filter(p=>p.status!=='Ödendi');
  for(const [id,value] of Object.entries({payTotal:'₺'+money(payments.reduce((n,p)=>n+p.amount,0)),payPaid:'₺'+money(paid.reduce((n,p)=>n+p.amount,0)),payPending:'₺'+money(pending.reduce((n,p)=>n+p.amount,0)),payCount:pending.length})){const node=document.getElementById(id);if(node)node.textContent=value;}
  const el=document.getElementById('paymentRows');if(!el)return;
- el.innerHTML=(db.payments||[]).map(p=>'<tr><td>'+p.loadNo+'</td><td>'+p.driver+'</td><td>₺'+money(p.amount)+'</td><td>'+p.due+'</td><td><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span></td><td>'+(p.status==='Ödendi'?'':'<button class="btn green" onclick="markPaid(\''+p.id+'\')">Ödendi</button>')+'</td></tr>').join('');
+ el.innerHTML=(db.payments||[]).map(p=>'<tr><td>'+p.loadNo+'</td><td>'+p.driver+'</td><td>₺'+money(p.amount)+'</td><td>'+fmtDate(p.due)+'</td><td><span class="chip '+(p.status==='Ödendi'?'green':'amber')+'">'+p.status+'</span></td><td>'+(p.status==='Ödendi'?'':'<button class="btn green" onclick="markPaid(\''+p.id+'\')">Ödendi işaretle</button>')+'</td></tr>').join('');
 }
 function markPaid(id){const p=(db.payments||[]).find(x=>x.id===id);if(p){p.status='Ödendi';save();renderPayments();renderDriverViews();}}
 function renderMessages(){
  const list=document.getElementById('conversationList');if(list)list.innerHTML=(db.conversations||[]).map(c=>'<div class="item"><div class="itemtop"><div><b>'+c.name+'</b><div class="muted">'+c.plate+'</div></div><small>'+c.time+'</small></div><p class="muted">'+c.last+'</p></div>').join('');
- const th=document.getElementById('messageThread');if(th)th.innerHTML='<div class="item" style="max-width:78%"><b>Mehmet Kaya</b><p>Gaziantep girişindeyim. Tahmini 15:52 teslim.</p></div><div class="item" style="max-width:78%;margin-left:auto;background:#eef4ff"><b>Operasyon</b><p>Tamam, boşaltma ekibine haber verildi.</p></div>';
+ const th=document.getElementById('messageThread');if(th)th.innerHTML='<div class="msg"><b>Mehmet Kaya</b><p>Gaziantep girişindeyim. 15:52 gibi teslim ederim.</p></div><div class="msg mine"><b>Sen</b><p>Tamam, boşaltma ekibine haber verdim.</p></div>';
 }
-function sendDemoMessage(){const i=document.getElementById('messageInput');if(!i||!i.value.trim())return;const th=document.getElementById('messageThread');th.innerHTML+='<div class="item" style="max-width:78%;margin-left:auto;background:#eef4ff"><b>Operasyon</b><p>'+i.value.replace(/[<>]/g,'')+'</p></div>';i.value='';}
+function sendDemoMessage(){const i=document.getElementById('messageInput');if(!i||!i.value.trim())return;const th=document.getElementById('messageThread');th.innerHTML+='<div class="msg mine"><b>Sen</b><p>'+i.value.replace(/[<>]/g,'')+'</p></div>';i.value='';}
 function renderNotifications(){
  const el=document.getElementById('notificationList');if(!el)return;
  el.innerHTML=(db.notifications||[]).map(n=>'<div class="alert '+(n.level==='red'?'red':n.level==='green'?'green':'')+'"><div class="itemtop"><div><b>'+n.title+'</b><div class="muted">'+n.text+'</div></div><button class="btn soft" onclick="notificationAction(\''+n.title+'\')">'+n.action+'</button></div></div>').join('');
 }
-function notificationAction(title){if(title.includes('Gecikme')||title.includes('Teslim'))go('trips');else if(title.includes('POD'))go('docs');else go('matches');}
-function supportDemo(type){alert(type+' için destek kaydı oluşturuldu. Demo sürümünde gerçek destek sistemine gönderilmez.');}
-function openDriverIssue(){const t=trip(),l=t?load(t.loadId):null;const msg=l?'Yük '+l.loadNo+' için sorun kaydı açıldı.':'Sorun kaydı açıldı.';alert(msg+' Operasyon ekibine bildirim gönderilecek.');}
+function notificationAction(title){if(title.includes('Gecikme')||title.includes('Teslim'))go('trips');else if(title.includes('POD')||title.includes('Belge'))go('docs');else go('matches');}
+function supportDemo(type){alert('"'+type+'" için destek kaydın açıldı. (Demo sürümünde ekibe gönderilmez.)');}
+function openDriverIssue(){const t=trip(),l=t?load(t.loadId):null;const msg=l?l.loadNo+' numaralı yük için sorun kaydın açıldı.':'Sorun kaydın açıldı.';alert(msg+' Destek ekibi seni arayacak.');}
 function renderDocs(){document.getElementById('docsBody').innerHTML=db.docs.map(d=>`<tr><td>${d.name}</td><td>${d.loadNo}</td><td><span class="chip blue">${d.status}</span></td><td>${d.time}</td></tr>`).join('')}
 const MEDIA_DB='sevkio_media_v1',MEDIA_STORE='files';
 function openMediaDB(){
@@ -657,8 +762,8 @@ async function getMediaFiles(loadId){
 function fileSize(n){if(n<1024*1024)return Math.max(1,Math.round(n/1024))+' KB';return (n/1024/1024).toFixed(1)+' MB'}
 async function openMedia(loadId,title){
  const rows=await getMediaFiles(loadId),g=document.getElementById('mediaGallery');
- document.getElementById('mediaModalTitle').textContent=title||'Operasyon kanıtları';document.getElementById('mediaModalSub').textContent=rows.length+' dosya';
- if(!rows.length)g.innerHTML='<div class="empty">Bu kayıt için yüklenmiş dosya bulunmuyor.</div>';
+ document.getElementById('mediaModalTitle').textContent=title||'Fotoğraf ve belgeler';document.getElementById('mediaModalSub').textContent=rows.length+' dosya';
+ if(!rows.length)g.innerHTML='<div class="empty">Bu yük için henüz dosya yüklenmemiş.</div>';
  else g.innerHTML=rows.map(r=>{const u=URL.createObjectURL(r.blob);if((r.type||'').startsWith('image/'))return '<div><img src="'+u+'" alt=""><div class="media-file"><b>'+r.name+'</b><br><small>'+fileSize(r.size)+'</small></div></div>';if((r.type||'').startsWith('video/'))return '<div><video src="'+u+'" controls></video><div class="media-file"><b>'+r.name+'</b><br><small>'+fileSize(r.size)+'</small></div></div>';return '<div class="media-file"><svg class="ui-icon"><use href="#ic-file"></use></svg><b style="margin-left:8px">'+r.name+'</b><br><small>'+fileSize(r.size)+'</small><div style="margin-top:10px"><a class="btn soft" href="'+u+'" target="_blank">Dosyayı aç</a></div></div>'}).join('');
  document.getElementById('mediaModal').classList.add('open');
 }
@@ -671,10 +776,10 @@ document.getElementById('deliveryDocument')?.addEventListener('change',updateDel
 document.getElementById('deliveryPhotos')?.addEventListener('change',updateDeliveryMediaSummary);
 document.getElementById('loadForm').onsubmit=async e=>{
  e.preventDefault();const fd=new FormData(e.target),d={};for(const [k,v] of fd.entries())if(!(v instanceof File))d[k]=v;
- const vkn=(d.receiverCompanyVkn||'').replace(/\D/g,'');if(vkn.length!==10)return alert('Alıcı firma VKN 10 haneli olmalı.');
- const photos=[...(document.getElementById('pickupPhotos').files||[])],video=[...(document.getElementById('pickupVideo').files||[])];if(!photos.length)return alert('Yükleme sırasında en az bir fotoğraf ekleyin.');
+ const vkn=(d.receiverCompanyVkn||'').replace(/\D/g,'');if(vkn.length!==10)return alert('Alıcı firmanın VKN’si 10 haneli olmalı.');
+ const photos=[...(document.getElementById('pickupPhotos').files||[])],video=[...(document.getElementById('pickupVideo').files||[])];if(!photos.length)return alert('En az bir yükleme fotoğrafı ekle.');
  const id=uid('L'),files=[...photos,...video];db.loads.unshift({id,...d,receiverCompanyVkn:vkn,weight:+d.weight,pickupMediaCount:files.length,pickupPhotoCount:photos.length,pickupVideoCount:video.length,pickupMediaNames:files.map(x=>x.name)});save();
- try{await saveMediaFiles(id,'pickup',files)}catch(err){console.error(err);alert('Dosyalar tarayıcı depolamasına kaydedilemedi.');}
+ try{await saveMediaFiles(id,'pickup',files)}catch(err){console.error(err);alert('Dosyalar kaydedilemedi. Lütfen tekrar dene.');}
  e.target.reset();updatePickupMediaSummary();renderLoads();
 }
 const AUTH_SESSION='sevkio_auth_session_v1',AUTH_ACCOUNTS='sevkio_accounts_v1';
@@ -703,6 +808,9 @@ function showAuthTab(tab){
  document.getElementById(tab+'Panel')?.classList.add('active');
  document.getElementById('loginTab')?.classList.toggle('active',tab==='login');
  document.getElementById('registerTab')?.classList.toggle('active',tab==='register');
+ const t=document.getElementById('authTitle'),st=document.getElementById('authSubtitle');
+ if(t)t.textContent=tab==='register'?'Ücretsiz hesap oluştur':'Hesabına giriş yap';
+ if(st)st.textContent=tab==='register'?'Hesap türünü seç, bilgilerini gir.':'Önce hesap türünü seç.';
 }
 function setAuthRole(role){
  authRole=role;clearAuthError();
@@ -719,8 +827,8 @@ function registerDriver(){
  clearAuthError();const a=getAccounts();
  const firstName=document.getElementById('driverFirstName').value.trim(),lastName=document.getElementById('driverLastName').value.trim();
  const phone=cleanPhone(document.getElementById('driverPhone').value),plate=document.getElementById('driverPlate').value.trim().toUpperCase(),password=document.getElementById('driverPassword').value;
- if(!firstName||!lastName||phone.length<10||!plate||password.length<6)return showAuthError('Ad, soyad, telefon, plaka ve en az 6 karakter şifre gerekli.');
- if(a.drivers.some(x=>cleanPhone(x.phone)===phone))return showAuthError('Bu telefonla daha önce şoför hesabı açılmış.');
+ if(!firstName||!lastName||phone.length<10||!plate||password.length<6)return showAuthError('Ad, soyad, telefon, plaka ve en az 6 karakterlik şifre gerekli.');
+ if(a.drivers.some(x=>cleanPhone(x.phone)===phone))return showAuthError('Bu telefon numarasıyla zaten bir şoför hesabı var. Giriş yapmayı dene.');
  const user={id:'D-'+Date.now(),firstName,lastName,phone,plate,password};a.drivers.push(user);saveAccounts(a);
  localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'driver',id:user.id,name:firstName+' '+lastName,plate}));
  enterSession();
@@ -728,21 +836,21 @@ function registerDriver(){
 function registerCompany(){
  clearAuthError();const a=getAccounts();
  const name=document.getElementById('companyName').value.trim(),vkn=document.getElementById('companyVkn').value.replace(/\D/g,''),taxOffice=document.getElementById('companyTaxOffice').value.trim(),phone=cleanPhone(document.getElementById('companyPhone').value),password=document.getElementById('companyPassword').value,file=document.getElementById('companyTaxFile').files[0];
- if(!name||vkn.length!==10||!taxOffice||phone.length<10||password.length<8||!file)return showAuthError('Şirket bilgileri, 10 haneli VKN, vergi levhası ve en az 8 karakter şifre gerekli.');
- if(a.companies.some(x=>x.vkn===vkn))return showAuthError('Bu vergi numarasıyla kayıt zaten mevcut.');
+ if(!name||vkn.length!==10||!taxOffice||phone.length<10||password.length<8||!file)return showAuthError('Şirket bilgileri, 10 haneli VKN, vergi levhası ve en az 8 karakterlik şifre gerekli.');
+ if(a.companies.some(x=>x.vkn===vkn))return showAuthError('Bu vergi numarasıyla zaten bir hesap var.');
  const user={id:'C-'+Date.now(),name,vkn,taxOffice,phone,password,taxFile:file.name,verified:false,verification:'pending'};a.companies.push(user);saveAccounts(a);
  document.getElementById('verifyFileState').textContent=file.name;
  ['loginPanel','registerPanel'].forEach(id=>document.getElementById(id).classList.remove('active'));document.getElementById('verificationPanel').classList.add('active');
 }
 function loginDriver(){
  clearAuthError();const a=getAccounts(),phone=cleanPhone(document.getElementById('driverLoginPhone').value),password=document.getElementById('driverLoginPassword').value;
- const u=a.drivers.find(x=>cleanPhone(x.phone)===phone&&x.password===password);if(!u)return showAuthError('Telefon veya şifre hatalı.');
+ const u=a.drivers.find(x=>cleanPhone(x.phone)===phone&&x.password===password);if(!u)return showAuthError('Telefon numarası veya şifre hatalı.');
  localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'driver',id:u.id,name:u.firstName+' '+u.lastName,plate:u.plate}));enterSession();
 }
 function loginCompany(){
  clearAuthError();const a=getAccounts(),vkn=document.getElementById('companyLoginVkn').value.replace(/\D/g,''),password=document.getElementById('companyLoginPassword').value;
  const u=a.companies.find(x=>x.vkn===vkn&&x.password===password);if(!u)return showAuthError('Vergi numarası veya şifre hatalı.');
- if(!u.verified)return showAuthError('Firma doğrulaması henüz tamamlanmadı. Firma paneli kilitli.');
+ if(!u.verified)return showAuthError('Firma doğrulaman henüz tamamlanmadı. Doğrulanınca panelin açılacak.');
  localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'company',id:u.id,name:u.name,vkn:u.vkn,verified:true}));enterSession();
 }
 function ensureVerifiedDriverDemoData(){
@@ -768,11 +876,11 @@ function syncDriverSession(){
  const rating=db.driverRatings.find(x=>x.driver===s.name);
  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val};
  if(l&&v&&t){
-   set('driverHomeRoute',l.from+' → '+l.to);set('driverHomeIdentity',v.plate+' • '+v.driver);set('driverHomeStatus',t.stage.toUpperCase());
-   set('driverHomeDistance',t.distanceLeft+' km kaldı');set('driverHomeEta',t.eta+' varış');set('driverHomeAddress',l.deliveryAddress);set('driverHomeReceiver',l.receiver);set('driverHomeReceiverPhone',l.receiverPhone);
+   set('driverHomeRoute',l.from+' → '+l.to);set('driverHomeIdentity',v.plate+' • '+v.driver);set('driverHomeStatus',t.stage);
+   set('driverHomeDistance',t.distanceLeft+' km kaldı');set('driverHomeEta','Varış '+t.eta);set('driverHomeAddress',l.deliveryAddress);set('driverHomeReceiver',l.receiver);set('driverHomeReceiverPhone',l.receiverPhone);
  }
  if(v){
-   set('driverProfileName',v.driver);set('driverProfileMeta',v.plate+' • '+v.type);set('driverProfileRating',(rating?.score||v.rating).toFixed(2).replace(/0$/,'')+' / 5');
+   set('driverProfileName',v.driver);set('driverProfileMeta',v.plate+' • '+v.type);set('driverProfileRating',dec(rating?.score||v.rating,2).replace(/0$/,''));
    set('driverProfilePhone',v.phone);set('driverProfileVerify',v.verified?'Doğrulandı':'Bekliyor');set('driverProfileReviews',rating?.reviews||0);set('driverProfileCapacity',money(v.capacity)+' kg');
    const regions=document.getElementById('driverProfileRegions');if(regions)regions.innerHTML=(v.regions||[]).map(r=>'<span class="chip blue">'+r.split('|').slice(-1)[0]+'</span>').join('');
  }
@@ -789,6 +897,9 @@ function enterSession(){
  const lbl=document.getElementById('roleLabel'),desc=document.getElementById('roleDesc');
  if(lbl)lbl.textContent=s.name||'Hesap';
  if(desc)desc.textContent=s.role==='driver'?((s.plate||'')+' • Doğrulanmış şoför'):'Doğrulanmış firma hesabı';
+ const tn=document.getElementById('topUserName'),tr=document.getElementById('topUserRole'),av=document.getElementById('topAvatar');
+ if(tn)tn.textContent=s.name||'Hesap';if(tr)tr.textContent=s.role==='driver'?'Şoför hesabı':'Firma hesabı';
+ if(av)av.textContent=(s.name||'S').split(/\s+/).filter(w=>/^\p{L}/u.test(w)).slice(0,2).map(w=>w[0]).join('').toLocaleUpperCase('tr-TR');
  if(s.role==='driver')syncDriverSession();
  go(s.role==='driver'?'driver':'dashboard');
 }
@@ -807,8 +918,8 @@ function driverTab(id,el){
 }
 function driverAction(type){
  const t=trip();if(!t)return;
- if(type==='start'){t.stage='Yolda';t.progress=Math.max(t.progress,45);const v=vehicle(t.vehicleId);if(v){v.status='Yolda';v.speed=72;} alert('Yola çıktın. Konum takibi başladı.');}
- if(type==='arrive'){t.stage='Teslim noktasında';t.progress=90;t.distanceLeft=0;const v=vehicle(t.vehicleId);if(v){v.status='Teslim noktasında';v.speed=0;} alert('Teslim yerine vardın.');}
+ if(type==='start'){t.stage='Yolda';t.progress=Math.max(t.progress,45);const v=vehicle(t.vehicleId);if(v){v.status='Yolda';v.speed=72;} alert('İyi yolculuklar! Konumun artık firmaya canlı görünüyor.');}
+ if(type==='arrive'){t.stage='Teslim noktasında';t.progress=90;t.distanceLeft=0;const v=vehicle(t.vehicleId);if(v){v.status='Teslim noktasında';v.speed=0;} alert('Teslim yerine vardığın firmaya bildirildi.');}
  if(type==='deliver'){t.stage='Boşaltma';t.progress=96;save();go('delivery');return;}
  save();renderTrips();
 }
