@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta name="sevkio-build" content="2026-10-05-ui10-exact">
+<meta name="sevkio-build" content="2026-10-05-auth-reference">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08111f"><title>Sevkio — Lojistik Operasyon Platformu</title>
 <link rel="manifest" href="manifest.json">
@@ -382,31 +382,6 @@ textarea{min-height:88px}
 }
 
 
-/* ===== Authentication & verification ===== */
-.auth-gate{position:fixed;inset:0;z-index:1200;background:#f5f5f7;display:grid;place-items:center;padding:22px;overflow:auto}
-.auth-shell{width:min(920px,100%);background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.10);overflow:hidden}
-.auth-head{padding:28px 30px 18px;border-bottom:1px solid rgba(0,0,0,.07);display:flex;justify-content:space-between;gap:16px;align-items:center}
-.auth-brand{display:flex;gap:12px;align-items:center}.auth-logo{width:42px;height:42px;border-radius:12px;background:#1d1d1f;color:#fff;display:grid;place-items:center;font-weight:800}
-.auth-head h1{margin:0;font-size:25px;letter-spacing:-.04em}.auth-head p{margin:3px 0 0;color:#86868b;font-size:13px}
-.auth-body{padding:28px 30px}
-.auth-tabs{display:flex;gap:6px;padding:5px;background:#f2f2f4;border-radius:12px;margin-bottom:22px;width:max-content}
-.auth-tabs button{border:0;background:transparent;padding:9px 15px;border-radius:9px;font-weight:700;color:#6e6e73;cursor:pointer}
-.auth-tabs button.active{background:#fff;color:#1d1d1f;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.auth-role{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.auth-role button{border:1px solid rgba(0,0,0,.09);background:#fff;padding:15px;border-radius:14px;text-align:left;cursor:pointer}
-.auth-role button.active{border-color:#0071e3;background:#f5f9ff}
-.auth-role b{display:block;font-size:15px}.auth-role small{color:#86868b}
-.auth-panel{display:none}.auth-panel.active{display:block}
-.auth-form{display:grid;grid-template-columns:1fr 1fr;gap:13px}.auth-form .full{grid-column:1/-1}
-.auth-note{padding:13px 14px;border-radius:12px;background:#f7f7f9;color:#6e6e73;font-size:12px;line-height:1.55;margin-top:14px}
-.auth-note.warning{background:#fff7eb;color:#815200}.auth-note.success{background:#edf8ef;color:#176a2e}
-.verify-card{padding:18px;border:1px solid rgba(0,0,0,.08);border-radius:16px;background:#fafafa;margin-top:16px}
-.verify-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}.verify-line:last-child{border-bottom:0}
-.auth-error{display:none;background:#fff0f1;color:#b00014;border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:12px}
-.logout-btn{width:100%;margin-top:9px}
-@media(max-width:700px){.auth-shell{border-radius:22px}.auth-head,.auth-body{padding:20px}.auth-form,.auth-role{grid-template-columns:1fr}.auth-form .full{grid-column:auto}}
-
-
 /* ===== Sevkio icon + proof media system ===== */
 .icon-sprite{position:absolute;width:0;height:0;overflow:hidden}
 .ui-icon{width:18px;height:18px;display:inline-block;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
@@ -415,8 +390,6 @@ textarea{min-height:88px}
 .nav button{display:flex;align-items:center;gap:10px}
 .nav button .ui-icon{width:17px;height:17px;opacity:.86}
 .brandmark{display:grid;place-items:center}.brandmark .ui-icon{width:21px;height:21px}
-.auth-role button{display:flex;gap:12px;align-items:center}.auth-role .role-icon{width:38px;height:38px;border-radius:11px;background:#f2f2f4;display:grid;place-items:center;color:#1d1d1f}
-.auth-role button.active .role-icon{background:#eaf4ff;color:#0071e3}
 .media-box{border:1px solid rgba(0,0,0,.09);background:#fafafa;border-radius:14px;padding:14px}
 .media-box-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;margin-bottom:5px}
 .media-box p{font-size:12px;color:#86868b;margin:0 0 10px;line-height:1.45}
@@ -438,12 +411,12 @@ body{font-family:var(--font-ui);font-feature-settings:"cv02","cv03","cv04","cv11
 h1,h2,h3,.route,.bigroute,.stat b{font-family:var(--font-ui);font-weight:750;letter-spacing:-.035em}
 .brand b{font-size:20px;font-weight:800;letter-spacing:-.045em}
 .brand small{letter-spacing:.01em}
-.brandmark,.auth-logo{
+.brandmark{
  background:linear-gradient(145deg,#0d1117,#273244)!important;
  border-radius:13px!important;
  box-shadow:0 8px 22px rgba(15,23,42,.18)!important;
 }
-.brandmark svg,.auth-logo svg{stroke-width:2.2}
+.brandmark svg{stroke-width:2.2}
 .hero{
  position:relative;overflow:hidden;min-height:310px;
  background:
@@ -499,54 +472,12 @@ h1,h2,h3,.route,.bigroute,.stat b{font-family:var(--font-ui);font-weight:750;let
 }
 
 
-/* ===== Premium authentication experience v2 ===== */
-.premium-auth{padding:0!important;background:#0b0d10!important;display:grid!important;grid-template-columns:minmax(0,1.08fr) minmax(430px,.92fr)!important;overflow:hidden}
-.premium-auth .auth-visual{position:relative;min-height:100dvh;background:url("https://images.unsplash.com/photo-1725781535657-29d825bc7824?auto=format&fit=crop&fm=jpg&q=88&w=1800") center/cover no-repeat;color:#fff;overflow:hidden}
-.auth-visual-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,12,.28),rgba(5,8,12,.32) 38%,rgba(5,8,12,.94) 100%)}
-.auth-visual-brand{position:absolute;z-index:2;left:clamp(28px,4vw,64px);top:clamp(28px,4vw,54px);display:flex;align-items:center;gap:12px;font-size:24px;letter-spacing:-.045em}
-.auth-visual-brand .auth-logo{background:rgba(10,12,16,.7)!important;border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(16px)}
-.auth-visual-copy{position:absolute;z-index:2;left:clamp(28px,5vw,76px);right:clamp(28px,5vw,76px);bottom:clamp(38px,7vh,84px);max-width:720px}
-.auth-visual-copy .eyebrow{font-size:11px;letter-spacing:.16em;font-weight:800;color:rgba(255,255,255,.72)}
-.auth-visual-copy h1{font-size:clamp(44px,5.1vw,76px);line-height:.96;letter-spacing:-.065em;margin:16px 0 22px;font-weight:760}
-.auth-visual-copy p{font-size:16px;line-height:1.65;color:rgba(255,255,255,.72);max-width:610px;margin:0}
-.trust-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:25px}.trust-row span{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(14px);font-size:11px;font-weight:700}
-.auth-workspace{min-height:100dvh;background:#f7f7f8;padding:clamp(30px,6vh,70px) clamp(28px,5vw,78px);overflow:auto;display:flex;flex-direction:column;justify-content:center}
-.auth-mobile-brand{display:none}.auth-intro{max-width:540px;width:100%;margin:0 auto 24px}.auth-intro h2{font-size:34px;line-height:1.05;letter-spacing:-.05em;margin:16px 0 8px}.auth-intro p{margin:0;color:#77777c;font-size:14px}.secure-pill{display:inline-flex;align-items:center;gap:6px;color:#248a3d;font-size:11px;font-weight:800;letter-spacing:.02em}
-.premium-auth .auth-body{max-width:540px;width:100%;margin:0 auto;padding:0!important}
-.premium-auth .auth-tabs{width:100%;display:grid;grid-template-columns:1fr 1fr;padding:4px;margin-bottom:18px}
-.premium-auth .auth-tabs button{padding:11px}
-.premium-auth .auth-role{gap:9px}.premium-auth .auth-role button{min-height:74px;padding:13px;border-radius:15px}
-.premium-auth .auth-form{gap:11px}.premium-auth .auth-form label{font-size:11px;font-weight:750;color:#5e5e63}
-.premium-auth .auth-form input{margin-top:6px;min-height:48px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.09);font-size:14px}
-.premium-auth .auth-form input:focus{border-color:#0071e3;box-shadow:0 0 0 3px rgba(0,113,227,.1)}
-.premium-auth .auth-form .btn.primary{min-height:50px;border-radius:13px;background:#15171a;font-size:14px;margin-top:3px}
-.premium-auth .auth-form .btn.primary:hover{background:#000}
-.premium-auth .auth-note{border-radius:12px;font-size:11px;line-height:1.55}
-.premium-auth .auth-body>div:last-child{margin-top:16px!important;padding-top:16px;border-top:1px solid rgba(0,0,0,.07)}
-.premium-auth .auth-body>div:last-child .btn{font-size:11px;padding:9px 11px}
-.auth-legal{max-width:540px;width:100%;margin:18px auto 0;color:#9a9a9f;font-size:10px;line-height:1.5}
-@media(max-width:820px){
- .premium-auth{display:block!important;background:#f7f7f8!important;overflow:auto}
- .premium-auth .auth-visual{display:none}
- .auth-workspace{padding:26px 20px 38px;justify-content:flex-start}
- .auth-mobile-brand{display:flex;align-items:center;gap:11px;margin-bottom:46px}.auth-mobile-brand b{display:block;font-size:22px;letter-spacing:-.05em}.auth-mobile-brand small{display:block;color:#86868b;font-size:11px;margin-top:2px}
- .auth-intro h2{font-size:30px}
- .premium-auth .auth-role{grid-template-columns:1fr 1fr}
-}
-@media(max-width:480px){.premium-auth .auth-role{grid-template-columns:1fr}.auth-mobile-brand{margin-bottom:36px}}
-
-
 /* ===== Brand identity & premium shell v7 ===== */
 .sevkio-lockup{display:flex;align-items:center;gap:11px;min-width:0}
 .sevkio-symbol{width:48px;height:48px;flex:0 0 auto;filter:drop-shadow(0 7px 14px rgba(0,87,217,.16))}
 .sevkio-word{display:flex;flex-direction:column;line-height:1}.sevkio-word b{font-size:20px;font-weight:850;letter-spacing:.045em;color:#101318}.sevkio-word small{margin-top:6px;font-size:9px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:#92969d}
 aside .brand{padding:4px 4px 22px!important;border-bottom:1px solid rgba(0,0,0,.07);margin-bottom:14px}
 aside .sevkio-symbol{width:45px;height:45px}
-.auth-visual-brand .sevkio-word b{color:white;font-size:23px}.auth-visual-brand .sevkio-word small{color:rgba(255,255,255,.58)}
-.auth-visual-brand .sevkio-symbol{width:52px;height:52px}
-.auth-mobile-brand .sevkio-word b{font-size:21px}.auth-mobile-brand .sevkio-symbol{width:46px;height:46px}
-.premium-auth .auth-visual{background-image:url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1800&q=90")!important;background-position:center!important}
-.auth-visual-shade{background:linear-gradient(180deg,rgba(4,9,16,.16),rgba(4,9,16,.18) 35%,rgba(4,9,16,.88) 100%)!important}
 .hero{background-image:linear-gradient(90deg,rgba(8,13,20,.92) 0%,rgba(8,13,20,.67) 48%,rgba(8,13,20,.12) 78%),url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1800&q=88")!important;background-position:center!important}
 @media(min-width:901px){
  aside{background:#fbfbfc!important;border-right:1px solid #e9eaec!important}
@@ -559,136 +490,9 @@ aside .sevkio-symbol{width:45px;height:45px}
  .sevkio-word small{display:block!important}
 }
 
-.auth-build{max-width:540px;width:100%;margin:14px auto 0;font-size:9px;letter-spacing:.14em;color:#b0b2b7;font-weight:800}
-
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
-/* ===== Sevkio premium mobile auth v8 ===== */
-body,.premium-auth,input,button{font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif!important}
-@media(max-width:820px){
- .premium-auth{background:#f4f6f8!important}
- .premium-auth .auth-visual{display:block!important;min-height:238px!important;height:238px!important;background-image:linear-gradient(180deg,rgba(6,14,25,.05),rgba(6,14,25,.72)),url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=88")!important;background-position:center 55%!important}
- .premium-auth .auth-visual-brand{display:none!important}
- .premium-auth .auth-visual-copy{left:24px!important;right:24px!important;bottom:22px!important}
- .premium-auth .auth-visual-copy .eyebrow,.premium-auth .auth-visual-copy p,.premium-auth .trust-row{display:none!important}
- .premium-auth .auth-visual-copy h1{font-size:30px!important;line-height:1.02!important;letter-spacing:-.045em!important;margin:0!important;max-width:330px}
- .auth-workspace{min-height:auto!important;margin-top:-18px!important;position:relative;z-index:3;border-radius:24px 24px 0 0!important;padding:22px 20px 38px!important;background:#fff!important}
- .auth-mobile-brand{display:flex!important;margin:0 0 24px!important;padding-bottom:18px;border-bottom:1px solid #eceef1}
- .auth-mobile-brand .sevkio-lockup{gap:10px}.auth-mobile-brand .sevkio-symbol{width:44px!important;height:44px!important}
- .auth-mobile-brand .sevkio-word b{font-size:22px!important;letter-spacing:.08em!important;font-weight:800!important}
- .auth-mobile-brand .sevkio-word small{display:block!important;margin-top:5px!important;font-size:9px!important;letter-spacing:.13em!important;color:#8b9098!important}
- .auth-intro{margin:0 0 20px!important}.auth-intro .secure-pill{display:none!important}
- .auth-intro h2{font-size:25px!important;letter-spacing:-.035em!important;margin:0 0 6px!important;font-weight:800!important}
- .auth-intro p{font-size:12px!important;color:#81858c!important}
- .premium-auth .auth-tabs{background:#f1f3f5!important;border-radius:14px!important;padding:4px!important;margin-bottom:16px!important}
- .premium-auth .auth-tabs button{font-size:12px!important;font-weight:750!important;border-radius:11px!important}
- .premium-auth .auth-role{grid-template-columns:1fr 1fr!important;gap:8px!important}
- .premium-auth .auth-role button{min-height:66px!important;padding:10px!important;border:1px solid #e4e7eb!important;border-radius:14px!important;background:#fff!important}
- .premium-auth .auth-role button.active{border-color:#1677ff!important;background:#f5f9ff!important;box-shadow:0 0 0 1px #1677ff inset!important}
- .premium-auth .auth-role button .role-icon{width:36px!important;height:36px!important;border-radius:10px!important}
- .premium-auth .auth-role button b{font-size:13px!important}.premium-auth .auth-role button small{font-size:9px!important;color:#8b9098!important;margin-top:2px}
- .premium-auth .auth-form label{font-size:10px!important;text-transform:uppercase;letter-spacing:.07em;color:#727780!important}
- .premium-auth .auth-form input{height:50px!important;min-height:50px!important;border-radius:13px!important;padding:0 14px!important;font-size:13px!important;background:#f9fafb!important;border-color:#e2e5e9!important}
- .premium-auth .auth-form .btn.primary{height:52px!important;background:#101828!important;border-radius:13px!important;font-size:13px!important;box-shadow:0 9px 22px rgba(16,24,40,.14)!important}
- .premium-auth .auth-form .btn.primary:active{transform:scale(.99)}
- .auth-legal{font-size:9px!important;text-align:center!important;color:#a0a4aa!important}.auth-build{display:none!important}
-}
-.password-field{position:relative}.password-field input{padding-right:70px!important}.eye-btn{position:absolute;right:9px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#667085;font-size:10px;font-weight:800;padding:8px;cursor:pointer}
-.forgot-btn{border:0;background:transparent;color:#475467;font-size:10px;font-weight:750;margin:-3px 0 0 auto;padding:0;cursor:pointer}
-.demo-access{margin:20px auto 0;max-width:540px;border-top:1px solid #eceef1;padding-top:14px;text-align:center}.demo-access summary{cursor:pointer;color:#98a0aa;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;list-style:none}.demo-access summary::-webkit-details-marker{display:none}.demo-access>div{display:flex;justify-content:center;gap:7px;margin-top:10px}.demo-access .btn{font-size:9px!important;padding:7px 9px!important;background:#f5f6f7!important;color:#667085!important}
-
-
-/* ===== Approved visual direction / UI 9 ===== */
-:root{--navy:#0b2f63;--royal:#0d72e8}
-.premium-auth{background:#0b1220!important}
-.premium-auth .auth-visual{background-image:linear-gradient(180deg,rgba(4,12,24,.10),rgba(4,12,24,.68)),url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1800&q=90")!important}
-.premium-auth .auth-form .btn.primary{background:linear-gradient(100deg,#0a315f,#0b3972)!important;color:white!important}
-.role-photo-grid{align-items:stretch!important}
-.role-photo-card{display:block!important;padding:0!important;overflow:hidden!important;text-align:left!important;background:#fff!important;border:1px solid #e0e4e9!important;border-radius:18px!important}
-.role-photo-card.active{border:2px solid #0d72e8!important;background:#f7fbff!important;box-shadow:0 8px 24px rgba(13,114,232,.10)!important}
-.role-photo{display:block!important;height:112px;position:relative;background-size:cover!important;background-position:center!important}
-.driver-photo{background-image:linear-gradient(180deg,transparent 45%,rgba(5,14,26,.15)),url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=700&q=85")!important;background-position:35% center!important}
-.company-photo{background-image:linear-gradient(180deg,transparent 45%,rgba(5,14,26,.12)),url("https://images.unsplash.com/photo-1725781535657-29d825bc7824?auto=format&fit=crop&w=700&q=85")!important}
-.role-check{display:none;position:absolute;right:10px;top:10px;width:28px;height:28px;border-radius:50%;background:#0d72e8;color:#fff;place-items:center;box-shadow:0 4px 12px rgba(13,114,232,.28)}
-.role-photo-card.active .role-check{display:grid}
-.role-copy{display:flex!important;gap:9px!important;align-items:flex-start!important;padding:13px 13px 15px!important}
-.role-mini-symbol{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;margin-top:-27px;position:relative;border:3px solid #fff;color:#fff}
-.driver-symbol{background:#0d72e8}.company-symbol{background:#27364a}
-.role-copy b{font-size:15px!important;line-height:1.1}.role-copy small{display:block!important;font-size:10px!important;line-height:1.35!important;margin-top:4px!important;color:#667085!important}
-.field-with-icon{position:relative}.field-with-icon>svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:2;color:#536179}.field-with-icon input{padding-left:44px!important}
-@media(max-width:820px){
- .premium-auth .auth-visual{height:360px!important;min-height:360px!important;background-position:center 55%!important}
- .premium-auth .auth-visual-copy{bottom:45px!important}
- .premium-auth .auth-visual-copy h1{font-size:38px!important;max-width:370px!important;text-shadow:0 3px 20px rgba(0,0,0,.3)}
- .auth-workspace{margin-top:-28px!important;border-radius:28px 28px 0 0!important;padding:20px 18px 40px!important}
- .auth-mobile-brand{margin-bottom:18px!important}
- .auth-intro{display:none!important}
- .premium-auth .auth-tabs{margin-bottom:13px!important}
- .role-photo-grid{grid-template-columns:1fr 1fr!important;gap:9px!important;margin-bottom:18px!important}
- .role-photo{height:104px!important}
- .role-copy{min-height:74px}
- .premium-auth .auth-form .btn.primary{background:linear-gradient(100deg,#0b315f,#0a3c78)!important}
-}
-@media(max-width:430px){
- .premium-auth .auth-visual{height:330px!important;min-height:330px!important}
- .premium-auth .auth-visual-copy h1{font-size:34px!important}
- .role-photo{height:92px!important}.role-copy{padding:11px!important;min-height:72px}.role-copy small{font-size:9px!important}
-}
-
-
-/* ===== Exact approved mobile composition / UI 10 ===== */
-.mobile-hero-logo,.mobile-register-link{display:none}
-@media(max-width:820px){
- body{background:#fff!important}
- .premium-auth{display:block!important;background:#fff!important;min-height:100vh!important}
- .premium-auth .auth-visual{display:block!important;height:530px!important;min-height:530px!important;background-image:linear-gradient(180deg,rgba(4,13,27,.20) 0%,rgba(4,13,27,.08) 35%,rgba(4,13,27,.80) 100%),url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1400&q=92")!important;background-position:center 52%!important;background-size:cover!important}
- .premium-auth .auth-visual-copy{display:block!important;left:28px!important;right:28px!important;bottom:42px!important}
- .premium-auth .auth-visual-copy h1{font-size:43px!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:800!important;color:#fff!important;max-width:430px!important;margin:0 0 15px!important}
- .premium-auth .auth-visual-copy p{display:block!important;color:rgba(255,255,255,.82)!important;font-size:17px!important;line-height:1.45!important;max-width:390px!important;margin:0!important}
- .premium-auth .auth-visual-copy .eyebrow,.premium-auth .trust-row{display:none!important}
- .auth-workspace{margin-top:-24px!important;border-radius:28px 28px 0 0!important;background:#fff!important;padding:0 22px 44px!important;box-shadow:0 -10px 30px rgba(5,18,38,.08)!important}
- .auth-mobile-brand{display:none!important}
- .mobile-hero-logo{display:block!important;position:absolute;top:34px;left:28px;z-index:4}
- .mobile-hero-logo .sevkio-lockup{gap:11px!important}
- .mobile-hero-logo .sevkio-symbol{width:58px!important;height:58px!important;filter:none!important}
- .mobile-hero-logo .sevkio-word b{color:#fff!important;font-size:28px!important;font-weight:800!important;letter-spacing:.08em!important}
- .mobile-hero-logo .sevkio-word small{color:rgba(255,255,255,.9)!important;font-size:9px!important;letter-spacing:.22em!important;margin-top:6px!important}
- .auth-intro,.auth-tabs{display:none!important}
- .auth-body{padding-top:24px!important}
- .role-photo-grid{grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0 0 24px!important}
- .role-photo-card{border-radius:19px!important;border:1px solid #dfe4ea!important;box-shadow:none!important;background:#fff!important}
- .role-photo-card.active{border:2px solid #1677ff!important;background:#f8fbff!important;box-shadow:0 7px 22px rgba(22,119,255,.08)!important}
- .role-photo{height:132px!important}
- .driver-photo{background-image:url("https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=700&q=88")!important;background-position:36% 50%!important}
- .company-photo{background-image:url("https://images.unsplash.com/photo-1725781535657-29d825bc7824?auto=format&fit=crop&w=700&q=88")!important;background-position:center!important}
- .role-check{width:32px!important;height:32px!important;right:10px!important;top:10px!important}
- .role-copy{padding:15px 14px 17px!important;min-height:92px!important;gap:9px!important}
- .role-mini-symbol{width:38px!important;height:38px!important;margin-top:-32px!important;border-width:3px!important}
- .role-copy b{font-size:18px!important;font-weight:800!important;letter-spacing:-.025em!important;color:#101828!important}
- .role-photo-card.active .role-copy b{color:#0d72e8!important}
- .role-copy small{font-size:12px!important;line-height:1.45!important;color:#667085!important;margin-top:4px!important}
- .auth-form{display:grid!important;grid-template-columns:1fr!important;gap:16px!important}
- .auth-form label,.auth-form .full{grid-column:1!important;font-size:12px!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important;color:#344054!important}
- .auth-form input{height:58px!important;min-height:58px!important;border:1px solid #d9dee7!important;border-radius:15px!important;background:#fff!important;font-size:15px!important;color:#101828!important;margin-top:7px!important}
- .field-with-icon input{padding-left:48px!important}
- .field-with-icon>svg{left:16px!important;width:20px!important;height:20px!important;color:#526079!important}
- .password-field input{padding-right:72px!important}
- .eye-btn{right:12px!important;font-size:10px!important}
- .forgot-btn{color:#0d72e8!important;font-size:12px!important;margin-top:-12px!important;margin-bottom:-3px!important}
- .auth-form .btn.primary{height:60px!important;border-radius:15px!important;background:linear-gradient(100deg,#0b315f,#0b3b75)!important;font-size:15px!important;font-weight:800!important;margin-top:2px!important;box-shadow:none!important}
- .mobile-register-link{display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;margin:24px 0 4px!important;color:#667085!important;font-size:13px!important}
- .mobile-register-link button{border:0;background:transparent;color:#0d72e8;font:inherit;font-weight:800;padding:0;cursor:pointer}
- .demo-access{margin-top:22px!important}.demo-access summary{font-size:10px!important;text-transform:none!important;color:#667085!important;letter-spacing:0!important}
- .auth-legal{margin-top:20px!important}
-}
-@media(max-width:430px){
- .premium-auth .auth-visual{height:500px!important;min-height:500px!important}
- .premium-auth .auth-visual-copy h1{font-size:39px!important}
- .premium-auth .auth-visual-copy p{font-size:15px!important}
- .role-photo{height:118px!important}
- .role-copy b{font-size:17px!important}.role-copy small{font-size:11px!important}
-}
 
 </style>
+<link rel="stylesheet" href="assets/auth.css">
 </head>
 <body>
 <svg class="icon-sprite" aria-hidden="true">
@@ -714,39 +518,22 @@ body,.premium-auth,input,button{font-family:"Manrope",-apple-system,BlinkMacSyst
 <symbol id="ic-message" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5Z"/></symbol>
 <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
 <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
-</svg>
-<div id="authGate" class="auth-gate premium-auth">
- <div class="auth-visual">
-   <div class="auth-visual-shade"></div>
-   <div class="auth-visual-brand"><div class="sevkio-lockup" aria-label="Sevkio">
-<svg class="sevkio-symbol" viewBox="0 0 64 64" aria-hidden="true">
- <defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2584ff"/><stop offset="1" stop-color="#0057d9"/></linearGradient><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#334155"/></linearGradient></defs>
- <path d="M9 13h34c7 0 11 3 12 8-2-2-5-3-9-3H25c-5 0-8 2-9 5-1 3 1 5 6 7l12 4-8 8-12-5C5 33 2 27 4 21c1-4 3-6 5-8Z" fill="url(#sg1)"/>
- <path d="M55 51H21c-7 0-11-3-12-8 2 2 5 3 9 3h21c5 0 8-2 9-5 1-3-1-5-6-7l-12-4 8-8 12 5c9 4 12 10 10 16-1 4-3 6-5 8Z" fill="url(#sg2)"/>
-</svg>
-<div class="sevkio-word"><b>SEVKIO</b><small>Lojistik Operasyon Ağı</small></div></div></div><div class="auth-visual-copy">
-     <span class="eyebrow">DOĞRULANMIŞ LOJİSTİK AĞI</span>
-     <h1>Yükünüz güvende,<br>yolunuz açık.</h1>
-     <p>Firma, şoför ve yük operasyonlarını tek platformda yönetin.</p>
-     <div class="trust-row"><span><svg class="ui-icon"><use href="#ic-shield"></use></svg> Firma doğrulama</span><span><svg class="ui-icon"><use href="#ic-map"></use></svg> Canlı takip</span><span><svg class="ui-icon"><use href="#ic-file"></use></svg> Dijital POD</span></div>
-   </div>
- </div>
- <div class="auth-workspace">
-   <div class="mobile-hero-logo"><div class="sevkio-lockup" aria-label="SEVKIO"><svg class="sevkio-symbol" viewBox="0 0 64 64"><path d="M7 19 22 8h34L39 20H24c-4 0-6 1-8 4l17 7-8 9-16-7C1 29 1 23 7 19Z" fill="#2385ff"/><path d="m57 45-15 11H8l17-12h15c4 0 6-1 8-4l-17-7 8-9 16 7c8 4 8 10 2 14Z" fill="#fff"/></svg><div class="sevkio-word"><b>SEVKIO</b><small>LOJİSTİK OPERASYON AĞI</small></div></div></div><div class="auth-mobile-brand"><div class="sevkio-lockup" aria-label="SEVKIO">
-<svg class="sevkio-symbol" viewBox="0 0 64 64" aria-hidden="true">
-<path d="M11 17h32c6 0 10 2 12 6H26c-5 0-8 2-9 5-1 3 2 5 7 7l9 3-7 8-12-5C5 37 2 31 4 25c1-4 3-6 7-8Z" fill="#1677ff"/>
-<path d="M53 47H21c-6 0-10-2-12-6h29c5 0 8-2 9-5 1-3-2-5-7-7l-9-3 7-8 12 5c9 4 12 10 10 16-1 4-3 6-7 8Z" fill="#101828"/>
-</svg><div class="sevkio-word"><b>SEVKIO</b><small>Lojistik ağı</small></div></div></div><div class="auth-intro"><span class="secure-pill"><svg class="ui-icon sm"><use href="#ic-shield"></use></svg> Güvenli erişim</span><h2>Hesabınıza erişin</h2><p>Şoför veya firma hesabınızla devam edin.</p></div>
-   <div class="auth-body">
+<symbol id="ic-eye-off" viewBox="0 0 24 24"><path d="m3 3 18 18M10.5 10.5a2.2 2.2 0 0 0 3 3M9 5a10 10 0 0 1 12 7 14 14 0 0 1-3 4M6 6a14 14 0 0 0-3 6c4 8 12 8 15 5"/></symbol><symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></symbol><symbol id="ic-x" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol><symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16m-7-7 7 7-7 7"/></symbol><symbol id="ic-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol></svg>
+<div id="authGate" class="auth-gate">
+ <section class="auth-visual" aria-labelledby="authHeadline">
+  <div class="auth-brand-reference" role="img" aria-label="SEVKIO — Lojistik Operasyon Ağı"></div>
+  <div class="auth-visual-copy"><h1 id="authHeadline">Yükünüz<br>güvende,<br>yolunuz açık.</h1><p>Firma, şoför ve yük operasyonlarını<br>tek platformda yönetin.</p></div>
+ </section>
+ <div class="auth-workspace">   <div class="auth-body">
    <div class="auth-tabs"><button id="loginTab" class="active" onclick="showAuthTab('login')">Giriş yap</button><button id="registerTab" onclick="showAuthTab('register')">Kayıt ol</button></div>
    <div class="auth-role role-photo-grid">
     <button id="driverRoleBtn" class="active role-photo-card" onclick="setAuthRole('driver')">
       <span class="role-photo driver-photo"><span class="role-check"><svg class="ui-icon"><use href="#ic-check"></use></svg></span></span>
-      <span class="role-copy"><span class="role-mini-symbol driver-symbol"><svg class="ui-icon"><use href="#ic-user"></use></svg></span><span><b>Şoför</b><small>Taşımaları yönet, kazancını artır.</small></span></span>
+      <span class="role-copy"><span class="role-mini-symbol driver-symbol"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7a5 5 0 0 1 10 0v3a5 5 0 0 1-10 0V7ZM7 6h10M5 21v-4a4 4 0 0 1 4-4l3 4 3-4a4 4 0 0 1 4 4v4M8 18v3m8-3v3M12 17v4"/></svg></span><span><b>Şoför</b><small>Taşımaları yönet, kazancını<br>artır.</small></span></span>
     </button>
     <button id="companyRoleBtn" class="role-photo-card" onclick="setAuthRole('company')">
       <span class="role-photo company-photo"><span class="role-check"><svg class="ui-icon"><use href="#ic-check"></use></svg></span></span>
-      <span class="role-copy"><span class="role-mini-symbol company-symbol"><svg class="ui-icon"><use href="#ic-building"></use></svg></span><span><b>Firma</b><small>Yüklerini oluştur, süreci güvenle takip et.</small></span></span>
+      <span class="role-copy"><span class="role-mini-symbol company-symbol"><svg class="ui-icon"><use href="#ic-building"></use></svg></span><span><b>Firma</b><small>Yüklerini oluştur, süreci<br>güvenle takip et.</small></span></span>
     </button>
    </div>
    <div id="authError" class="auth-error"></div>
@@ -754,16 +541,16 @@ body,.premium-auth,input,button{font-family:"Manrope",-apple-system,BlinkMacSyst
    <div id="loginPanel" class="auth-panel active">
     <div id="driverLogin">
      <div class="auth-form">
-      <label class="full">Telefon Numarası<div class="field-with-icon"><svg class="ui-icon"><use href="#ic-phone"></use></svg><input id="driverLoginPhone" inputmode="tel" placeholder="05xx xxx xx xx"></div></label>
-      <label class="full">Şifre<div class="password-field"><input id="driverLoginPassword" type="password" placeholder="Şifreniz"><button type="button" class="eye-btn" onclick="togglePassword('driverLoginPassword',this)" aria-label="Şifreyi göster">Göster</button></div></label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum</button>
-      <button class="btn primary full" onclick="loginDriver()">Şoför olarak giriş yap</button>
+      <label class="full">Telefon Numarası<div class="field-with-icon"><svg class="ui-icon"><use href="#ic-phone"></use></svg><input id="driverLoginPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05xx xxx xx xx"><button type="button" class="clear-phone" aria-label="Telefon numarasını temizle" onclick="document.getElementById('driverLoginPhone').value='';document.getElementById('driverLoginPhone').focus()"><svg class="ui-icon" aria-hidden="true"><use href="#ic-x"></use></svg></button></div></label>
+      <div class="full password-label"><label for="driverLoginPassword">Şifre</label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum?</button><div class="password-field"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lock"></use></svg><input id="driverLoginPassword" autocomplete="current-password" type="password" placeholder="Şifrenizi girin"><button type="button" class="eye-btn" onclick="togglePassword('driverLoginPassword',this)" aria-label="Şifreyi göster"><svg class="ui-icon" aria-hidden="true"><use href="#ic-eye-off"></use></svg></button></div></div>
+      <button class="btn primary full" onclick="loginDriver()">Şoför olarak giriş yap<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
     </div>
     <div id="companyLogin" style="display:none">
      <div class="auth-form">
       <label class="full">Vergi kimlik numarası<input id="companyLoginVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli VKN"></label>
-      <label class="full">Şifre<div class="password-field"><input id="companyLoginPassword" type="password" placeholder="Şifreniz"><button type="button" class="eye-btn" onclick="togglePassword('companyLoginPassword',this)" aria-label="Şifreyi göster">Göster</button></div></label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum</button>
-      <button class="btn primary full" onclick="loginCompany()">Firma olarak giriş yap</button>
+      <div class="full password-label"><label for="companyLoginPassword">Şifre</label><button type="button" class="forgot-btn" onclick="alert('Şifre yenileme bağlantısı demo sürümünde aktif değildir.')">Şifremi unuttum?</button><div class="password-field"><svg class="ui-icon" aria-hidden="true"><use href="#ic-lock"></use></svg><input id="companyLoginPassword" autocomplete="current-password" type="password" placeholder="Şifrenizi girin"><button type="button" class="eye-btn" onclick="togglePassword('companyLoginPassword',this)" aria-label="Şifreyi göster"><svg class="ui-icon" aria-hidden="true"><use href="#ic-eye-off"></use></svg></button></div></div>
+      <button class="btn primary full" onclick="loginCompany()">Firma olarak giriş yap<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
      <div class="auth-note">Firma paneli yalnızca doğrulanmış firma hesaplarına açılır.</div>
     </div>
@@ -813,10 +600,9 @@ body,.premium-auth,input,button{font-family:"Manrope",-apple-system,BlinkMacSyst
     <div class="auth-note">Bu GitHub Pages demosu GİB sistemine sunucu taraflı bağlanamaz. Gerçek sürümde doğrulama backend üzerinden yapılıp sonuç hesaba yazılmalıdır.</div>
    </div>
 
-   <details class="demo-access"><summary>Demo erişimi</summary><div><button class="btn soft" onclick="demoVerifiedCompany()">Firma demosu</button><button class="btn soft" onclick="demoVerifiedDriver()">Şoför demosu</button></div></details>
+   <details class="demo-access"><summary>Demo erişimi <svg class="ui-icon" aria-hidden="true"><use href="#ic-chevron-down"></use></svg></summary><div><button class="btn soft" onclick="demoVerifiedCompany()">Firma demosu</button><button class="btn soft" onclick="demoVerifiedDriver()">Şoför demosu</button></div></details>
   </div>
-   <div class="auth-build">SEVKIO • UI 10.0</div><div class="auth-legal">Hesabınıza devam ederek platform kullanım koşullarını ve gizlilik politikasını kabul etmiş olursunuz.</div>
- </div>
+</div>
 </div>
 <div id="roleGate" style="display:none"></div>
 <div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
@@ -1273,7 +1059,7 @@ const seed={
 let db=JSON.parse(localStorage.getItem(K)||'null')||seed,selectedTrip='T1';
 const norm=s=>(s||'').trim().toLocaleLowerCase('tr-TR'),uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase(),money=n=>Number(n).toLocaleString('tr-TR');
 function save(){localStorage.setItem(K,JSON.stringify(db));renderAll()}
-function togglePassword(id,btn){const el=document.getElementById(id);if(!el)return;const show=el.type==='password';el.type=show?'text':'password';btn.textContent=show?'Gizle':'Göster'}
+function togglePassword(id,btn){const el=document.getElementById(id);if(!el)return;const show=el.type==='password';el.type=show?'text':'password';btn.setAttribute('aria-label',show?'Şifreyi gizle':'Şifreyi göster');btn.setAttribute('aria-pressed',String(show))}
 function openMobileNav(){document.body.classList.add('mobile-nav-open')}
 function closeMobileNav(){document.body.classList.remove('mobile-nav-open')}
 function go(id){
@@ -1483,6 +1269,7 @@ function cleanPhone(v){return (v||'').replace(/\D/g,'')}
 function showAuthError(msg){const e=document.getElementById('authError');e.textContent=msg;e.style.display='block'}
 function clearAuthError(){const e=document.getElementById('authError');if(e)e.style.display='none'}
 function showAuthTab(tab){
+ document.getElementById('authGate').dataset.tab=tab;
  clearAuthError();
  ['loginPanel','registerPanel','verificationPanel'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
  document.getElementById(tab+'Panel')?.classList.add('active');
@@ -1491,6 +1278,8 @@ function showAuthTab(tab){
 }
 function setAuthRole(role){
  authRole=role;clearAuthError();
+ document.getElementById('driverRoleBtn').setAttribute('aria-pressed',String(role==='driver'));
+ document.getElementById('companyRoleBtn').setAttribute('aria-pressed',String(role==='company'));
  document.getElementById('driverRoleBtn').classList.toggle('active',role==='driver');
  document.getElementById('companyRoleBtn').classList.toggle('active',role==='company');
  document.getElementById('driverLogin').style.display=role==='driver'?'block':'none';
@@ -1578,11 +1367,11 @@ function enterSession(){
 function logoutUser(){
  localStorage.removeItem(AUTH_SESSION);localStorage.removeItem('sevkio_role');
  document.body.classList.remove('driver-mode','company-mode');
- document.getElementById('authGate').style.display='grid';showAuthTab('login');setAuthRole('driver');
+ document.getElementById('authGate').style.display='';showAuthTab('login');setAuthRole('driver');
 }
-function chooseRole(role){setAuthRole(role);showAuthTab('login');document.getElementById('authGate').style.display='grid'}
+function chooseRole(role){setAuthRole(role);showAuthTab('login');document.getElementById('authGate').style.display=''}
 function switchRole(){logoutUser()}
-function initRole(){const s=getSession();if(s)enterSession();else{document.getElementById('authGate').style.display='grid';setAuthRole('driver');showAuthTab('login')}}
+function initRole(){const s=getSession();if(s)enterSession();else{document.getElementById('authGate').style.display='';setAuthRole('driver');showAuthTab('login')}}
 function driverTab(id,el){
   document.querySelectorAll('.driver-bottom button').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
