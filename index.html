@@ -590,6 +590,7 @@ const norm=s=>(s||'').trim().toLocaleLowerCase('tr-TR'),uid=p=>p+Math.random().t
 const dec=(n,d=1)=>Number(n).toFixed(d).replace('.',','),fmtDate=v=>{const d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('tr-TR',{day:'numeric',month:'short',year:'numeric'})},fmtDT=v=>{const d=new Date(v);return isNaN(d)?(v||''):d.toLocaleString('tr-TR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
 function save(){localStorage.setItem(K,JSON.stringify(db));renderAll()}
 function togglePassword(id,btn){const el=document.getElementById(id);if(!el)return;const show=el.type==='password';el.type=show?'text':'password';btn.setAttribute('aria-label',show?'Şifreyi gizle':'Şifreyi göster');btn.setAttribute('aria-pressed',String(show))}
+function setAuthGate(show){const g=document.getElementById('authGate');g.style.display=show?'':'none';document.documentElement.classList.toggle('auth-open',show);document.body.classList.toggle('auth-open',show);if(!show){g.scrollTop=0;window.scrollTo(0,0)}}
 function openMobileNav(){document.body.classList.add('mobile-nav-open')}
 function closeMobileNav(){document.body.classList.remove('mobile-nav-open')}
 function go(id){
@@ -891,7 +892,7 @@ function demoVerifiedCompany(){
 }
 function enterSession(){
  const s=getSession();if(!s)return;
- document.getElementById('authGate').style.display='none';
+ setAuthGate(false);
  localStorage.setItem('sevkio_role',s.role);
  document.body.classList.remove('driver-mode','company-mode');document.body.classList.add(s.role==='driver'?'driver-mode':'company-mode');
  const lbl=document.getElementById('roleLabel'),desc=document.getElementById('roleDesc');
@@ -906,11 +907,11 @@ function enterSession(){
 function logoutUser(){
  localStorage.removeItem(AUTH_SESSION);localStorage.removeItem('sevkio_role');
  document.body.classList.remove('driver-mode','company-mode');
- document.getElementById('authGate').style.display='';showAuthTab('login');setAuthRole('driver');
+ setAuthGate(true);showAuthTab('login');setAuthRole('driver');
 }
-function chooseRole(role){setAuthRole(role);showAuthTab('login');document.getElementById('authGate').style.display=''}
+function chooseRole(role){setAuthRole(role);showAuthTab('login');setAuthGate(true)}
 function switchRole(){logoutUser()}
-function initRole(){const s=getSession();if(s)enterSession();else{document.getElementById('authGate').style.display='';setAuthRole('driver');showAuthTab('login')}}
+function initRole(){const s=getSession();if(s)enterSession();else{setAuthGate(true);setAuthRole('driver');showAuthTab('login')}}
 function driverTab(id,el){
   document.querySelectorAll('.driver-bottom button').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
