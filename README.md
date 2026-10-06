@@ -6,6 +6,7 @@ Yük sahipleri ile uygun nakliye araçlarını eşleştiren çalışan web MVP.
 - Yük ilanı
 - Araç ilanı
 - Rota + tarih + araç tipi + kapasite eşleştirmesi
+- Araç detayları (kasa tipi, palet kapasitesi, iç yükseklik, şehir içi / şehirler arası) ile yük uyumu
 - Uyum puanı
 - Teklif oluşturma ve kabul
 - Taşıma durum takibi

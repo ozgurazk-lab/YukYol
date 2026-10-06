@@ -49,8 +49,8 @@ html.auth-open,body.auth-open{overflow:hidden}
 #authGate .auth-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 #authGate .auth-form .full{grid-column:1/-1}
 #authGate label{display:block;font-size:13px;font-weight:600;color:var(--ink-2)}
-#authGate input{display:block;width:100%;height:48px;margin-top:6px;padding:0 14px;border:1px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink);font-size:15px}
-#authGate input:focus{border-color:var(--brand);box-shadow:0 0 0 4px #0b63d61f;outline:0}
+#authGate input,#authGate select{display:block;width:100%;height:48px;margin-top:6px;padding:0 14px;border:1px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink);font-size:15px}
+#authGate input:focus,#authGate select:focus{border-color:var(--brand);box-shadow:0 0 0 4px #0b63d61f;outline:0}
 #authGate input[type=file]{height:auto;padding:10px;font-size:13px}
 #authGate .field-with-icon,#authGate .password-field{position:relative}
 #authGate .field-with-icon input,#authGate .password-field input{padding-left:44px;padding-right:44px}

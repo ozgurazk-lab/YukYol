@@ -84,7 +84,8 @@
       <label>Soyad<input id="driverLastName" autocomplete="family-name" placeholder="Soyadın"></label>
       <label>Telefon<input id="driverPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx"></label>
       <label>Araç plakası<input id="driverPlate" placeholder="Örn. 72 ABC 123"></label>
-      <label class="full">Şifre<input id="driverPassword" type="password" autocomplete="new-password" placeholder="En az 6 karakter"></label>
+      <label>Araç tipi<select id="driverVehicleType"><option>Tır</option><option>Kamyon</option><option>Kamyonet</option><option>Frigorifik</option></select></label>
+      <label>Şifre<input id="driverPassword" type="password" autocomplete="new-password" placeholder="En az 6 karakter"></label>
       <button class="btn primary full" onclick="registerDriver()">Şoför hesabı oluştur<svg class="ui-icon" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
      </div>
      <div class="auth-note">Şoför hesabıyla yalnızca kendi taşımalarını ve kazancını görürsün.</div>
@@ -235,7 +236,9 @@
      <div class="form-group full">Yük bilgileri</div>
      <label>Yük numarası<input name="loadNo" placeholder="Örn. SV-2026-1001" required></label><label>Yük türü<select name="cargoType"><option>Yapı malzemesi</option><option>Tekstil</option><option>Gıda</option><option>Makine</option><option>Paletli ürün</option></select></label>
      <label>Ağırlık (kg)<input name="weight" type="number" min="1" placeholder="Örn. 12000" required></label><label>Araç tipi<select name="vehicleType"><option>Tır</option><option>Kamyon</option><option>Kamyonet</option><option>Frigorifik</option></select></label>
-     <label class="full">Navlun ücreti (₺, isteğe bağlı)<input name="price" type="number" min="0" inputmode="numeric" placeholder="Örn. 18500"></label>
+     <label>Kasa tipi<select name="body"><option>Fark etmez</option><option>Kapalı kasa</option><option>Tenteli</option><option>Açık kasa</option><option>Frigorifik</option></select></label><label>Palet sayısı (isteğe bağlı)<input name="pallets" type="number" min="1" inputmode="numeric" placeholder="Örn. 12"></label>
+     <label>Yük yüksekliği, cm (isteğe bağlı)<input name="height" type="number" min="1" inputmode="numeric" placeholder="Örn. 180"></label>
+     <label>Navlun ücreti (₺, isteğe bağlı)<input name="price" type="number" min="0" inputmode="numeric" placeholder="Örn. 18500"></label>
      <div class="form-group full">Güzergâh ve zaman</div>
      <label>Yükleme şehri<input name="from" placeholder="Örn. Batman" required></label><label>Yükleme adresi<input name="pickupAddress" placeholder="Örn. Batman OSB 3. Cadde" required></label>
      <label>Teslim şehri<input name="to" placeholder="Örn. Gaziantep" required></label><label>Teslim adresi<input name="deliveryAddress" placeholder="Örn. Gaziantep 4. OSB" required></label>
@@ -243,7 +246,7 @@
      <div class="form-group full">Alıcı</div>
      <label>Alıcı firma<input name="receiverCompany" placeholder="Ticari unvan" required></label><label>Alıcı firma VKN<input name="receiverCompanyVkn" inputmode="numeric" maxlength="10" placeholder="10 haneli vergi no" required></label>
      <label>Teslim alacak kişi<input name="receiver" placeholder="Ad soyad" required></label><label>Alıcı telefonu<input name="receiverPhone" type="tel" placeholder="05xx xxx xx xx" required></label>
-     <label class="full">Not (isteğe bağlı)<textarea name="notes" placeholder="Örn. 12 palet, forklift hazır"></textarea></label>
+     <label class="full">Not (isteğe bağlı)<textarea name="notes" placeholder="Örn. forklift hazır, rampa var"></textarea></label>
      <div class="media-box media-box-photo full">
        <div class="media-box-title"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğrafları <em>zorunlu</em></div>
        <p>Yük araca konurken çekilen fotoğraflar. Alıcı firma bunları görebilir.</p>
@@ -454,6 +457,19 @@
     <div class="driver-row"><span>Araç kapasitesi</span><b id="driverProfileCapacity">18.000 kg</b></div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
+    <div class="cardhead"><div><h3>Aracım</h3><div class="muted small">Sana aracına uyan yükleri öneririz. Araç tipini seçince diğer bilgiler kendiliğinden dolar, sadece farklı olanı değiştir.</div></div></div>
+    <form id="vehicleForm" class="form" style="margin-bottom:16px">
+     <label>Araç tipi<select name="type"><option>Tır</option><option>Kamyon</option><option>Kamyonet</option><option>Frigorifik</option></select></label>
+     <label>Kasa tipi<select name="body"><option>Tenteli</option><option>Kapalı kasa</option><option>Açık kasa</option><option>Frigorifik</option></select></label>
+     <label>Taşıma kapasitesi (kg)<input name="capacity" type="number" min="100" inputmode="numeric" required></label>
+     <label>Palet kapasitesi<input name="pallets" type="number" min="0" inputmode="numeric"></label>
+     <label>Kasa iç yüksekliği (cm)<input name="height" type="number" min="50" inputmode="numeric"></label>
+     <label>Çalışma alanı<select name="scope"><option>Her ikisi</option><option>Şehir içi</option><option>Şehirler arası</option></select></label>
+     <div id="vehicleFormState" class="muted small full" role="status"></div>
+     <button class="btn primary full">Araç bilgilerini kaydet</button>
+    </form>
+   </div>
+   <div class="driver-simple-card" style="margin-top:14px">
     <div class="cardhead"><h3>Sık çalıştığın bölgeler</h3></div>
     <div class="chips" id="driverProfileRegions"><span class="chip blue">Batman OSB</span><span class="chip blue">Başpınar OSB</span><span class="chip blue">Nizip</span></div>
    </div>
@@ -545,19 +561,21 @@
 const K='sevkio_ops_v3',today=new Date().toISOString().slice(0,10);
 const seed={
  loads:[
-  {id:'L1',loadNo:'SV-2026-1001',from:'Batman',to:'Gaziantep',price:24500,pickupAddress:'Batman OSB 3. Cadde',deliveryAddress:'Gaziantep 4. OSB',cargoType:'Yapı malzemesi',vehicleType:'Tır',weight:12000,pickupTime:today+'T09:30',deliveryTime:today+'T15:40',receiverCompany:'Başpınar Yapı Depo',receiverCompanyVkn:'2222222222',receiver:'Ahmet Demir',receiverPhone:'0532 111 22 33',notes:'12 palet • Forklift hazır'},
+  {id:'L1',loadNo:'SV-2026-1001',from:'Batman',to:'Gaziantep',price:24500,pickupAddress:'Batman OSB 3. Cadde',deliveryAddress:'Gaziantep 4. OSB',cargoType:'Yapı malzemesi',vehicleType:'Tır',body:'Tenteli',pallets:12,height:160,weight:12000,pickupTime:today+'T09:30',deliveryTime:today+'T15:40',receiverCompany:'Başpınar Yapı Depo',receiverCompanyVkn:'2222222222',receiver:'Ahmet Demir',receiverPhone:'0532 111 22 33',notes:'12 palet • Forklift hazır'},
   {id:'L2',loadNo:'SV-2026-1002',from:'Gaziantep',to:'Mersin',price:18000,pickupAddress:'Başpınar OSB',deliveryAddress:'Mersin Akdeniz Sanayi',cargoType:'Tekstil',vehicleType:'Tır',weight:9800,pickupTime:today+'T17:30',deliveryTime:today+'T22:00',receiverCompany:'Akdeniz Tekstil Depo',receiverCompanyVkn:'3333333333',receiver:'Murat Kaya',receiverPhone:'0533 555 19 19',notes:'Sonraki yük için uygun'},
-  {id:'L3',loadNo:'SV-2026-1003',from:'Diyarbakır',to:'Mersin',price:26000,pickupAddress:'Diyarbakır OSB',deliveryAddress:'Mersin Lojistik Bölgesi',cargoType:'Gıda',vehicleType:'Frigorifik',weight:8000,pickupTime:today+'T10:00',deliveryTime:today+'T18:30',receiverCompany:'Mersin Soğuk Depo',receiverCompanyVkn:'4444444444',receiver:'Serkan Yıldız',receiverPhone:'0544 222 33 44',notes:'Soğuk zincir'},
+  {id:'L3',loadNo:'SV-2026-1003',from:'Diyarbakır',to:'Mersin',price:26000,pickupAddress:'Diyarbakır OSB',deliveryAddress:'Mersin Lojistik Bölgesi',cargoType:'Gıda',vehicleType:'Frigorifik',body:'Frigorifik',weight:8000,pickupTime:today+'T10:00',deliveryTime:today+'T18:30',receiverCompany:'Mersin Soğuk Depo',receiverCompanyVkn:'4444444444',receiver:'Serkan Yıldız',receiverPhone:'0544 222 33 44',notes:'Soğuk zincir'},
   {id:'L4',loadNo:'SV-2026-1004',from:'Kahramanmaraş',to:'Ankara',price:31500,pickupAddress:'Kahramanmaraş OSB',deliveryAddress:'Ankara Sincan OSB',cargoType:'Tekstil',vehicleType:'Tır',weight:14000,pickupTime:today+'T18:00',deliveryTime:today+'T23:59',receiverCompany:'Anadolu Tekstil',receiverCompanyVkn:'5555555555',receiver:'Kemal Aydın',receiverPhone:'0535 410 20 30',notes:'Akşam yükleme'},
-  {id:'L5',loadNo:'SV-2026-1005',from:'Osmaniye',to:'İzmir',price:36000,pickupAddress:'Osmaniye OSB',deliveryAddress:'İzmir Kemalpaşa OSB',cargoType:'Paletli ürün',vehicleType:'Tır',weight:16000,pickupTime:today+'T19:30',deliveryTime:today+'T23:59',receiverCompany:'Ege Depo',receiverCompanyVkn:'6666666666',receiver:'Burak Şen',receiverPhone:'0536 300 40 50',notes:'22 palet'},
+  {id:'L5',loadNo:'SV-2026-1005',from:'Osmaniye',to:'İzmir',price:36000,pickupAddress:'Osmaniye OSB',deliveryAddress:'İzmir Kemalpaşa OSB',cargoType:'Paletli ürün',vehicleType:'Tır',body:'Tenteli',pallets:22,height:180,weight:16000,pickupTime:today+'T19:30',deliveryTime:today+'T23:59',receiverCompany:'Ege Depo',receiverCompanyVkn:'6666666666',receiver:'Burak Şen',receiverPhone:'0536 300 40 50',notes:'22 palet'},
   {id:'L6',loadNo:'SV-2026-1006',from:'Adana',to:'İstanbul',price:39500,pickupAddress:'Adana Hacı Sabancı OSB',deliveryAddress:'İstanbul Tuzla',cargoType:'Makine',vehicleType:'Tır',weight:11000,pickupTime:today+'T20:00',deliveryTime:today+'T23:59',receiverCompany:'Marmara Makine',receiverCompanyVkn:'7777777777',receiver:'Elif Koç',receiverPhone:'0537 120 33 44',notes:'Vinçli indirme'},
   {id:'L7',loadNo:'SV-2026-1007',from:'Şanlıurfa',to:'Bursa',price:34000,pickupAddress:'Şanlıurfa OSB',deliveryAddress:'Bursa Nilüfer OSB',cargoType:'Gıda',vehicleType:'Tır',weight:13000,pickupTime:today+'T18:30',deliveryTime:today+'T23:59',receiverCompany:'Uludağ Gıda',receiverCompanyVkn:'8888888888',receiver:'Can Öztürk',receiverPhone:'0538 600 11 22',notes:'Kuru gıda'},
-  {id:'L8',loadNo:'SV-2026-1008',from:'Hatay',to:'Konya',price:22000,pickupAddress:'İskenderun Limanı',deliveryAddress:'Konya OSB',cargoType:'Yapı malzemesi',vehicleType:'Kamyon',weight:8500,pickupTime:today+'T17:00',deliveryTime:today+'T23:30',receiverCompany:'Selçuklu Yapı',receiverCompanyVkn:'9999999999',receiver:'Okan Er',receiverPhone:'0539 700 80 90',notes:'Liman çıkışlı'}
+  {id:'L8',loadNo:'SV-2026-1008',from:'Hatay',to:'Konya',price:22000,pickupAddress:'İskenderun Limanı',deliveryAddress:'Konya OSB',cargoType:'Yapı malzemesi',vehicleType:'Kamyon',weight:8500,pickupTime:today+'T17:00',deliveryTime:today+'T23:30',receiverCompany:'Selçuklu Yapı',receiverCompanyVkn:'9999999999',receiver:'Okan Er',receiverPhone:'0539 700 80 90',notes:'Liman çıkışlı'},
+  {id:'L9',loadNo:'SV-2026-1009',from:'Gaziantep',to:'Gaziantep',price:3200,pickupAddress:'Başpınar OSB 2. Bölge',deliveryAddress:'Gaziantep Şehitkamil Toptancılar Sitesi',cargoType:'Paletli ürün',vehicleType:'Kamyonet',body:'Kapalı kasa',pallets:4,height:150,weight:2200,pickupTime:today+'T14:00',deliveryTime:today+'T16:00',receiverCompany:'Antep Toptan Gıda',receiverCompanyVkn:'1212121212',receiver:'Yusuf Tan',receiverPhone:'0542 300 12 12',notes:'Şehir içi dağıtım'}
  ],
  vehicles:[
   {id:'V1',plate:'72 YY 001',type:'Tır',capacity:18000,driver:'Mehmet Kaya',company:'Kaya Nakliyat',phone:'0530 000 00 00',location:'Şanlıurfa yolu / Nizip yönü',status:'Yolda',speed:78,lastGps:'2 dk önce',fuel:63,rating:4.9,nextAvailable:'16:10',verified:true,regions:['Batman|Merkez|Batman OSB','Gaziantep|Şehitkamil|Başpınar OSB','Gaziantep|Nizip|Sanayi Bölgesi']},
   {id:'V2',plate:'21 YY 003',type:'Frigorifik',capacity:10000,driver:'Ali Güven',company:'Güven Soğuk Taşıma',phone:'0532 000 00 00',location:'Diyarbakır OSB',status:'Yükleme bekliyor',speed:0,lastGps:'1 dk önce',fuel:81,rating:4.8,nextAvailable:'19:00',verified:true,regions:['Diyarbakır|Bağlar|Diyarbakır OSB','Mersin|Akdeniz|Liman Bölgesi']},
-  {id:'V3',plate:'63 YY 441',type:'Kamyon',capacity:9000,driver:'Hasan Polat',company:'Mezopotamya Lojistik',phone:'0533 000 00 00',location:'Şanlıurfa çevre yolu',status:'Boş',speed:0,lastGps:'5 dk önce',fuel:48,rating:4.7,nextAvailable:'Şimdi',verified:false,regions:['Gaziantep|Nizip|Sanayi Bölgesi','Gaziantep|Şehitkamil|Başpınar OSB']}
+  {id:'V3',plate:'63 YY 441',type:'Kamyon',capacity:9000,driver:'Hasan Polat',company:'Mezopotamya Lojistik',phone:'0533 000 00 00',location:'Şanlıurfa çevre yolu',status:'Boş',speed:0,lastGps:'5 dk önce',fuel:48,rating:4.7,nextAvailable:'Şimdi',verified:false,regions:['Gaziantep|Nizip|Sanayi Bölgesi','Gaziantep|Şehitkamil|Başpınar OSB']},
+  {id:'V4',plate:'27 YY 214',type:'Kamyonet',body:'Kapalı kasa',capacity:3500,pallets:4,height:180,scope:'Şehir içi',driver:'Kadir Aslan',company:'Aslan Dağıtım',phone:'0534 000 00 00',location:'Gaziantep Başpınar OSB',status:'Boş',speed:0,lastGps:'3 dk önce',fuel:70,rating:4.6,nextAvailable:'Şimdi',verified:true,regions:['Gaziantep|Şehitkamil|Başpınar OSB']}
  ],
  trips:[
   {id:'T1',loadId:'L1',vehicleId:'V1',stage:'Yolda',progress:58,eta:'15:52',distanceLeft:118,emptyKm:22,delay:12,pickupConfirmed:true,pickupAt:'09:42',unloadAt:null,deliveredAt:null,pod:false,receiverConfirmed:false}
@@ -603,12 +621,27 @@ const seed={
 };
 let db=JSON.parse(localStorage.getItem(K)||'null')||seed,selectedTrip='T1';
 if((db.seedVersion||1)<2){seed.loads.forEach(x=>{const e=db.loads.find(y=>y.id===x.id);if(!e)db.loads.push(x);else if(e.price==null)e.price=x.price});db.seedVersion=2;localStorage.setItem(K,JSON.stringify(db))}
+if(db.seedVersion<3){seed.loads.forEach(x=>{const e=db.loads.find(y=>y.id===x.id);if(!e)db.loads.push(x);else['body','pallets','height'].forEach(k=>{if(e[k]==null&&x[k]!=null)e[k]=x[k]})});seed.vehicles.forEach(x=>{if(!db.vehicles.some(y=>y.id===x.id))db.vehicles.push(x)});db.seedVersion=3;localStorage.setItem(K,JSON.stringify(db))}
 const CITY={'Adana':[37.00,35.32],'Adıyaman':[37.76,38.28],'Afyonkarahisar':[38.76,30.54],'Ağrı':[39.72,43.05],'Aksaray':[38.37,34.03],'Amasya':[40.65,35.83],'Ankara':[39.93,32.86],'Antalya':[36.89,30.71],'Ardahan':[41.11,42.70],'Artvin':[41.18,41.82],'Aydın':[37.85,27.85],'Balıkesir':[39.65,27.89],'Bartın':[41.64,32.34],'Batman':[37.89,41.13],'Bayburt':[40.26,40.23],'Bilecik':[40.14,29.98],'Bingöl':[38.88,40.50],'Bitlis':[38.40,42.11],'Bolu':[40.74,31.61],'Burdur':[37.72,30.29],'Bursa':[40.19,29.06],'Çanakkale':[40.15,26.41],'Çankırı':[40.60,33.62],'Çorum':[40.55,34.95],'Denizli':[37.78,29.09],'Diyarbakır':[37.91,40.24],'Düzce':[40.84,31.16],'Edirne':[41.68,26.56],'Elazığ':[38.67,39.22],'Erzincan':[39.75,39.49],'Erzurum':[39.90,41.27],'Eskişehir':[39.78,30.52],'Gaziantep':[37.07,37.38],'Giresun':[40.91,38.39],'Gümüşhane':[40.46,39.48],'Hakkari':[37.58,43.74],'Hatay':[36.20,36.16],'Iğdır':[39.92,44.04],'Isparta':[37.76,30.55],'İstanbul':[41.01,28.98],'İzmir':[38.42,27.14],'Kahramanmaraş':[37.58,36.94],'Karabük':[41.20,32.62],'Karaman':[37.18,33.22],'Kars':[40.60,43.10],'Kastamonu':[41.39,33.78],'Kayseri':[38.73,35.49],'Kilis':[36.72,37.12],'Kırıkkale':[39.85,33.51],'Kırklareli':[41.73,27.23],'Kırşehir':[39.15,34.16],'Kocaeli':[40.77,29.92],'Konya':[37.87,32.48],'Kütahya':[39.42,29.98],'Malatya':[38.35,38.31],'Manisa':[38.61,27.43],'Mardin':[37.31,40.74],'Mersin':[36.81,34.64],'Muğla':[37.22,28.36],'Muş':[38.75,41.49],'Nevşehir':[38.62,34.71],'Niğde':[37.97,34.68],'Ordu':[40.98,37.88],'Osmaniye':[37.07,36.25],'Rize':[41.02,40.52],'Sakarya':[40.78,30.40],'Samsun':[41.29,36.33],'Şanlıurfa':[37.17,38.79],'Siirt':[37.93,41.94],'Sinop':[42.03,35.15],'Şırnak':[37.52,42.46],'Sivas':[39.75,37.02],'Tekirdağ':[40.98,27.51],'Tokat':[40.31,36.55],'Trabzon':[41.00,39.72],'Tunceli':[39.11,39.55],'Uşak':[38.68,29.41],'Van':[38.50,43.38],'Yalova':[40.65,29.27],'Yozgat':[39.82,34.81],'Zonguldak':[41.45,31.79]};
 const cityKey=n=>Object.keys(CITY).find(c=>norm(c)===norm(n));
 function roadKm(a,b){const A=CITY[cityKey(a)],B=CITY[cityKey(b)];if(!A||!B)return null;const r=Math.PI/180,dl=(B[0]-A[0])*r,dg=(B[1]-A[1])*r,h=Math.sin(dl/2)**2+Math.cos(A[0]*r)*Math.cos(B[0]*r)*Math.sin(dg/2)**2;return Math.round(6371*2*Math.asin(Math.sqrt(h))*1.25)}
 const norm=s=>(s||'').trim().toLocaleLowerCase('tr-TR'),uid=p=>p+Math.random().toString(36).slice(2,8).toUpperCase(),money=n=>Number(n).toLocaleString('tr-TR');
 const dec=(n,d=1)=>Number(n).toFixed(d).replace('.',','),fmtDate=v=>{const d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('tr-TR',{day:'numeric',month:'short',year:'numeric'})},fmtDT=v=>{const d=new Date(v);return isNaN(d)?(v||''):d.toLocaleString('tr-TR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
 function save(){localStorage.setItem(K,JSON.stringify(db));renderAll()}
+const VEHICLE_DEFAULTS={'Kamyonet':{capacity:3500,pallets:4,height:180,body:'Kapalı kasa',scope:'Şehir içi'},'Kamyon':{capacity:9000,pallets:12,height:240,body:'Tenteli',scope:'Her ikisi'},'Tır':{capacity:24000,pallets:33,height:270,body:'Tenteli',scope:'Şehirler arası'},'Frigorifik':{capacity:20000,pallets:33,height:260,body:'Frigorifik',scope:'Şehirler arası'}};
+const vspec=v=>({...(VEHICLE_DEFAULTS[v.type]||VEHICLE_DEFAULTS['Tır']),...Object.fromEntries(Object.entries(v).filter(([,x])=>x!=null&&x!==''))});
+const isCityLoad=l=>norm(l.from)===norm(l.to);
+function fits(l,v){
+ const s=vspec(v),why=[],need=l.body&&l.body!=='Fark etmez'?l.body:(l.vehicleType==='Frigorifik'?'Frigorifik':null);
+ if(+l.weight>+s.capacity)why.push('ağırlık fazla');
+ if(need&&s.body!==need&&!(need==='Kapalı kasa'&&s.body==='Frigorifik'))why.push(need.toLocaleLowerCase('tr-TR')+' gerekiyor');
+ if(+l.pallets&&+s.pallets&&+l.pallets>+s.pallets)why.push('palet sayısı fazla');
+ if(+l.height&&+s.height&&+l.height>+s.height)why.push('yük kasaya sığmaz');
+ if(s.scope==='Şehir içi'&&!isCityLoad(l))why.push('şehirler arası yük');
+ return {ok:!why.length,why};
+}
+function myVehicle(){const s=getSession();return s&&s.role==='driver'?db.vehicles.find(x=>x.plate===s.plate)||null:null}
+function loadSpecChips(l){return (l.body&&l.body!=='Fark etmez'?`<span class="chip">${l.body}</span>`:'')+(l.pallets?`<span class="chip">${l.pallets} palet</span>`:'')+(l.height?`<span class="chip">${l.height} cm yükseklik</span>`:'')+(isCityLoad(l)?'<span class="chip amber">Şehir içi</span>':'')}
 function togglePassword(id,btn){const el=document.getElementById(id);if(!el)return;const show=el.type==='password';el.type=show?'text':'password';btn.setAttribute('aria-label',show?'Şifreyi gizle':'Şifreyi göster');btn.setAttribute('aria-pressed',String(show))}
 function setAuthGate(show){const g=document.getElementById('authGate');g.style.display=show?'':'none';document.documentElement.classList.toggle('auth-open',show);document.body.classList.toggle('auth-open',show);if(!show){g.scrollTop=0;window.scrollTo(0,0)}}
 function openMobileNav(){document.body.classList.add('mobile-nav-open')}
@@ -634,11 +667,11 @@ function renderStats(){document.getElementById('sLoads').textContent=db.loads.le
 function renderDash(){document.getElementById('dashTrips').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<div class="item"><div class="itemtop"><div><div class="route">${l.from} → ${l.to}</div><div class="muted">${l.loadNo} • ${v.plate} • ${v.driver}</div></div><span class="chip green">${t.stage}</span></div><div class="progress"><div class="bar" style="width:${t.progress}%"></div></div><div class="chips"><span class="chip blue">Varış ${t.eta}</span><span class="chip">${t.distanceLeft} km kaldı</span>${t.delay?`<span class="chip ${t.delay>20?'red':'amber'}">${t.delay} dk gecikme</span>`:'<span class="chip green">Zamanında</span>'}</div></div>`}).join('')||'<div class="empty">Şu an yolda taşıma yok.</div>'}
 function renderLoads(){
  document.getElementById('loadCount').textContent=db.loads.length+' yük';
- document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span><span class="chip">${x.receiverCompany||x.receiver}</span></div><p class="muted small">${x.pickupAddress} → ${x.deliveryAddress}</p>${x.receiverCompany?'<div class="detail" style="margin-top:10px"><small>Alıcı firma</small><b>'+x.receiverCompany+' • VKN '+x.receiverCompanyVkn+'</b></div>':''}${x.pickupMediaCount?'<button class="btn soft" style="margin-top:10px" onclick="openMedia(\''+x.id+'\',\'Yükleme fotoğrafları\')"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğraflarını gör ('+x.pickupMediaCount+')</button>':''}</div>`).join('');
+ document.getElementById('loadList').innerHTML=db.loads.map(x=>`<div class="item"><div class="itemtop"><div><div class="route">${x.from} → ${x.to}</div><div class="muted">${x.loadNo} • ${x.cargoType}</div></div><span class="chip blue">${x.vehicleType}</span></div><div class="chips"><span class="chip">${money(x.weight)} kg</span>${loadSpecChips(x)}<span class="chip">${x.receiverCompany||x.receiver}</span></div><p class="muted small">${x.pickupAddress} → ${x.deliveryAddress}</p>${x.receiverCompany?'<div class="detail" style="margin-top:10px"><small>Alıcı firma</small><b>'+x.receiverCompany+' • VKN '+x.receiverCompanyVkn+'</b></div>':''}${x.pickupMediaCount?'<button class="btn soft" style="margin-top:10px" onclick="openMedia(\''+x.id+'\',\'Yükleme fotoğrafları\')"><svg class="ui-icon"><use href="#ic-image"></use></svg>Yükleme fotoğraflarını gör ('+x.pickupMediaCount+')</button>':''}</div>`).join('');
 }
-function renderVehicles(){document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="card"><div class="itemtop"><div><div class="route">${v.plate}</div><div class="muted">${v.company}</div></div><span class="chip ${v.status==='Yolda'?'green':v.status==='Boş'?'blue':'amber'}">${v.status}</span></div><div class="chips"><span class="chip">${v.type}</span><span class="chip">${money(v.capacity)} kg</span><span class="chip">★ ${dec(v.rating)}</span></div><div class="ops-grid" style="margin-top:12px"><div class="detail"><small>Konum</small><b>${v.location}</b></div><div class="detail"><small>GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/sa</b></div><div class="detail"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="detail"><small>Şoför</small><b>${v.driver}</b></div><div class="detail"><small>Boşa çıkacağı saat</small><b>${v.nextAvailable}</b></div></div></div>`).join('')}
-function score(l,v){let s=0;if(l.vehicleType===v.type)s+=25;if(+v.capacity>=+l.weight)s+=20;if(norm(v.location).includes(norm(l.from))||v.status==='Boş')s+=20;if(v.verified)s+=10;s+=Math.round(v.rating*4);s+=5;return Math.min(100,s)}
-function renderMatches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{if(+v.capacity>=+l.weight)a.push({l,v,s:score(l,v)})}));a.sort((a,b)=>b.s-a.s);document.getElementById('matchList').innerHTML=a.map(m=>`<div class="item"><div class="itemtop"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted">${m.l.loadNo} • ${m.v.plate} • ${m.v.company}</div></div><span class="chip blue">%${m.s} uygun</span></div><div class="chips"><span class="chip">${m.l.vehicleType}</span><span class="chip">${money(m.v.capacity)} kg kapasite</span><span class="chip">${m.v.status}</span></div></div>`).join('')}
+function renderVehicles(){document.getElementById('vehicleList').innerHTML=db.vehicles.map(v=>`<div class="card"><div class="itemtop"><div><div class="route">${v.plate}</div><div class="muted">${v.company}</div></div><span class="chip ${v.status==='Yolda'?'green':v.status==='Boş'?'blue':'amber'}">${v.status}</span></div><div class="chips"><span class="chip">${v.type}</span><span class="chip">${vspec(v).body}</span><span class="chip">${money(v.capacity)} kg</span><span class="chip">${vspec(v).pallets} palet</span><span class="chip">${vspec(v).height} cm iç yükseklik</span><span class="chip">${vspec(v).scope}</span><span class="chip">★ ${dec(v.rating)}</span></div><div class="ops-grid" style="margin-top:12px"><div class="detail"><small>Konum</small><b>${v.location}</b></div><div class="detail"><small>GPS</small><b>${v.lastGps}</b></div><div class="detail"><small>Hız</small><b>${v.speed} km/sa</b></div><div class="detail"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="detail"><small>Şoför</small><b>${v.driver}</b></div><div class="detail"><small>Boşa çıkacağı saat</small><b>${v.nextAvailable}</b></div></div></div>`).join('')}
+function score(l,v){const sp=vspec(v),used=+l.weight/+sp.capacity;let s=0;if(l.vehicleType===v.type)s+=15;if(fits(l,v).ok)s+=20;s+=used>=.5?10:used>=.25?5:0;if(isCityLoad(l)&&sp.scope!=='Şehirler arası')s+=5;if(norm(v.location).includes(norm(l.from))||v.status==='Boş')s+=20;if(v.verified)s+=10;s+=Math.round(v.rating*4);return Math.min(100,s)}
+function renderMatches(){let a=[];db.loads.forEach(l=>db.vehicles.forEach(v=>{if(fits(l,v).ok)a.push({l,v,s:score(l,v)})}));a.sort((a,b)=>b.s-a.s);document.getElementById('matchList').innerHTML=a.map(m=>`<div class="item"><div class="itemtop"><div><div class="route">${m.l.from} → ${m.l.to}</div><div class="muted">${m.l.loadNo} • ${m.v.plate} • ${m.v.company}</div></div><span class="chip blue">%${m.s} uygun</span></div><div class="chips"><span class="chip">${m.v.type} • ${vspec(m.v).body}</span><span class="chip">${money(m.l.weight)} / ${money(m.v.capacity)} kg</span>${m.l.pallets?`<span class="chip">${m.l.pallets} / ${vspec(m.v).pallets} palet</span>`:''}${isCityLoad(m.l)?'<span class="chip amber">Şehir içi</span>':''}<span class="chip">${m.v.status}</span></div></div>`).join('')}
 function renderTripSelector(){document.getElementById('tripSelector').innerHTML=db.trips.map(t=>{const l=load(t.loadId),v=vehicle(t.vehicleId);return `<button class="btn ${t.id===selectedTrip?'primary':'soft'}" onclick="selectedTrip='${t.id}';renderTrips()">${v.plate} • ${l.from} → ${l.to}</button>`}).join(' ')}
 function renderTrips(){renderTripSelector();const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId);document.getElementById('tripRouteTitle').textContent=l.from+' → '+l.to;document.getElementById('tripMeta').textContent=l.loadNo+' • '+v.plate+' • '+v.driver;document.getElementById('tripStatus').textContent=t.stage;document.getElementById('mapPickup').textContent=l.from+' • '+l.pickupAddress;document.getElementById('mapDelivery').textContent=l.to+' • '+l.deliveryAddress;document.getElementById('gpsLabel').textContent=v.location+' • '+v.lastGps;document.getElementById('tripBar').style.width=t.progress+'%';
  const stages=['Atandı','Yüklemeye gidiyor','Yükleme','Yolda','Teslim noktasında','Boşaltma','Teslim edildi'];const cur=Math.max(0,stages.indexOf(t.stage));document.getElementById('tripTimeline').innerHTML=stages.map((s,i)=>`<div class="step ${i<cur?'done':i===cur?'now':''}">${s}</div>`).join('');
@@ -656,11 +689,11 @@ async function confirmDelivery(){
  db.docs.push({name:'Teslim evrağı: '+doc.name,loadNo:l.loadNo,status:'Onaylandı',time:t.deliveredAt});db.docs.push({name:'Teslim fotoğrafları ('+photos.length+')',loadNo:l.loadNo,status:'Yüklendi',time:t.deliveredAt});db.docs.push({name:'Boşaltma kaydı',loadNo:l.loadNo,status:'Tamamlandı',time:t.deliveredAt});
  const v=vehicle(t.vehicleId);v.status='Boş';v.location=l.deliveryAddress;v.speed=0;v.nextAvailable='Şimdi';save();renderTrips();renderDelivery();go('backhaul');
 }
-function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&+l.weight<=+v.capacity).map(l=>({l,score:92-(Math.abs(+l.weight-(+v.capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
+function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&fits(l,v).ok).map(l=>({l,score:92-(Math.abs(+l.weight-(+vspec(v).capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
 function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">${money(v.capacity)} kg kapasite</span></div><div class="kpis"><div class="kpi"><small>Boşa çıkış</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Uygun yük</small><b>${a.length}</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">%${x.score} uygun</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü önler</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Bu yükü ata</button></div>`).join(''):'<div class="empty">Bu şehirden şu an uygun yük yok. Yeni yükler geldikçe burada görünür.</div>'}
 let citySearched=false;
 function searchCity(){citySearched=true;renderCitySearch()}
-function cityLoadCard(l,km){const dist=roadKm(l.from,l.to);return `<div class="nextload"><div class="itemtop"><div><b>${l.from} → ${l.to}</b><div class="muted">${l.loadNo} • ${l.cargoType} • ${money(l.weight)} kg</div></div>${l.price?`<span class="chip green">₺${money(l.price)}</span>`:'<span class="chip">Ücret sorulacak</span>'}</div><div class="chips">${km?`<span class="chip amber">${l.from} ${money(km)} km uzakta</span>`:`<span class="chip blue">Bu şehirden çıkıyor</span>`}<span class="chip">${l.vehicleType}</span>${dist?`<span class="chip">Yük yolu ~${money(dist)} km</span>`:''}</div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${l.id}')">Bu yükü al</button></div>`}
+function cityLoadCard(l,km){const dist=roadKm(l.from,l.to),mv=myVehicle(),f=mv?fits(l,mv):{ok:true,why:[]};return `<div class="nextload${f.ok?'':' unfit'}"><div class="itemtop"><div><b>${l.from} → ${l.to}</b><div class="muted">${l.loadNo} • ${l.cargoType} • ${money(l.weight)} kg</div></div>${l.price?`<span class="chip green">₺${money(l.price)}</span>`:'<span class="chip">Ücret sorulacak</span>'}</div><div class="chips">${km?`<span class="chip amber">${l.from} ${money(km)} km uzakta</span>`:`<span class="chip blue">Bu şehirden çıkıyor</span>`}<span class="chip">${l.vehicleType}</span>${loadSpecChips(l)}${dist?`<span class="chip">Yük yolu ~${money(dist)} km</span>`:''}${f.ok?'':`<span class="chip red">Aracına uymuyor: ${f.why.join(', ')}</span>`}</div><button class="btn ${f.ok?'primary':'soft'}" style="margin-top:10px" onclick="assignBackhaul('${l.id}')">${f.ok?'Bu yükü al':'Yine de al'}</button></div>`}
 function renderCitySearch(){
  const inp=document.getElementById('citySearch'),out=document.getElementById('cityResults');if(!inp||!out)return;
  const dl=document.getElementById('cityList');if(dl&&!dl.options.length)dl.innerHTML=Object.keys(CITY).map(c=>`<option value="${c}">`).join('');
@@ -668,7 +701,7 @@ function renderCitySearch(){
  if(!citySearched){out.innerHTML='';return}
  const q=inp.value.trim();if(!q){out.innerHTML='<div class="empty">Bir şehir yaz.</div>';return}
  const city=cityKey(q)||q,open=db.loads.filter(l=>!db.trips.some(x=>x.loadId===l.id));
- const here=open.filter(l=>norm(l.from)===norm(city));
+ const mv=myVehicle(),here=open.filter(l=>norm(l.from)===norm(city)).sort((a,b)=>mv?fits(b,mv).ok-fits(a,mv).ok:0);
  if(here.length){out.innerHTML=`<div class="city-result-head"><b>${city}</b> şehrinden çıkan ${here.length} yük var.</div>`+here.map(l=>cityLoadCard(l,0)).join('')+nearHtml(city,open,here,'Yakın şehirlerde de bak');return}
  if(!CITY[cityKey(q)]){out.innerHTML=`<div class="empty">"${q.replace(/[<>&"]/g,"")}" şehrini bulamadık. Listeden bir şehir seç.</div>`;return}
  out.innerHTML=`<div class="empty"><b>${city}</b> şehrinden şu an yük yok. Aşağıda en yakın şehirlerdeki yükler var.</div>`+nearHtml(city,open,[],'En yakın şehirlerdeki yükler')
@@ -820,7 +853,7 @@ document.getElementById('loadForm').onsubmit=async e=>{
  e.preventDefault();const fd=new FormData(e.target),d={};for(const [k,v] of fd.entries())if(!(v instanceof File))d[k]=v;
  const vkn=(d.receiverCompanyVkn||'').replace(/\D/g,'');if(vkn.length!==10)return alert('Alıcı firmanın VKN’si 10 haneli olmalı.');
  const photos=[...(document.getElementById('pickupPhotos').files||[])],video=[...(document.getElementById('pickupVideo').files||[])];if(!photos.length)return alert('En az bir yükleme fotoğrafı ekle.');
- const id=uid('L'),files=[...photos,...video];db.loads.unshift({id,...d,receiverCompanyVkn:vkn,weight:+d.weight,price:d.price?+d.price:null,pickupMediaCount:files.length,pickupPhotoCount:photos.length,pickupVideoCount:video.length,pickupMediaNames:files.map(x=>x.name)});save();
+ const id=uid('L'),files=[...photos,...video];db.loads.unshift({id,...d,receiverCompanyVkn:vkn,weight:+d.weight,price:d.price?+d.price:null,pallets:d.pallets?+d.pallets:null,height:d.height?+d.height:null,pickupMediaCount:files.length,pickupPhotoCount:photos.length,pickupVideoCount:video.length,pickupMediaNames:files.map(x=>x.name)});save();
  try{await saveMediaFiles(id,'pickup',files)}catch(err){console.error(err);alert('Dosyalar kaydedilemedi. Lütfen tekrar dene.');}
  e.target.reset();updatePickupMediaSummary();renderLoads();
 }
@@ -868,10 +901,11 @@ function setAuthRole(role){
 function registerDriver(){
  clearAuthError();const a=getAccounts();
  const firstName=document.getElementById('driverFirstName').value.trim(),lastName=document.getElementById('driverLastName').value.trim();
- const phone=cleanPhone(document.getElementById('driverPhone').value),plate=document.getElementById('driverPlate').value.trim().toUpperCase(),password=document.getElementById('driverPassword').value;
+ const phone=cleanPhone(document.getElementById('driverPhone').value),plate=document.getElementById('driverPlate').value.trim().toUpperCase(),password=document.getElementById('driverPassword').value,vehicleType=document.getElementById('driverVehicleType').value;
  if(!firstName||!lastName||phone.length<10||!plate||password.length<6)return showAuthError('Ad, soyad, telefon, plaka ve en az 6 karakterlik şifre gerekli.');
  if(a.drivers.some(x=>cleanPhone(x.phone)===phone))return showAuthError('Bu telefon numarasıyla zaten bir şoför hesabı var. Giriş yapmayı dene.');
- const user={id:'D-'+Date.now(),firstName,lastName,phone,plate,password};a.drivers.push(user);saveAccounts(a);
+ const user={id:'D-'+Date.now(),firstName,lastName,phone,plate,password,vehicleType};a.drivers.push(user);saveAccounts(a);
+ if(!db.vehicles.some(x=>x.plate===plate)){db.vehicles.push(newDriverVehicle(plate,vehicleType,firstName+' '+lastName,phone));save()}
  localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'driver',id:user.id,name:firstName+' '+lastName,plate}));
  enterSession();
 }
@@ -922,12 +956,29 @@ function syncDriverSession(){
    set('driverHomeDistance',t.distanceLeft+' km kaldı');set('driverHomeEta','Varış '+t.eta);set('driverHomeAddress',l.deliveryAddress);set('driverHomeReceiver',l.receiver);set('driverHomeReceiverPhone',l.receiverPhone);
  }
  if(v){
-   set('driverProfileName',v.driver);set('driverProfileMeta',v.plate+' • '+v.type);set('driverProfileRating',dec(rating?.score||v.rating,2).replace(/0$/,''));
+   set('driverProfileName',v.driver);set('driverProfileMeta',v.plate+' • '+v.type+' • '+vspec(v).body);set('driverProfileRating',dec(rating?.score||v.rating,2).replace(/0$/,''));
    set('driverProfilePhone',v.phone);set('driverProfileVerify',v.verified?'Doğrulandı':'Bekliyor');set('driverProfileReviews',rating?.reviews||0);set('driverProfileCapacity',money(v.capacity)+' kg');
    const regions=document.getElementById('driverProfileRegions');if(regions)regions.innerHTML=(v.regions||[]).map(r=>'<span class="chip blue">'+r.split('|').slice(-1)[0]+'</span>').join('');
  }
+ fillVehicleForm();
  renderDriverViews();
 }
+function newDriverVehicle(plate,type,name,phone){return {id:uid('V'),plate,type,...VEHICLE_DEFAULTS[type],driver:name,company:'Bağımsız şoför',phone:phone||'',location:'Belirtilmedi',status:'Boş',speed:0,lastGps:'Henüz yok',fuel:0,rating:0,nextAvailable:'Şimdi',verified:false,regions:[]}}
+function fillVehicleForm(){
+ const f=document.getElementById('vehicleForm');if(!f)return;
+ const v=myVehicle(),sp=vspec(v||{type:'Tır'});
+ f.elements.type.value=v?v.type:'Tır';['body','capacity','pallets','height','scope'].forEach(k=>f.elements[k].value=sp[k]);
+ document.getElementById('vehicleFormState').textContent='';
+}
+document.getElementById('vehicleForm').elements.type.addEventListener('change',e=>{const f=e.target.form,d=VEHICLE_DEFAULTS[e.target.value];['body','capacity','pallets','height','scope'].forEach(k=>f.elements[k].value=d[k])});
+document.getElementById('vehicleForm').onsubmit=e=>{
+ e.preventDefault();const s=getSession();if(!s||s.role!=='driver')return;
+ const d=Object.fromEntries(new FormData(e.target));let v=myVehicle();
+ if(!v){v=newDriverVehicle(s.plate,d.type,s.name,(getAccounts().drivers.find(x=>x.id===s.id)||{}).phone);db.vehicles.push(v)}
+ Object.assign(v,{type:d.type,body:d.body,capacity:+d.capacity,pallets:+d.pallets||0,height:+d.height||0,scope:d.scope});
+ save();syncDriverSession();
+ document.getElementById('vehicleFormState').textContent='Kaydedildi. Yük önerilerin artık bu araca göre.';
+};
 function demoVerifiedCompany(){
  localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'company',id:'C-DEMO',name:'Güney Yapı A.Ş.',vkn:'1234567890',verified:true}));enterSession();
 }
