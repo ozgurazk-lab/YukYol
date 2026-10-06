@@ -308,3 +308,13 @@ body.company-mode #driverBottom{display:none}
  .map{height:300px}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* City load search */
+.city-search{margin-bottom:24px}
+.city-search>.muted{margin:-4px 0 14px;font-size:14px}
+.city-search-row{display:flex;gap:10px}
+.city-search-row input{flex:1;min-width:0;height:46px;padding:0 14px;border:1px solid var(--line-2);border-radius:12px;font:inherit;font-size:15px;background:#fff;color:var(--ink)}
+.city-search-row input:focus{border-color:var(--brand);box-shadow:0 0 0 4px #0b63d61f;outline:0}
+.city-search-row .btn{height:46px;white-space:nowrap}
+.city-result-head{margin:18px 0 8px;font-size:14px;color:var(--ink-2);font-weight:600}
+#cityResults .empty{margin-top:14px}

@@ -1,6 +1,6 @@
 /* Sign-in / sign-up gate. Scoped to #authGate; shares tokens with app.css. */
 #authGate{position:fixed;inset:0;z-index:1200;display:block;background:#fff;overflow-y:auto;overflow-x:hidden;font-family:var(--font);color:var(--ink)}
-body:has(#authGate:not([style*="display: none"])){overflow:hidden}
+html.auth-open,body.auth-open{overflow:hidden}
 #authGate *{box-sizing:border-box}
 #authGate button{cursor:pointer}
 
