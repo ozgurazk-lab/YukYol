@@ -130,6 +130,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #8a
 .ops-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .nextload{border:1px solid #c7dcfb;background:#f6faff;border-radius:var(--radius);padding:16px;margin-top:10px}
 .nextload:first-child{margin-top:0}
+.nextload.unfit{background:var(--surface);border-color:var(--line);opacity:.75}
 
 /* Forms */
 .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
