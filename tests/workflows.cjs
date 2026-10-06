@@ -1,0 +1,24 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const script=fs.readFileSync(require('node:path').join(__dirname,'../assets/app.js'),'utf8');
+const nodes=new Map(),storage=new Map(),alerts=[];
+const node=id=>{if(!nodes.has(id))nodes.set(id,{value:'',files:[],options:[],style:{},dataset:{},classList:{add(){},remove(){},toggle(){}},setAttribute(){},addEventListener(){},elements:new Proxy({namedItem(){return null}},{get:(t,k)=>t[k]||node(id+'.'+String(k))}),querySelector(){return null},reset(){},scrollIntoView(){}});return nodes.get(id)};
+const context={console,Date,Math,Number,String,Object,Array,Promise,URL,File:class File{},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},document:{getElementById:node,querySelectorAll:()=>[],body:node('body'),documentElement:node('html')},window:{scrollTo(){}},alert:m=>alerts.push(m),confirm:()=>true};
+vm.createContext(context);vm.runInContext(script,context);const run=s=>vm.runInContext(s,context);
+run("renderAll=()=>{};go=id=>{globalThis.lastPage=id};syncDriverSession=()=>{};");
+let count=0;const check=(label,test)=>{test();console.log('PASS '+label);count++};
+const reset=()=>run(`db={loads:[{id:'L-new',loadNo:'TEST',from:'Batman',to:'Gaziantep',vehicleType:'Tır',weight:5000,pickupTime:new Date(Date.now()+3600000).toISOString(),deliveryTime:new Date(Date.now()+7200000).toISOString()}],vehicles:[{id:'V-new',plate:'NEW',type:'Tır',capacity:24000,driver:'New',status:'Boş'}],trips:[],docs:[]};selectedTrip=null;localStorage.setItem(AUTH_SESSION,JSON.stringify({role:'driver',plate:'NEW',name:'New'}));`);
+check('new driver never falls back to another vehicle',()=>{reset();run("db.trips.push({id:'other',vehicleId:'OTHER',loadId:'L-new',stage:'Yolda'});selectedTrip='other'");assert.equal(run('trip()'),null)});
+check('one load can only be assigned once',()=>{reset();run("assignBackhaul('L-new');assignBackhaul('L-new')");assert.equal(run('db.trips.length'),1)});
+check('busy vehicle cannot take another load',()=>{reset();run("assignBackhaul('L-new');db.loads.push({...db.loads[0],id:'second'});assignBackhaul('second')");assert.equal(run('db.trips.length'),1)});
+check('overweight load cannot be assigned',()=>{reset();run("db.loads[0].weight=30000;assignBackhaul('L-new')");assert.equal(run('db.trips.length'),0)});
+check('wrong vehicle type cannot be assigned',()=>{reset();run("db.loads[0].vehicleType='Frigorifik';assignBackhaul('L-new')");assert.equal(run('db.trips.length'),0)});
+check('expired pickup cannot be assigned',()=>{reset();run("db.loads[0].pickupTime=new Date(Date.now()-3600000).toISOString();assignBackhaul('L-new')");assert.equal(run('db.trips.length'),0)});
+check('invalid delivery date cannot be assigned',()=>{reset();run("db.loads[0].deliveryTime='invalid';assignBackhaul('L-new')");assert.equal(run('db.trips.length'),0)});
+check('cancelled load cannot be assigned',()=>{reset();run("db.loads[0].cancelled=true;assignBackhaul('L-new')");assert.equal(run('db.trips.length'),0)});
+check('advance requires delivery workflow',()=>{reset();run("assignBackhaul('L-new');trip().stage='Boşaltma';advanceTrip()");assert.equal(run('trip().stage'),'Boşaltma');assert.equal(context.lastPage,'delivery')});
+check('driver cannot skip arrival',()=>{reset();run("assignBackhaul('L-new');driverAction('deliver')");assert.equal(run('trip().stage'),'Atandı')});
+check('open loads exclude assigned and cancelled loads',()=>{reset();run("db.loads.push({...db.loads[0],id:'cancel',cancelled:true});assignBackhaul('L-new')");assert.equal(run('openLoads().length'),0)});
+check('message survives rendering and stays escaped',()=>{reset();node('messageInput').value='<img src=x onerror=alert(1)>';run('sendDemoMessage();renderMessages()');assert.equal(run('db.messages.length'),1);assert.ok(node('messageThread').innerHTML.includes('&lt;img'));assert.ok(!node('messageThread').innerHTML.includes('<img'))});
+check('user-controlled HTML is escaped',()=>{assert.equal(context.escapeHtml('<"&\'>'),'&lt;&quot;&amp;&#39;&gt;')});
+(async()=>{reset();run("assignBackhaul('L-new');trip().stage='Boşaltma'");await run('confirmDelivery()');assert.equal(run('trip().stage'),'Boşaltma');console.log('PASS delivery without files stays incomplete');console.log(`${count+1} workflow checks passed`);})().catch(e=>{console.error(e);process.exitCode=1});
+
