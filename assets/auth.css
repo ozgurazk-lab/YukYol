@@ -6,7 +6,7 @@ html.auth-open,body.auth-open{overflow:hidden}
 
 /* Photo side */
 #authGate .auth-visual{position:relative;min-height:330px;padding:28px 24px 84px;color:#fff;display:flex;flex-direction:column;background:linear-gradient(180deg,#0b1b2e99 0%,#0b1b2ecc 55%,#0b1b2ef2 100%),#0b1b2e url("hero.webp") 62% 40%/cover no-repeat}
-#authGate .auth-brand-reference{width:150px;aspect-ratio:4.23;background:url("logo.svg") left center/contain no-repeat}
+#authGate .auth-brand-reference{width:230px;max-width:100%;aspect-ratio:280/68;flex-shrink:0;background:url("logo.svg") left center/contain no-repeat}
 #authGate .auth-visual-copy{margin-top:auto;max-width:520px}
 #authGate .auth-visual-copy h1{font-family:var(--font-display);font-size:31px;line-height:1.12;font-weight:700;letter-spacing:-.02em;word-spacing:.08em;margin:28px 0 10px;color:#fff}
 #authGate .auth-visual-copy p{font-size:15px;line-height:1.55;margin:0;color:#d3dce8}
@@ -87,7 +87,7 @@ html.auth-open,body.auth-open{overflow:hidden}
 @media(min-width:900px){
  #authGate{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
  #authGate .auth-visual{height:100dvh;position:sticky;top:0;padding:48px 56px;background:linear-gradient(90deg,#0b1b2ef0 0%,#0b1b2eb3 50%,#0b1b2e40 100%),linear-gradient(0deg,#0b1b2ecc 0%,transparent 55%),#0b1b2e url("hero.webp") center/cover no-repeat}
- #authGate .auth-brand-reference{width:200px}
+ #authGate .auth-brand-reference{width:360px}
  #authGate .auth-visual-copy h1{font-size:50px;margin-bottom:14px}
  #authGate .auth-visual-copy p{font-size:17px;max-width:440px}
  #authGate .auth-points{display:grid}
