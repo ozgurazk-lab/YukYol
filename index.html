@@ -322,7 +322,7 @@
  <section id="ratings" class="section">
   <div class="title"><div><h2>Değerlendirmeler</h2><p>Taşıma bitince şoför ve firma birbirini puanlar. Böylece herkes kiminle çalıştığını bilir.</p></div><span class="chip green">Karşılıklı puanlama</span></div>
   <div class="grid g2">
-    <div class="card">
+    <div class="card company-only">
       <div class="cardhead"><h3>Şoförü değerlendir</h3><span class="chip blue">Firma puanlar</span></div>
       <label>Şoför<select id="rateDriverSelect"></select></label>
       <div class="ops-grid" style="margin-top:12px">
@@ -335,7 +335,7 @@
       <button class="btn primary" style="margin-top:10px" onclick="submitDriverRating()">Puanı kaydet</button>
     </div>
 
-    <div class="card">
+    <div class="card driver-only">
       <div class="cardhead"><h3>Firmayı değerlendir</h3><span class="chip green">Şoför puanlar</span></div>
       <label>Firma<select id="rateCompanySelect"></select></label>
       <div class="ops-grid" style="margin-top:12px">
@@ -389,7 +389,7 @@
 
  <section id="backhaul" class="section">
   <div class="title"><div><h2>Dönüş yükü</h2><p>Teslimat şehrinden çıkan uygun yükler. Araç boş dönmez, şoför daha çok kazanır.</p></div></div>
-  <div class="card city-search">
+  <div class="card city-search driver-only">
    <div class="cardhead"><h3>Şehre göre yük ara</h3></div>
    <p class="muted">Gittiğin şehirde yük yoksa ya da ücret düşükse, en yakın şehirlerdeki yükleri mesafesiyle birlikte gösteririz.</p>
    <form class="city-search-row" onsubmit="event.preventDefault();searchCity()">
@@ -690,7 +690,7 @@ async function confirmDelivery(){
  const v=vehicle(t.vehicleId);v.status='Boş';v.location=l.deliveryAddress;v.speed=0;v.nextAvailable='Şimdi';save();renderTrips();renderDelivery();go('backhaul');
 }
 function getBackhaul(){const t=trip();if(!t)return[];const current=load(t.loadId),v=vehicle(t.vehicleId);return db.loads.filter(l=>l.id!==current.id&&norm(l.from)===norm(current.to)&&fits(l,v).ok).map(l=>({l,score:92-(Math.abs(+l.weight-(+vspec(v).capacity*.65))/1000|0)})).sort((a,b)=>b.score-a.score)}
-function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">${money(v.capacity)} kg kapasite</span></div><div class="kpis"><div class="kpi"><small>Boşa çıkış</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Uygun yük</small><b>${a.length}</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">%${x.score} uygun</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü önler</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">Bu yükü ata</button></div>`).join(''):'<div class="empty">Bu şehirden şu an uygun yük yok. Yeni yükler geldikçe burada görünür.</div>'}
+function renderBackhaul(){const t=trip();if(!t)return;const l=load(t.loadId),v=vehicle(t.vehicleId),a=getBackhaul();document.getElementById('backhaulCurrent').innerHTML=`<div class="item"><div class="route">${v.plate}</div><div class="muted">${v.driver} • ${v.type}</div><div class="chips"><span class="chip green">Teslim şehri: ${l.to}</span><span class="chip">${money(v.capacity)} kg kapasite</span></div><div class="kpis"><div class="kpi"><small>Boşa çıkış</small><b>${v.nextAvailable}</b></div><div class="kpi"><small>Yakıt</small><b>%${v.fuel}</b></div><div class="kpi"><small>Mevcut konum</small><b>${l.to}</b></div><div class="kpi"><small>Uygun yük</small><b>${a.length}</b></div></div></div>`;document.getElementById('backhaulList').innerHTML=a.length?a.map(x=>`<div class="nextload"><div class="itemtop"><div><b>${x.l.from} → ${x.l.to}</b><div class="muted">${x.l.loadNo} • ${x.l.cargoType}</div></div><span class="chip green">%${x.score} uygun</span></div><div class="chips"><span class="chip">${money(x.l.weight)} kg</span><span class="chip blue">${x.l.vehicleType}</span><span class="chip amber">Boş dönüşü önler</span></div><button class="btn primary" style="margin-top:10px" onclick="assignBackhaul('${x.l.id}')">${getSession()?.role==='driver'?'Bu yükü al':'Bu yükü araca ata'}</button></div>`).join(''):'<div class="empty">Bu şehirden şu an uygun yük yok. Yeni yükler geldikçe burada görünür.</div>'}
 let citySearched=false;
 function searchCity(){citySearched=true;renderCitySearch()}
 function cityLoadCard(l,km){const dist=roadKm(l.from,l.to),mv=myVehicle(),f=mv?fits(l,mv):{ok:true,why:[]};return `<div class="nextload${f.ok?'':' unfit'}"><div class="itemtop"><div><b>${l.from} → ${l.to}</b><div class="muted">${l.loadNo} • ${l.cargoType} • ${money(l.weight)} kg</div></div>${l.price?`<span class="chip green">₺${money(l.price)}</span>`:'<span class="chip">Ücret sorulacak</span>'}</div><div class="chips">${km?`<span class="chip amber">${l.from} ${money(km)} km uzakta</span>`:`<span class="chip blue">Bu şehirden çıkıyor</span>`}<span class="chip">${l.vehicleType}</span>${loadSpecChips(l)}${dist?`<span class="chip">Yük yolu ~${money(dist)} km</span>`:''}${f.ok?'':`<span class="chip red">Aracına uymuyor: ${f.why.join(', ')}</span>`}</div><button class="btn ${f.ok?'primary':'soft'}" style="margin-top:10px" onclick="assignBackhaul('${l.id}')">${f.ok?'Bu yükü al':'Yine de al'}</button></div>`}
@@ -993,7 +993,7 @@ function enterSession(){
  const tn=document.getElementById('topUserName'),tr=document.getElementById('topUserRole'),av=document.getElementById('topAvatar');
  if(tn)tn.textContent=s.name||'Hesap';if(tr)tr.textContent=s.role==='driver'?'Şoför hesabı':'Firma hesabı';
  if(av)av.textContent=(s.name||'S').split(/\s+/).filter(w=>/^\p{L}/u.test(w)).slice(0,2).map(w=>w[0]).join('').toLocaleUpperCase('tr-TR');
- if(s.role==='driver')syncDriverSession();
+ renderAll();if(s.role==='driver')syncDriverSession();
  go(s.role==='driver'?'driver':'dashboard');
 }
 function logoutUser(){
