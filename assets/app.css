@@ -319,3 +319,14 @@ body.company-mode #driverBottom{display:none}
 .city-search-row .btn{height:46px;white-space:nowrap}
 .city-result-head{margin:18px 0 8px;font-size:14px;color:var(--ink-2);font-weight:600}
 #cityResults .empty{margin-top:14px}
+
+/* Compact navigation and honest demo state */
+.demo-banner{padding:8px 20px;background:#e8f1fe;color:#0a4fae;text-align:center;font-size:12px}
+body.auth-open .demo-banner{display:none}
+.nav-more{margin:8px 0;color:#c3cedb;border-top:1px solid #ffffff1a;padding-top:8px}
+.nav-more summary{padding:10px 12px;cursor:pointer;font-size:14px;font-weight:600}
+.nav-more button{width:100%;padding-left:22px;font-size:13px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.nav-more[open] summary{color:#fff}
+
+[hidden]{display:none!important}

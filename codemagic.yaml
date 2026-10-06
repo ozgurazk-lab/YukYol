@@ -15,6 +15,11 @@ workflows:
           grep -q "<html" index.html
           grep -q "Sevkio" index.html
           echo "index.html validation passed."
+      - name: Validate workflows
+        script: |
+          set -e
+          node --check assets/app.js
+          node tests/workflows.cjs
       - name: Package web app
         script: |
           set -e
