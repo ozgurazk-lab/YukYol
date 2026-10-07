@@ -111,8 +111,8 @@ function openMobileNav(){document.body.classList.add('mobile-nav-open')}
 function closeMobileNav(){document.body.classList.remove('mobile-nav-open')}
 function go(id){
  const session=getSession();
- const driverAllowed=['driver','driverJobs','driverEarnings','driverProfile','backhaul','ratings','delivery'];
- const companyAllowed=['dashboard','loads','vehicles','matches','trips','backhaul','delivery','ratings','regional','payments','messages','notifications','docs','support'];
+ const driverAllowed=['driver','driverJobs','driverEarnings','driverProfile','backhaul','ratings','delivery','membership','support'];
+ const companyAllowed=['dashboard','loads','vehicles','matches','trips','backhaul','delivery','ratings','regional','payments','messages','notifications','docs','support','membership'];
  if(session){
    const allowed=session.role==='driver'?driverAllowed:companyAllowed;
    if(!allowed.includes(id)){alert('Bu ekran hesabınıza açık değil.');id=session.role==='driver'?'driver':'dashboard';}
@@ -356,7 +356,7 @@ document.getElementById('loadForm').onsubmit=async e=>{
  const id=editingId||uid('L'),files=[...photos,...video];
  try{await saveMediaFiles(id,'pickup',files)}catch(err){console.error(err);return alert('Dosyalar kaydedilemedi; yük yayınlanmadı.');}
  const previous=editingId?load(editingId):null;
- const updated={...previous,id,...d,edited:true,receiverCompanyVkn:vkn,weight:+d.weight,price:d.price?+d.price:null,pallets:d.pallets?+d.pallets:null,height:d.height?+d.height:null,pickupMediaCount:files.length,pickupPhotoCount:photos.length,pickupVideoCount:video.length,pickupMediaNames:files.map(x=>x.name)};
+ const updated={...previous,id,...d,ownerId:getSession().id,ownerName:getSession().name,confirmedAt:new Date().toISOString(),edited:true,receiverCompanyVkn:vkn,weight:+d.weight,price:d.price?+d.price:null,pallets:d.pallets?+d.pallets:null,height:d.height?+d.height:null,pickupMediaCount:files.length,pickupPhotoCount:photos.length,pickupVideoCount:video.length,pickupMediaNames:files.map(x=>x.name)};
  if(previous&&!files.length){['pickupMediaCount','pickupPhotoCount','pickupVideoCount','pickupMediaNames'].forEach(k=>updated[k]=previous[k]);}
  if(previous)Object.assign(previous,updated);else db.loads.unshift(updated);save();
  

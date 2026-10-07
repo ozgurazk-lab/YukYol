@@ -330,3 +330,6 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .nav-more[open] summary{color:#fff}
 
 [hidden]{display:none!important}
+
+/* Transparent load terms and membership flows */
+#profitDialog{width:min(760px,calc(100% - 32px));max-height:90vh;overflow:auto;border:0;border-radius:20px;padding:24px;color:var(--text,#15243b);background:#fff}#profitDialog::backdrop{background:#081525a8}.terms{margin:16px 0}.cost-form{margin:20px 0}.reward-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.reward-grid progress{width:100%;margin:12px 0}.reward-grid .btn{white-space:normal}#waitTracking:empty{display:none}@media(max-width:700px){.reward-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#profitDialog{padding:18px}.cost-form{grid-template-columns:1fr 1fr}}

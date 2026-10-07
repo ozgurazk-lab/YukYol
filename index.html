@@ -145,7 +145,7 @@
   <details class="nav-more company-only"><summary>Diğer</summary><button data-target="backhaul">Dönüş yükleri</button><button data-target="delivery">Teslimat</button><button data-target="docs">Evraklar</button><button data-target="ratings">Değerlendirmeler</button><button data-target="regional">Bölgeler</button><button data-target="notifications">Bildirimler</button><button data-target="support">Destek</button></details>
   <button class="driver-only" data-target="driverJobs"><svg class="ui-icon"><use href="#ic-box"></use></svg>Yüklerim</button>
   <button class="driver-only" data-target="driverEarnings"><svg class="ui-icon"><use href="#ic-wallet"></use></svg>Kazancım</button>
-  <button class="driver-only" data-target="driverProfile"><svg class="ui-icon"><use href="#ic-user"></use></svg>Profilim</button>
+  <button class="driver-only" data-target="backhaul">Yük bul</button><button data-target="membership">Üyelik ve avantajlar</button><button class="driver-only" data-target="ratings">Değerlendirmeler</button><button class="driver-only" data-target="support">Destek</button><button class="driver-only" data-target="driverProfile"><svg class="ui-icon"><use href="#ic-user"></use></svg>Profilim</button>
  </div>
  <div class="sidebox"><b id="roleLabel">Hesap</b><small id="roleDesc">Giriş yapılmadı.</small><button class="btn ghost logout-btn" onclick="logoutUser()">Çıkış yap</button></div>
 </aside>
@@ -232,7 +232,15 @@
      <label>Kasa tipi<select name="body"><option>Fark etmez</option><option>Kapalı kasa</option><option>Tenteli</option><option>Açık kasa</option><option>Frigorifik</option></select></label><label>Palet sayısı (isteğe bağlı)<input name="pallets" type="number" min="1" inputmode="numeric" placeholder="Örn. 12"></label>
      <label>Yük yüksekliği, cm (isteğe bağlı)<input name="height" type="number" min="1" inputmode="numeric" placeholder="Örn. 180"></label>
      <label>Navlun ücreti (₺, isteğe bağlı)<input name="price" type="number" min="0" inputmode="numeric" placeholder="Örn. 18500"></label>
-     <div class="form-group full">Güzergâh ve zaman</div>
+     <div class="form-group full">Ücret ve çalışma şartları</div>
+<label>İlan kaynağı<select name="source"><option>Üretici</option><option>Aracı / nakliyeci</option></select></label>
+<label>KDV<select name="vat" required><option value="">Seç</option><option>KDV hariç</option><option>KDV dahil</option></select></label>
+<label>Ödeme vadesi (teslim belgesinden sonra, gün)<input name="paymentDays" type="number" min="0" max="365" required></label>
+<label>Platform bedeli (₺)<input name="platformFee" type="number" min="0" required value="0"></label>
+<label>Ücretsiz bekleme (dk, toplam)<input name="freeWait" type="number" min="0" required value="120"></label>
+<label>Sonraki bekleme (₺ / saat)<input name="waitRate" type="number" min="0" required></label>
+<label class="full">Yükleme yöntemi<select name="loadingMethod"><option>Forklift / rampa hazır</option><option>Vinç</option><option>Elle yükleme</option><option>Taraflarla görüşülecek</option></select></label>
+<div class="form-group full">Güzergâh ve zaman</div>
      <label>Yükleme şehri<input name="from" placeholder="Örn. Batman" required></label><label>Yükleme adresi<input name="pickupAddress" placeholder="Örn. Batman OSB 3. Cadde" required></label>
      <label>Teslim şehri<input name="to" placeholder="Örn. Gaziantep" required></label><label>Teslim adresi<input name="deliveryAddress" placeholder="Örn. Gaziantep 4. OSB" required></label>
      <label>Yükleme zamanı<input name="pickupTime" type="datetime-local" required></label><label>Planlanan teslim<input name="deliveryTime" type="datetime-local" required></label>
@@ -311,7 +319,7 @@
   </div>
  </section>
 
- <section id="ratings" class="section">
+ <section id="ratings" class="section"><div id="verifiedReviewList" class="card" style="margin-bottom:18px"></div>
   <div class="title"><div><h2>Değerlendirmeler</h2><p>Taşıma bitince şoför ve firma birbirini puanlar. Böylece herkes kiminle çalıştığını bilir.</p></div><span class="chip green">Karşılıklı puanlama</span></div>
   <div class="grid g2">
     <div class="card">
@@ -402,7 +410,7 @@
    <div class="title"><div><h2>Yüklerim</h2><p>Bugünkü işin, sıradaki önerin ve tamamladıkların.</p></div></div>
    <div class="driver-simple-card">
     <div class="cardhead"><h3>Şu anki yük</h3><span class="chip green">Aktif</span></div>
-    <div id="driverCurrentJob"></div>
+    <div id="waitTracking" class="card" style="margin-bottom:16px"></div><div id="driverCurrentJob"></div>
    </div>
    <div class="driver-simple-card" style="margin-top:14px">
     <div class="cardhead"><h3>Sıradaki yük</h3><span class="chip amber">Öneri</span></div>
@@ -505,7 +513,8 @@
  </section>
 
  <section id="support" class="section">
-  <div class="title"><div><h2>Destek</h2><p>Bir sorun mu var? Konuyu seç, ekibimiz hemen dönsün.</p></div></div>
+<div class="grid g2" style="margin-bottom:18px"><form id="supportForm" class="card form"><label class="full">Konu<select id="supportType"><option>Araç gelmedi</option><option>Yük hasarı</option><option>Ödeme sorunu</option><option>Uygulama sorunu</option><option>Taşıma sorunu</option></select></label><label class="full">Açıklama<textarea id="supportDetail" required maxlength="2000" placeholder="Ne oldu, ne zaman oldu?"></textarea></label><button class="btn primary full">Demo kaydı oluştur</button></form><div class="card"><h3>Kayıtlarım</h3><div id="supportTickets"></div></div></div>
+  <div class="title"><div><h2>Destek</h2><p>Bir sorun mu var? Kayıt oluştur ve kayıt numarasıyla takip et. Demo kayıtları yalnız bu tarayıcıda saklanır.</p></div></div>
   <div class="grid g2">
    <div class="card">
     <div class="cardhead"><h3>Ne oldu?</h3></div>
@@ -517,15 +526,16 @@
     </div>
    </div>
    <div class="card">
-    <div class="cardhead"><h3>Hesap güvenliği</h3><span class="chip green">Tamam</span></div>
+    <div class="cardhead"><h3>Demo ortamı</h3><span class="chip">Örnek veriler</span></div>
     <div class="driver-row"><span>Firma doğrulaması</span><b>Demo</b></div>
     <div class="driver-row"><span>Telefon doğrulaması</span><b>Demo</b></div>
-    <div class="driver-row"><span>Şoför ve araç kontrolü</span><b class="ok">Aktif</b></div>
+    <div class="driver-row"><span>Şoför ve araç kontrolü</span><b>Örnek kontrol</b></div>
     <div class="driver-row"><span>Teslim belgeleri</span><b class="ok">Saklanıyor</b></div>
    </div>
   </div>
  </section>
 
+ <section id="membership" class="section"><div class="title"><div><h2>Üyelik ve avantajlar</h2><p>Seçilen ol, istersen yükünü kendin seç. İyi hizmetin karşılığını al.</p></div><span class="chip">Demo</span></div><div id="membershipContent"></div></section>
  <section id="docs" class="section">
   <div class="title"><div><h2>Evraklar</h2><p>Her taşımada oluşan belge ve kayıtlar burada saklanır.</p></div></div>
   <div class="card">
@@ -549,5 +559,6 @@
   <button onclick="driverTab('driverProfile',this)"><b><svg class="ui-icon"><use href="#ic-user"></use></svg></b>Profilim</button>
 </div>
 
-<script src="assets/app.js"></script>
+<dialog id="profitDialog" aria-labelledby="profitTitle"><div class="itemtop"><h2 id="profitTitle">Kazanç hesabı</h2><button class="btn soft" onclick="document.getElementById('profitDialog').close()" aria-label="Hesabı kapat">Kapat</button></div><div id="profitTerms"></div><input id="profitLoadId" type="hidden"><div class="form cost-form"><label>Yüklü mesafe (km)<input id="cost-distance" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Boş mesafe (km)<input id="cost-empty" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Yakıt (litre / 100 km)<input id="cost-consumption" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Yakıt fiyatı (₺ / litre)<input id="cost-fuel" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Otoyol / köprü (₺)<input id="cost-tolls" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Diğer giderler (₺)<input id="cost-other" type="number" min="0" step="any" oninput="calcProfit()"></label></div><div id="profitResult" aria-live="polite"></div></dialog>
+<script src="assets/app.js"></script><script src="assets/improvements.js"></script>
 </body></html>
