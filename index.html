@@ -10,7 +10,7 @@
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/app.css">
+<link rel="stylesheet" href="assets/app.css?v=20261007-membership">
 <link rel="stylesheet" href="assets/auth.css?v=20261006-logo-large">
 </head>
 <body>
@@ -560,5 +560,5 @@
 </div>
 
 <dialog id="profitDialog" aria-labelledby="profitTitle"><div class="itemtop"><h2 id="profitTitle">Kazanç hesabı</h2><button class="btn soft" onclick="document.getElementById('profitDialog').close()" aria-label="Hesabı kapat">Kapat</button></div><div id="profitTerms"></div><input id="profitLoadId" type="hidden"><div class="form cost-form"><label>Yüklü mesafe (km)<input id="cost-distance" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Boş mesafe (km)<input id="cost-empty" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Yakıt (litre / 100 km)<input id="cost-consumption" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Yakıt fiyatı (₺ / litre)<input id="cost-fuel" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Otoyol / köprü (₺)<input id="cost-tolls" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Diğer giderler (₺)<input id="cost-other" type="number" min="0" step="any" oninput="calcProfit()"></label></div><div id="profitResult" aria-live="polite"></div></dialog>
-<script src="assets/app.js"></script><script src="assets/improvements.js"></script>
+<script src="assets/app.js?v=20261007-membership"></script><script src="assets/improvements.js?v=20261007-membership"></script>
 </body></html>
