@@ -92,13 +92,21 @@ function recordTripReview(role){
 submitDriverRating=()=>recordTripReview('company');
 submitCompanyRating=()=>recordTripReview('driver');
 function driverFriendly(companyId){const rs=db.tripReviews.filter(r=>r.role==='driver'&&r.companyId===companyId);return rs.length>=10&&rs.every(r=>r.dimensions)&&rs.reduce((a,r)=>a+r.score,0)/rs.length>=4.5&&rs.reduce((a,r)=>a+r.dimensions.companyPayment,0)/rs.length>=4.5}
+function supportTopics(){return getSession()?.role==='driver'?[
+ ['Yük hazır değil','ic-box'],['Yükleme / boşaltma gecikmesi','ic-truck'],['Yük bilgileri uyuşmuyor','ic-box'],['Ödeme sorunu','ic-wallet'],['Taşıma sorunu','ic-alert'],['Uygulama sorunu','ic-alert']
+ ]:[['Araç gelmedi','ic-truck'],['Yük hasarlı veya eksik','ic-box'],['Teslimat gecikmesi','ic-truck'],['Ödeme sorunu','ic-wallet'],['Taşıma sorunu','ic-alert'],['Uygulama sorunu','ic-alert']]}
 function renderSupport(){
- const s=getSession();document.getElementById('supportTickets').innerHTML=db.supportTickets.filter(t=>t.accountId===s?.id).map(t=>`<div class="item"><div class="itemtop"><b>${escapeHtml(t.id)}</b><span class="chip amber">${escapeHtml(t.status)}</span></div><p>${escapeHtml(t.type)} · ${escapeHtml(t.loadNo||'Genel')}</p><p>${escapeHtml(t.detail)}</p><small>${fmtDT(t.time)} · Yerel demo kaydı; ekibe iletilmedi</small></div>`).join('')||'<div class="empty">Henüz destek kaydın yok.</div>';
+ const s=getSession(),topics=supportTopics(),select=document.getElementById('supportType'),previous=select.value;
+ select.innerHTML=topics.map(([type])=>`<option>${escapeHtml(type)}</option>`).join('');
+ if(topics.some(([type])=>type===previous))select.value=previous;
+ document.querySelector('#support .support-list').innerHTML=topics.map(([type,icon])=>`<button class="support-btn" data-topic="${escapeHtml(type)}"><span><svg class="ui-icon"><use href="#${icon}"></use></svg></span>${escapeHtml(type)}<svg class="ui-icon chev"><use href="#ic-arrow-right"></use></svg></button>`).join('');
+ document.querySelectorAll('#support .support-btn').forEach(button=>button.onclick=()=>supportDemo(button.dataset.topic));
+ document.getElementById('supportTickets').innerHTML=db.supportTickets.filter(t=>t.accountId===s?.id).map(t=>`<div class="item"><div class="itemtop"><b>${escapeHtml(t.id)}</b><span class="chip amber">${escapeHtml(t.status)}</span></div><p>${escapeHtml(t.type)} · ${escapeHtml(t.loadNo||'Genel')}</p><p>${escapeHtml(t.detail)}</p><small>${fmtDT(t.time)} · Yerel demo kaydı; ekibe iletilmedi</small></div>`).join('')||'<div class="empty">Henüz destek kaydın yok.</div>';
 }
 supportDemo=type=>{document.getElementById('supportType').value=type;go('support');document.getElementById('supportDetail').focus()};
 openDriverIssue=()=>supportDemo('Taşıma sorunu');
 document.getElementById('supportForm').onsubmit=e=>{
- e.preventDefault();const s=getSession();if(!s)return;const detail=document.getElementById('supportDetail').value.trim();if(!detail)return;
+ e.preventDefault();const s=getSession();if(!s)return;const detail=document.getElementById('supportDetail').value.trim();if(!detail||!supportTopics().some(([type])=>type===document.getElementById('supportType').value))return;
  const t=trip();db.supportTickets.unshift({id:uid('DESTEK-'),accountId:s.id,type:document.getElementById('supportType').value,detail:detail.slice(0,2000),loadNo:t?load(t.loadId).loadNo:'',status:'Yerel kayıt',time:new Date().toISOString()});e.target.reset();save();
 };
 function toggleWait(){

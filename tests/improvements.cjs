@@ -5,7 +5,11 @@ const server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+(req
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[],dialogs=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('dialog',async d=>{dialogs.push(d.message());await d.accept()});await page.goto('http://127.0.0.1:'+server.address().port);
  await page.evaluate(()=>demoVerifiedDriver());await page.evaluate(()=>go('membership'));assert.equal(await page.locator('#membership').isVisible(),true);
- assert.equal(await page.evaluate(()=>hasPremium()),false);await page.evaluate(()=>activatePremium());assert.equal(await page.evaluate(()=>hasPremium()),true);
+ assert.equal(await page.evaluate(()=>hasPremium()),false);
+ assert.equal(await page.locator('#supportType option').filter({hasText:'Araç gelmedi'}).count(),0);
+ assert.equal(await page.locator('#supportType option').filter({hasText:'Yük hazır değil'}).count(),1);
+ await page.locator('#support .support-btn[data-topic="Yük hazır değil"]').evaluate(b=>b.click());assert.equal(await page.locator('#supportType').inputValue(),'Yük hazır değil');
+ await page.evaluate(()=>activatePremium());assert.equal(await page.evaluate(()=>hasPremium()),true);
  await page.reload();assert.equal(await page.evaluate(()=>hasPremium()),true);await page.evaluate(()=>endPremium());assert.equal(await page.evaluate(()=>hasPremium()),false);
  const loadId=await page.evaluate(()=>openLoads()[0].id);await page.evaluate(id=>showProfit(id),loadId);assert.equal(await page.locator('#profitDialog').isVisible(),true);
  const result=await page.evaluate(()=>profitResult({price:20000,platformFee:500},{distance:500,empty:100,consumption:30,fuel:50,tolls:1000,other:200}));assert.equal(result.cost,10700);assert.equal(result.net,9300);
@@ -13,7 +17,10 @@ const server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+(req
  await page.evaluate(()=>openDriverIssue());await page.locator('#supportDetail').fill('A local support report <script>');await page.locator('#supportForm button').click();assert.equal(await page.locator('#supportTickets .item').count(),1);await page.reload();await page.evaluate(()=>go('support'));assert.equal(await page.locator('#supportTickets .item').count(),1);
  await page.evaluate(()=>{const t=trip();t.stage='Teslim edildi';save();go('ratings')});assert.equal(await page.locator('#rateCompanySelect option[value="T-DEMO2"]').count(),1);
  await page.evaluate(()=>submitCompanyRating());assert.equal(await page.evaluate(()=>db.tripReviews.length),1);await page.evaluate(()=>submitCompanyRating());assert.equal(await page.evaluate(()=>db.tripReviews.length),1);
- await page.evaluate(()=>demoVerifiedCompany());await page.evaluate(()=>go('ratings'));assert.equal(await page.locator('#rateDriverSelect option[value="T-DEMO2"]').count(),1);await page.evaluate(()=>submitDriverRating());assert.equal(await page.evaluate(()=>db.tripReviews.length),2);
+ await page.evaluate(()=>demoVerifiedCompany());
+ assert.equal(await page.locator('#supportType option').filter({hasText:'Araç gelmedi'}).count(),1);
+ assert.equal(await page.locator('#supportType option').filter({hasText:'Yük hazır değil'}).count(),0);
+ await page.evaluate(()=>go('ratings'));assert.equal(await page.locator('#rateDriverSelect option[value="T-DEMO2"]').count(),1);await page.evaluate(()=>submitDriverRating());assert.equal(await page.evaluate(()=>db.tripReviews.length),2);
  await page.evaluate(()=>demoVerifiedDriver());assert.deepEqual(await page.evaluate(()=>rewardProgress()),{count:1,score:5});await page.evaluate(()=>claimReward(10));assert.equal(await page.evaluate(()=>db.rewardClaims.length),0);
  await page.evaluate(()=>{const l={id:'QA-NORMAL',loadNo:'QA-NORMAL',from:'Gaziantep',to:'Adana',vehicleType:'Tır',weight:1000,pickupTime:new Date(Date.now()+3600000).toISOString(),deliveryTime:new Date(Date.now()+7200000).toISOString(),ownerId:'C-DEMO'};db.loads.push(l);assignBackhaul(l.id)});assert.equal(await page.evaluate(()=>db.trips.some(t=>t.loadId==='QA-NORMAL')),false);
  await page.evaluate(()=>{const now=new Date();db.birthdayPreferences[getSession().id]={month:now.getMonth()+1,day:now.getDate()};claimBirthday();claimBirthday()});assert.equal(await page.evaluate(()=>db.rewardClaims.filter(c=>String(c.threshold).startsWith('birthday')).length),1);assert.equal(await page.evaluate(()=>hasPremium()),true);
