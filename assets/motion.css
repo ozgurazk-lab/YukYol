@@ -1,0 +1,99 @@
+/* Motion and app-feel layer. Everything here is disabled by prefers-reduced-motion (see bottom). */
+:root{--ease-out:cubic-bezier(.22,1,.36,1);--ease-spring:cubic-bezier(.34,1.56,.64,1)}
+html{-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,.btn,a,.nav button,.driver-bottom button{touch-action:manipulation}
+.nav button,.driver-bottom button,.btn{-webkit-user-select:none;user-select:none}
+
+/* Page change: content rises in, children stagger */
+.section.active{animation:pageIn .42s var(--ease-out) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.section.active .m-in{animation:rise .55s var(--ease-out) both;animation-delay:calc(var(--i,0)*55ms + 60ms)}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+
+/* Press feedback, like native buttons */
+.btn,.support-btn,.visual-link,.role-photo-card,.stat,.nextload,.item{transition:transform .18s var(--ease-out),box-shadow .2s,background-color .2s,border-color .2s}
+.btn:active,.support-btn:active,.visual-link:active,.role-photo-card:active,.top-logout:active{transform:scale(.965)}
+.nextload:active,.item:active{transform:scale(.99)}
+@media(hover:hover){
+ .stat:hover,.card:hover .item:hover{transform:translateY(-2px)}
+ .stat:hover{box-shadow:0 10px 24px #0b1b2e14}
+ .btn.primary:hover{box-shadow:0 8px 20px #0b63d640}
+}
+
+/* Hero photos breathe slowly */
+.hero,.driver-status{animation:pan 22s ease-in-out infinite alternate}
+@keyframes pan{from{background-position:0 0,30% 35%}to{background-position:0 0,75% 65%}}
+.visual-link img{animation:kenburns 18s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08)}}
+.visual-link:hover img{animation-play-state:paused}
+
+/* Live signals */
+.chip.green,.gps{position:relative}
+.m-live::before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:currentColor;vertical-align:1px;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 currentColor;opacity:1}70%{box-shadow:0 0 0 7px transparent;opacity:.75}100%{box-shadow:0 0 0 0 transparent;opacity:1}}
+
+/* Map: truck drives along, pins drop in */
+.section.active .map .truck{animation:drive 6s ease-in-out infinite alternate}
+@keyframes drive{0%{transform:translate(-50px,-14px)}100%{transform:translate(50px,14px)}}
+.map .truck::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid #0b63d655;animation:ring 2s ease-out infinite}
+@keyframes ring{from{transform:scale(.8);opacity:1}to{transform:scale(1.8);opacity:0}}
+.section.active .map .pin{animation:drop .6s var(--ease-spring) both}
+.section.active .map .pin.p2{animation-delay:.15s}
+@keyframes drop{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:none}}
+.section.active .map .r1{animation:roadflow .9s linear infinite}
+@keyframes roadflow{to{background-position:22px 0}}
+
+/* Progress bars fill when the page opens */
+.section.active .progress .bar{animation:fill 1.1s var(--ease-out) both .2s;transform-origin:left}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* Driver bottom bar: active tab pops */
+.driver-bottom button{transition:color .2s}
+.driver-bottom button b{transition:transform .3s var(--ease-spring)}
+.driver-bottom button.active b{transform:translateY(-2px) scale(1.12)}
+.driver-bottom button.active b::after{content:"";display:block;width:18px;height:3px;margin:3px auto 0;border-radius:3px;background:currentColor;animation:barIn .3s var(--ease-out)}
+.driver-bottom button b{height:auto!important}
+@keyframes barIn{from{width:0;opacity:0}to{width:18px;opacity:1}}
+
+/* Login screen */
+#authGate .auth-visual{background-size:cover;animation:authBg 20s ease-in-out infinite alternate}
+@keyframes authBg{from{background-position:58% 40%}to{background-position:66% 46%}}
+#authGate .auth-visual-copy>*{animation:rise .7s var(--ease-out) both}
+#authGate .auth-visual-copy>*:nth-child(2){animation-delay:.08s}
+#authGate .auth-visual-copy>*:nth-child(3){animation-delay:.16s}
+#authGate .auth-points li{animation:rise .6s var(--ease-out) both}
+#authGate .auth-points li:nth-child(1){animation-delay:.25s}#authGate .auth-points li:nth-child(2){animation-delay:.32s}#authGate .auth-points li:nth-child(3){animation-delay:.39s}
+#authGate .auth-workspace{animation:sheetUp .6s var(--ease-out) both .1s}
+@keyframes sheetUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+#authGate .role-photo-card.active{animation:pop .35s var(--ease-spring)}
+@keyframes pop{0%{transform:scale(.97)}60%{transform:scale(1.02)}100%{transform:scale(1)}}
+#authGate .role-check{animation:pop .35s var(--ease-spring)}
+#authGate .auth-panel.active{animation:pageIn .35s var(--ease-out) both}
+
+/* Leaving the login screen */
+#authGate.m-leave{animation:gateOut .38s var(--ease-out) forwards;pointer-events:none}
+@keyframes gateOut{to{opacity:0;transform:scale(1.03)}}
+
+/* Mobile drawer items slide in */
+body.mobile-nav-open .nav button{animation:slideIn .4s var(--ease-out) both;animation-delay:calc(var(--i,0)*25ms + 80ms)}
+@keyframes slideIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+
+/* Toast */
+.m-toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;z-index:3000;max-width:min(92vw,420px);padding:12px 16px;border-radius:14px;background:var(--navy);color:#fff;font-size:14px;font-weight:500;box-shadow:0 12px 30px #0b1b2e40;transition:opacity .25s,transform .35s var(--ease-spring);pointer-events:none}
+.m-toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:901px){.m-toast{bottom:28px}}
+
+/* Splash */
+#mSplash{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:var(--navy);transition:opacity .45s var(--ease-out),visibility .45s}
+#mSplash img{width:min(200px,52vw);animation:splashLogo .9s var(--ease-out) both}
+#mSplash i{position:absolute;bottom:22%;width:44px;height:3px;border-radius:3px;background:#ffffff26;overflow:hidden}
+#mSplash i::after{content:"";position:absolute;inset:0;width:40%;background:#8ab8ff;border-radius:3px;animation:load 1s ease-in-out infinite}
+#mSplash.gone{opacity:0;visibility:hidden}
+@keyframes splashLogo{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important}
+ #mSplash{display:none}
+}

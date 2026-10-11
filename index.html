@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Sevkio">
 <meta name="sevkio-build" content="2026-10-06-simplified">
 <meta name="theme-color" content="#0b1b2e"><title>Sevkio — Yükünü doğru araçla buluştur</title>
 <meta name="description" content="Sevkio, yük sahiplerini doğrulanmış şoförlerle buluşturur. Yükünü oluştur, aracını canlı takip et, teslimatı dijital belgeyle kapat.">
@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/app.css?v=20261007-support-roles">
 <link rel="stylesheet" href="assets/auth.css?v=20261006-logo-large">
+<link rel="stylesheet" href="assets/motion.css?v=20261011-motion">
 </head>
 <body>
 <svg class="icon-sprite" aria-hidden="true">
@@ -560,5 +561,5 @@
 </div>
 
 <dialog id="profitDialog" aria-labelledby="profitTitle"><div class="itemtop"><h2 id="profitTitle">Kazanç hesabı</h2><button class="btn soft" onclick="document.getElementById('profitDialog').close()" aria-label="Hesabı kapat">Kapat</button></div><div id="profitTerms"></div><input id="profitLoadId" type="hidden"><div class="form cost-form"><label>Yüklü mesafe (km)<input id="cost-distance" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Boş mesafe (km)<input id="cost-empty" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Yakıt (litre / 100 km)<input id="cost-consumption" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Yakıt fiyatı (₺ / litre)<input id="cost-fuel" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Otoyol / köprü (₺)<input id="cost-tolls" type="number" min="0" step="any" oninput="calcProfit()"></label><label>Diğer giderler (₺)<input id="cost-other" type="number" min="0" step="any" oninput="calcProfit()"></label></div><div id="profitResult" aria-live="polite"></div></dialog>
-<script src="assets/app.js?v=20261007-support-roles"></script><script src="assets/improvements.js?v=20261007-support-roles"></script>
+<script src="assets/app.js?v=20261007-support-roles"></script><script src="assets/improvements.js?v=20261007-support-roles"></script><script src="assets/motion.js?v=20261011-motion"></script>
 </body></html>
